@@ -1,0 +1,117 @@
+# (1) WordPress 用 K8s ServiceAccount
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wordpress-sa
+  namespace: default
+  annotations:
+    iam.gke.io/gcp-service-account: cloudsql-proxy@mfeed-web-staging.iam.gserviceaccount.com
+---
+# (2) DB 資格情報
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: default
+type: Opaque
+stringData:
+  wp-user: wordpress
+  wp-password: 'MY]H"y4}>7xhV^R6'
+---
+# (3) WordPress Deployment（Cloud SQL Proxy サイドカー付き）
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: default
+  labels:
+    io.kompose.service: wordpress
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      io.kompose.service: wordpress
+  template:
+    metadata:
+      labels:
+        io.kompose.service: wordpress
+    spec:
+      serviceAccountName: wordpress-sa
+      securityContext:
+        fsGroup: 33
+      containers:
+        - name: wordpress
+          image: wordpress:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: 127.0.0.1:3306
+            - name: WORDPRESS_DB_NAME
+              value: wordpress
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: wp-user
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: wp-password
+            - name: WORDPRESS_CONFIG_EXTRA
+              value: |-
+                // Cloud SQL Auth Proxy 経由: クライアント側TLSは不要
+                if (!defined('MYSQL_CLIENT_FLAGS')) { define('MYSQL_CLIENT_FLAGS', 0); }
+
+                if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+                  $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
+                }
+                if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+                  $_SERVER['HTTPS'] = 'on';
+                }
+                $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+                $host  = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+                // 表示URLは /home
+                define('WP_HOME',    $proto.'://'.$host.'/home');
+                // WPコアの実体はルート（/home にしない）
+                define('WP_SITEURL', $proto.'://'.$host);
+
+          volumeMounts:
+            - name: wp-data
+              mountPath: /var/www/html
+          readinessProbe:
+            httpGet:
+              path: /wp-login.php
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            requests: { cpu: "1m", memory: "64Mi" }
+            limits:   { cpu: "1",  memory: "1Gi" }
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.4
+          args:
+            - "--port=3306"
+            - "--structured-logs"
+            - "mfeed-web-staging:asia-northeast1:mfeed-web-wordpress"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+      volumes:
+        - name: wp-data
+          persistentVolumeClaim:
+            claimName: wp-data

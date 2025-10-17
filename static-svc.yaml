@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: static
+  namespace: default
+spec:
+  selector:
+    io.kompose.service: static
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80    # static コンテナの listen ポートに合わせる
+  type: ClusterIP

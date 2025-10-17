@@ -1,0 +1,46 @@
+apiVersion: v1
+data:
+  index.html: |-
+    <!DOCTYPE html>
+    <html lang="ja">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>WordPress 記事一覧</title>
+    </head>
+
+    <body>
+        <h1>記事一覧</h1>
+        <ul id="post-list"></ul>
+
+        <script>
+            // WordPress の REST API エンドポイント
+            const endpoint = "http://localhost:8080/home/index.php?rest_route=/wp/v2/posts";
+
+            fetch(endpoint)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("HTTPエラー: " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(posts => {
+                    const list = document.getElementById("post-list");
+                    posts.forEach(post => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `<a href="${post.link}" target="_blank">${post.title.rendered}</a>`;
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error("記事の取得に失敗しました:", error);
+                });
+        </script>
+    </body>
+
+    </html>
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: static
+  name: static-cm0

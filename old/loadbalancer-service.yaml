@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    io.kompose.service: ingress
+  externalTrafficPolicy: Local         # クライアントIPを維持
+  # 社外公開を絞るためソースIPを制限
+  loadBalancerSourceRanges:
+    - 203.0.113.0/24
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    # nginx 側で TLS 終端するなら 443 も開ける
+    - name: https
+      port: 443
+      targetPort: 443

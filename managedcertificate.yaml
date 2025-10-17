@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: wp-cert
+  namespace: default
+spec:
+  domains:
+    - www.example.com 
