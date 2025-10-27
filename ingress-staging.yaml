@@ -46,9 +46,9 @@ spec:
   healthCheck:
     requestPath: /healthz
     port: 80
-# （Cloud Armor を使うならここに）
-#  securityPolicy:
-#    name: allow-internal-only
+# Cloud Armor のセキュリティポリシー利用設定
+  securityPolicy:
+    name: allow-internal-only
 ---
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
