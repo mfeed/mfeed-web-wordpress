@@ -10,6 +10,12 @@ data:
         return 301 /home/;
       }
 
+      # healthcheck
+      location = /healthz {
+        return 200;
+      }
+
+
       # WordPress（/home/ 以下）
       location ^~ /home/ {
         proxy_pass http://wordpress:80/;   # 末尾 / で /home/ を剥がして渡す
