@@ -19,7 +19,7 @@ env:
   SERVICE_ACCOUNT_EMAIL: gh-gke-deployer@mfeed-web-staging.iam.gserviceaccount.com
 
   GAR_LOCATION: asia-northeast1
-  REPOSITORY: web-apps
+  REPOSITORY:  mfeed-web-staging-repo
 
   WORDPRESS_TAG: php8.3-apache
 
