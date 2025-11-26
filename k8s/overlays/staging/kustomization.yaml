@@ -1,0 +1,6 @@
+resources:
+  - ../../base
+
+# staging 固有の上書きがあればここに（namespace, replicas, env 等）
+# patches:
+#   - path: patch.yaml
