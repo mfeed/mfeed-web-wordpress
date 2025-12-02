@@ -5,6 +5,8 @@ resources:
   - wordpress-deployment-for-cloudsql.yaml
   - wordpress-svc.yaml
   - wp-data-persistentvolumeclaim.yaml
+  - wp-exporter-scripts.yaml
+
 
 # ベースの image 名は 'wordpress' にしておく（Actions で set image するため）
 images:
