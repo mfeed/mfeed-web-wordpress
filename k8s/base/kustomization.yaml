@@ -6,6 +6,9 @@ resources:
   - wordpress-svc.yaml
   - wp-data-persistentvolumeclaim.yaml
   - wp-exporter-scripts.yaml
+  - static-cm0-configmap.yaml
+  - static-deployment.yaml
+  - static-svc.yaml
 
 
 # ベースの image 名は 'wordpress' にしておく（Actions で set image するため）
