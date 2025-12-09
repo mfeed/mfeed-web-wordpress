@@ -1,0 +1,64 @@
+@use "../mixins/variables" as *;
+@use "../mixins/mixin" as *;
+
+.c-pagenation ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:10px;
+    a,span{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width:44px;
+        height:44px;
+        border-radius: 10px;
+        border: 1px solid #F4F6F8;
+        background: #F4F6F8;
+        color: $theme-color;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.2;
+        transition: all .3s ease;
+        &:hover,&.current{
+            background: $theme-color;
+            color: #fff;
+            border: 1px solid $theme-color;
+        }
+        &.prev{
+            position: relative;
+            &::after{
+                content:"";
+                font-size: 0px;
+                mask: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%226.061%22%20height%3D%2210.707%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20viewBox%3D%220%200%206.061%2010.707%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20id%3D%22prev%22%20d%3D%22M-4378.756-19267.236l-5%2C4.994%2C5%2C5.006%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20transform%3D%22translate(4384.463%2019267.59)%22%20fill%3D%22none%22%20stroke%3D%22%234250a0%22%20stroke-width%3D%221%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fsvg%3E') no-repeat center center / contain;
+                background: $theme-color;
+                width: 5px;
+                height: 10px;
+            }
+            &:hover{
+                &::after{
+                    background: #fff;
+                }
+            }
+            
+        }
+        &.next{
+            position: relative;
+            &::after{
+                content:"";
+                font-size: 0px;
+                mask:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%226.061%22%20height%3D%2210.707%22%20viewBox%3D%220%200%206.061%2010.707%22%3E%0A%20%20%3Cpath%20id%3D%22next%22%20d%3D%22M-4383.756-19267.236l5%2C4.994-5%2C5.006%22%20transform%3D%22translate(4384.11%2019267.59)%22%20fill%3D%22none%22%20stroke%3D%22%234250a0%22%20stroke-width%3D%221%22%2F%3E%0A%3C%2Fsvg%3E') no-repeat center;
+                background: $theme-color;
+                width: 5px;
+                height: 10px;
+            }
+            &:hover{
+                &::after{
+                    background: #fff;
+                }
+            }
+            
+        }
+    }
+}

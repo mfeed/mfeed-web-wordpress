@@ -1,0 +1,20 @@
+.u-flex{
+    display: flex;
+    &--col{
+        flex-direction: column;
+    }
+    &--row{
+        flex-direction: row;
+    }
+    &--wrap{
+        flex-wrap: wrap;
+    }
+    .u-flex-item{
+        flex:1;
+
+    }
+    .flex-none{
+        flex:none;
+    }
+
+}

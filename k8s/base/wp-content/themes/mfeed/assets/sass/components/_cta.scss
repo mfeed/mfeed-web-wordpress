@@ -1,0 +1,69 @@
+@use "../mixins/variables" as *;
+@use "../mixins/mixin" as *;
+
+.c-cta{
+    padding: 100px 0;
+    .cta-inner{
+        max-width:1240px;
+        width:100%;
+        margin: 0 auto;
+        background: $theme-color;
+        border-radius: 20px;
+        padding: 64px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        @media screen and (max-width: $sp){
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        h2{
+            font-size: 44px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            color: #fff;
+            margin-bottom: 72px;
+            position: relative;
+            font-family: $font-en;
+            &::before{
+                content: "";
+                display: block;
+                width: 10px;
+                height: 10px;
+                background: #fff;
+                border-radius: 100vh;
+                position: absolute;
+                top: 10px;
+                left: -10px;
+            }
+        }
+        .cta-btn{
+            width: 100%;
+            
+            .c-btn{
+                background-color: #fff;
+                border: 1px solid #fff;
+                max-width: 543px;
+                margin: 0 auto;
+                width:100%;
+                height: 126px;
+                font-size: 18px;
+                font-weight: 500;
+                &::before{
+                    content:"";
+                    display: block;
+                    mask: url("../img/renew/common/icon-mail-s.svg") no-repeat center / cover;
+                    width: 24px;
+                    height: 16px;
+                    background-color: $point-color01;
+                }
+                &:hover{
+                    font-size: 24px;
+                    color: inherit;
+                }
+
+            }
+        }
+    }
+}

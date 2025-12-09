@@ -1,0 +1,161 @@
+@use "../mixins/variables" as *;
+@use "../mixins/mixin" as *;
+
+.width-large{
+    max-width:1200px;
+   margin: 0 auto;
+   .section-inner{
+    max-width:100%;
+   }
+}
+.col-topics{
+    gap:34px;
+    align-items: flex-start;
+    @media screen and (max-width: $sp) {
+        flex-direction: column;
+        gap:60px;
+    }
+}
+.col-topics-sidebar{
+    width:276px;
+    position: sticky;
+    top:93px;
+    @media screen and (max-width: $sp) {
+        width:100%;
+    }
+    h2{
+        font-size: 17px;
+        font-weight: bold;
+        border-left: 10px solid $point-color01;
+        padding-left: 5px;
+        margin-bottom: 28px;
+        letter-spacing: 0.02em;
+    }
+    &__banner{
+        padding-top: 40px;
+        img{
+            margin-bottom: 10px;
+        }
+        p,a{
+            font-size: 12px !important;
+        }
+        a:hover{
+            color: $point-color01;
+        }
+    }
+}
+.col-topics-main{
+    .p-case__content:first-child{
+        padding-top: 0;
+    }
+    .c-content-parts__titlearea{
+        margin-bottom: 48px;
+        h2{
+            font-size: 34px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        img{
+            max-width: 100%;
+            margin-bottom: 10px;
+            width:auto;
+        }
+    }
+    .c-content-parts__textbox-bg.--index{
+        margin-bottom: 0;
+        padding-top: 55px;
+        padding-bottom: 57px;
+        ul{
+            li{
+                &:not(:last-child){
+                    margin-bottom: 35px;
+                }
+                a{
+                    font-size: 16px;
+                    font-weight: 500;
+                    letter-spacing: 0.05em;
+                }
+                & > ul{
+                    li{
+                        margin-bottom: 0;
+                        &:not(:last-child){
+                            margin-bottom: 0;
+                        }
+                        a{
+                            font-weight: normal;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .c-content-parts__h2title h2{
+        font-size: 16px;
+    }
+    .c-content-parts__h3title h3{
+        font-size: 16px;
+    }
+    .c-content-parts__h4title h4{
+        font-size: 16px;
+        font-weight: 500;
+    }
+    [class^="c-content-parts"] + [class^="c-content-parts"]{
+        margin-top: 20px;
+
+    }
+    .p-case__content.--author{
+        .u-flex{
+            padding: 18px;
+            position: relative;
+            gap:36px;
+            @media screen and (max-width: $sp) {
+                flex-direction: column;
+                
+            }
+            &::before {
+                content: "";
+                background-image: 
+                linear-gradient(to right, #A8C4FD, #A8C4FD 20px, transparent 20px, transparent 30px),
+                linear-gradient(to right, #A8C4FD, #A8C4FD 20px, transparent 20px, transparent 30px),
+                linear-gradient(to bottom, #A8C4FD, #A8C4FD 20px, transparent 20px, transparent 30px),
+                linear-gradient(to bottom, #A8C4FD, #A8C4FD 20px, transparent 20px, transparent 30px);
+                background-size: 30px 2px, 30px 2px, 2px 30px, 2px 30px;
+                background-position: left top, left bottom, left top, right top;
+                background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                pointer-events: none;
+              }
+            .u-flex-item.--img{
+                flex:inherit;
+                width: fit-content;
+                margin: auto;
+            }
+            .u-flex-item.--text{
+                flex:1;
+                h4{
+                    font-size: 20px;
+                    font-weight: bold;
+                    width: fit-content;
+                    border-bottom: 1px solid #333;
+                    margin-bottom: 10px;
+                }
+                p{
+                    letter-spacing: 0.05em;
+                    line-height: 2;
+                }
+            }
+        }
+        
+        .c-content-parts__h3title{
+            h3{
+                font-size: 24px;
+                font-weight: 600;
+            }
+        }
+    }
+}

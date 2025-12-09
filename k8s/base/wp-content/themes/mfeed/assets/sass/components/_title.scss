@@ -1,0 +1,49 @@
+@use "../mixins/variables" as *;
+@use "../mixins/mixin" as *;
+
+.c-title-wrap{
+    margin-bottom: 60px;
+    h2{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .en{
+            line-height: 1.2;
+            font-size: 44px;
+            font-weight: 600;
+            font-family: $font-en;
+            position: relative;
+            &::before{
+                content:"";
+                display: block;
+                width: 8px;
+                height: 8px;
+                background: $point-color01;
+                position: absolute;
+                top: -9px;
+                left: -8px;
+                border-radius: 100vh;
+            }
+            
+
+        }
+        .ja{
+            font-size: 18px;
+            font-weight: 700;
+            font-family: $font-jp;
+            color: $theme-color;
+        }
+    }
+    p{
+        text-align: center;
+        font-size: 32px;
+        font-weight: 600;
+        margin-top: 34px;
+        letter-spacing: 0.05em;
+        line-height: 1.8;
+        @media screen and (max-width: $sp){
+            font-size: 24px;
+        }
+    }
+}

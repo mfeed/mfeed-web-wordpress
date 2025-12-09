@@ -1,0 +1,21 @@
+.c-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap:7px;
+    &__round{
+        border-radius: 100vh;
+        &--mail{
+            &::before{
+                content:"";
+                display: block;
+                width: 13px;
+                height: 9px;
+                mask: url(../img/renew/common/icon-mail-s.svg);
+                background-color: #fff;
+            }
+
+        }
+    }
+}

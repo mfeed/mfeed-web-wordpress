@@ -1,0 +1,21 @@
+.c-bc{
+    padding: 30px 0 40px;
+    ul{
+        display: flex;
+        flex-wrap:wrap;
+        li{
+            font-size: 13px;
+            a{
+                font-size: 13px;
+                text-decoration: underline;
+            }
+            &:not(:last-child){
+                &::after{
+                    content:"＞";
+                    padding: 0 1em;
+                }
+            }
+        }
+    }
+
+}

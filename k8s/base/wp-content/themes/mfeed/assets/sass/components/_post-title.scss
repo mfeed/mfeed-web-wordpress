@@ -1,0 +1,124 @@
+@use "../mixins/variables" as *;
+@use "../mixins/mixin" as *;
+
+.c-post__title{
+    padding-top: 20px !important;
+    padding-bottom: 20px;
+    a{
+        &:hover{
+            .post-title{
+                color: $point-color01;
+            }
+            color: $point-color01;
+            img{
+                transform: scale(1.1);
+            }
+
+        }
+        img{
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+    }
+    &-wrap{
+        gap:17px;
+        @media screen and (max-width: $sp) {
+            flex-direction: column;
+            align-items: center;
+            
+        }
+    }
+    &-wrap.u-flex .u-flex-item.c-post__title-img{
+        width: 541px;
+        flex:none;
+    }
+    &-img{
+        // width: 50%;
+        // max-width:541px;
+        overflow: hidden;
+        border-radius: 10px;
+        
+        img{
+            width: 100%;
+            height: auto;
+        }
+        @media screen and (max-width: $sp) {
+            width: 100%;
+            img{
+                margin: auto;
+                width: 100%;
+            }
+
+        }
+    }
+    &-text{
+        display: flex;
+        flex-direction: column;
+        .catch-text{
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.36;
+            margin-bottom: 30px;
+            word-break: break-all;
+        }
+        .sub-text{
+            margin-bottom: 30px;
+
+        }
+        .post-title{
+            font-size: 24px;
+            font-weight: bold;
+            color: $theme-color;
+        }
+    }
+    &-cat{
+        margin-top: auto;
+        display: flex;
+        gap:10px;
+        flex-wrap:wrap;
+        .cat-item{
+            display: inline-block;
+            font-size: 12px;
+            color: $theme-color;
+            font-weight: 500;
+            border: 1px solid $theme-color;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: #fff;
+            line-height: 1.2;
+            &.active{
+                background: $theme-color;
+                border: 1px solid #fff;
+                color: #fff;
+            }
+        }
+    }
+    &-tag{
+        display: flex;
+        gap:10px 30px;
+        flex-wrap:wrap;
+        li{
+            a{
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 1;
+                &:hover{
+                    color: $point-color01;
+                    text-decoration: underline;
+                }
+            }
+        }
+        .tag-item{
+            font-size: 14px;
+                font-weight: 500;
+                line-height: 1;
+                border:none;
+                background: transparent;
+                &.active{
+                    color: $point-color01;
+                    text-decoration: underline;
+                }
+        }
+    }
+
+}
