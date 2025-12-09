@@ -4,7 +4,7 @@ resources:
   - ingress-staging.yaml 
 #  - wordpress-deployment-for-cloudsql.yaml
   - new-wordpress.yaml
-  - wordpress-svc.yaml
+#  - wordpress-svc.yaml
   - wp-data-persistentvolumeclaim.yaml
   - wp-exporter-scripts.yaml
 #  - static-cm0-configmap.yaml
