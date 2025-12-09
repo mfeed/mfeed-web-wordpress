@@ -291,6 +291,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress
+  namespace: default
   labels:
     app: mfeed-wp
 spec:
