@@ -1,0 +1,13 @@
+$sp: 814px;
+$tablet: 1160px;
+
+@mixin tablet {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+@mixin sp {
+  @media (max-width: ($sp) - 1) {
+    @content;
+  }
+}

@@ -1,0 +1,456 @@
+@use "../mixins/_variables" as *;
+@use "../mixins/mixin" as *;
+
+
+.p-service{
+    .service-title-wrap{
+        margin-bottom: 70px;
+        .service-title{
+            font-size: 24px;
+            font-weight: bold;
+            color: #032D42;
+            letter-spacing: 0.09em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap:19px;
+            margin-bottom: 22px;
+            &::before{
+                content:"";
+                display: block;
+                width: 13px;
+                height: 8px;
+            }
+        }
+        p{
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 0.02em;
+    
+        }
+    }
+    &__search{
+        &-solutions{
+            padding-top: 20px !important;
+            .service-title{
+                &::before{
+                    background: $point-color01;
+                }
+
+            }
+        }
+        
+        &-phase{
+            .service-title{
+                &::before{
+                    background: $point-color02;
+                }
+
+            }
+        }
+
+    }
+    &__detail,&__detail-body{
+        .service-title{
+            &::before{
+                background: $point-color02;
+            }
+
+        }
+    }
+}
+.service-table-wrap{
+    @media screen and (max-width:1089px) {
+        overflow-x: scroll;
+    }
+   
+}
+.table01{
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0px 10px;
+    border: 2px solid #fff;
+    width:100%;
+    min-width:1080px;
+    thead{
+        th{
+            width: 440px;
+            height: 50px;
+            vertical-align: middle;
+            font-size: 24px;
+            color: #032D42;
+            font-weight: bold;
+            position: relative;
+            z-index:1;
+            &::after{
+                content: url(../img/renew/page/service/thead-th-bg.svg);
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index:-1;
+                width: 419px;
+                height: 50px;
+            }
+            &::before{
+                content: url(../img/renew/page/service/thead-th-after.svg);
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index:-1;
+            }
+        }
+        td{
+            background: #EEEEEE;
+            vertical-align: middle;
+            width:auto;
+            font-size: 24px;
+            color: #032D42;
+            font-weight: bold;
+            text-align: center;
+
+        }
+    }
+    tbody{
+        th{
+            width: 440px;
+            height: 144px;
+            vertical-align: middle;
+            font-size: 20px;
+            position: relative;
+            z-index:1;
+            &::after{
+                content: url(../img/renew/page/service/th-bg.svg);
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index:-1;
+                width: 419px;
+                height: 144px;
+            }
+            &::before{
+                content: url(../img/renew/page/service/th-after.svg);
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index:-1;
+                height: 144px;
+            }
+
+           
+        }
+        td{
+            background: #EEEEEE;
+            vertical-align: middle;
+            padding-right: 40px;
+           
+            ul{
+                display: flex;
+                flex-wrap: wrap;
+                gap:15px;
+                li{
+                    a{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #CCDDFF;
+                        border: 1px solid $theme-color;
+                        border-radius: 100vh;
+                        padding: 10px 20px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: $theme-color;
+                        gap:10px;
+                        position: relative;
+                        &::after{
+                            content:url(../img/renew/page/service/service-arrow.svg);
+                            font-size: 0px;
+                        }
+                        &:hover{
+                            background: #fff;
+
+                        }
+                        @media screen and (max-width:1089px) {
+                            font-size: 12px;
+                            padding: 5px 10px;
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+    }
+   
+}
+
+.service-flow-wrap{
+    svg{
+        width:100%;
+        g{
+            a{
+                rect,[data-name="base"]{
+                    transition: all .3s ease;
+                }
+                [data-name="text"]{
+                    path{
+                        transition: all .3s ease;
+                    }
+                }
+            }
+            a:hover{
+                rect,[data-name="base"]{
+                    fill: #fff;
+                }
+                [data-name="text"]{
+                    path{
+                        fill: $theme-color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.phase-items{
+    padding-top: 228px;
+    .phase-item{
+        padding-left: 136px;
+       padding-bottom: 44px;
+        position: relative;
+        &:not(.--last){
+            &::before{
+                content:"";
+                display: block;
+                width: 100px;
+                height: calc(100% - 42px);
+                background: #EEEEEE;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            &::after{
+                content:"";
+                display: block;
+                width:100px;
+                height: 42px;
+                background: url(../img/renew/page/service/phase-item-arrow.svg) no-repeat center/cover;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+            }
+        }
+        
+        h3{
+            font-size: 24px;
+            font-weight: bold;
+            color: #032D42;
+            letter-spacing: 0.05em;
+        }
+        &-outer{
+            border-top: 2px solid #032D42;
+            padding-top: 25px;
+            gap:24px;
+            padding-bottom: 36px;
+            @media screen and (max-width:$sp) {
+                flex-direction: column;
+            }
+            &.--noborder{
+                border: none;
+            }
+            .img{
+                width: 335px;
+                height: 206px;
+                border-radius: 10px;
+                box-shadow: 0px 3px 5px rgba(#000,.16);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                background: #fff;
+                @media screen and (max-width:$sp) {
+                    margin: auto;
+                }
+                span{
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #032D42;
+                }
+
+            }
+
+        }
+        p{
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .item-list{
+            display: flex;
+            flex-wrap: wrap;
+            gap:10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            .item{
+                background: #CCDDFF;
+                border-radius: 100vh;
+                padding: 6px 12px;
+                font-size: 14px;
+                font-weight: 600;
+                color: $theme-color;
+                position: relative;
+            }
+        }
+        ul{
+            list-style: disc;
+            list-style-position: inside;
+            padding-left: 1em;
+            li{
+                font-size: 14px;
+                font-weight: 600;
+                color: $theme-color;
+                
+            }
+        }
+    }
+}
+.p-service{
+    &__detail{
+        &-item{
+            &.--head{
+                max-width: 984px;
+                margin: auto;
+                .bgbox{
+                    background: #F4F6F8;
+                    border-radius: 10px;
+                    padding:40px 100px 47px;
+                    @media screen and (max-width:$sp) { 
+                        padding:40px;
+                        
+                    }
+                    h3{
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #032D42;
+                        text-align: center;
+                        margin-bottom: 31px;
+                    }
+                    ul{
+                        list-style: none;
+                        li{
+                            font-size: 18px;
+                            display: flex;
+                            align-items: center;
+                            gap:19px;
+                            &:not(:last-child){
+                                margin-bottom: 15px;
+                            }
+                            &::before{
+                                content:"";
+                                display: block;
+                                width:13px;
+                                height: 8px;
+                                background: $point-color01;
+                                font-size: 0px;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        .service-detail-head-arrow{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding:30px 0;
+            width:100%;
+
+        }
+        .solution{
+            p{
+                font-size: 24px;
+                font-weight: 500;
+            }
+        }
+        &-body{
+            .linkbtn{
+                padding-top: 28px;
+                a{
+                    width: 100%;
+                    max-width:286px;
+                    height: 53px;
+                    border: 1px solid $theme-color;
+                    color: #2E3E96;
+                    font-size:20px;
+                    letter-spacing: 0.02em;
+                    margin: auto;
+                    gap:22px;
+                    &::after{
+                        content: url(../img/renew/page/service/detail/arrow.svg);
+                        font-size: 0px;
+                    }
+                    &:hover{
+                        background: $theme-color;
+                        color: #fff;
+                    }
+        
+                    
+                }
+            }
+        }
+    }
+    
+}
+
+.service-menu{
+    .u-flex{
+        gap:78px;
+    }
+    .u-flex-item{
+        h3{
+            font-size: 24px;
+            font-weight: bold;
+            color: #032D42;
+            position: relative;
+            width: fit-content;
+            margin-bottom: 32px;
+            &::after{
+                content:"";
+                display: block;
+                width:116px;
+                height: 2px;
+                background: $point-color01;
+                position: absolute;
+                left:50%;
+                bottom: 0;
+                transform: translateX(-50%);
+            }
+        }
+        p{
+            font-size: 18px;
+        }
+    
+    }
+}
+.service-menu-child{
+    padding: 80px 40px 96px;
+    .child-thumb{
+        width:200px;
+        height: 200px;
+        border-radius: 100vh;
+        overflow: hidden;
+    }
+    .u-flex{
+        gap:20px;
+        align-items: center;
+        & + .u-flex{
+            margin-top: 73px;
+        }
+    }
+    h3{
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 28px;
+    }
+    
+}

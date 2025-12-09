@@ -2,13 +2,14 @@ resources:
   - ingress-cm0-configmap.yaml
   - ingress-deployment.yaml
   - ingress-staging.yaml 
-  - wordpress-deployment-for-cloudsql.yaml
+#  - wordpress-deployment-for-cloudsql.yaml
+  - new-wordpress.yaml
   - wordpress-svc.yaml
   - wp-data-persistentvolumeclaim.yaml
   - wp-exporter-scripts.yaml
-  - static-cm0-configmap.yaml
-  - static-deployment.yaml
-  - static-svc.yaml
+#  - static-cm0-configmap.yaml
+#  - static-deployment.yaml
+#  - static-svc.yaml
 
 
 # ベースの image 名は 'wordpress' にしておく（Actions で set image するため）

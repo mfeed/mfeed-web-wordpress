@@ -1,0 +1,53 @@
+@use "../mixins/variables" as *;
+@use "../mixins/mixin" as *;
+
+.c-post{
+   &__pickup{
+    padding-top: 0 !important;
+    padding-bottom: 20px;
+    &--wrap{
+        gap:15px;
+        @media screen and (max-width: $sp) {
+            flex-direction: column;
+        }
+    }
+    &--item{
+        flex:none !important;
+        width: calc(33.3333% - 15px);
+        margin: auto;
+        background: #969ED6;
+        border-radius: 10px;
+        box-shadow: 3px 3px 30px rgba(0,0,0,0.16);
+        height: 356px;
+
+        &-img{
+            border-radius: 10px;
+            overflow: hidden;
+            img{
+                transition: all 0.3s ease;
+                transform: scale(1);
+                width:100%;
+            }
+        }
+        &-text{
+            padding:20px 12px;
+            p{
+                color: #fff;
+                font-size: 16px;
+            }
+           
+        }
+        a{
+            &:hover{
+                .c-post__pickup--item-img{
+                    img{
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+
+   }
+
+}

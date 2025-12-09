@@ -1,0 +1,101 @@
+@use "../mixins/_variables" as *;
+@use "../mixins/mixin" as *;
+
+.c-pagenation{
+    padding-bottom: 100px;
+}
+.p-case{
+    &__content{
+        max-width:890px;
+        margin: auto;
+        &:not(:first-child){
+            padding-top:90px !important;
+        }
+        img{
+            height: auto;
+
+        }
+    }
+
+}
+.c-bc + .p-case__content{
+    padding-top: 0 !important;
+}
+
+.case-detail-services{
+    padding-bottom: 167px;
+    .u-flex{
+        gap:37px;
+        margin-bottom: 56px;
+
+        @media screen and (max-width: $sp) {
+            flex-direction: column;
+            
+        }
+        .u-flex-item{
+            a{
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+            img{
+                max-width:100%;
+                height: auto;
+                margin-bottom: 40px;
+            }
+            p{
+                font-size: 20px;
+                font-weight: 600;
+                color: $theme-color;
+                margin-top: auto;
+                padding-left: 1em;
+
+               
+            }
+            @media screen and (max-width: $sp) {
+                text-align: center;
+                
+            }
+        }
+
+    }
+    .case-linkbtn{
+        padding-top: 0;
+    }
+}
+
+.case-linkbtn{
+    padding-top: 100px;
+    .c-btn{
+        width: 100%;
+        max-width: 422px;
+        height: 94px;
+        margin: 20px auto 0;
+        border: 2px solid $theme-color;
+        background: $theme-color;
+        color: #fff;
+        font-size: 17px;
+        font-weight: 600;
+        @media screen and (max-width: 768px) {
+            
+            max-width: 80%;
+            
+        }
+        &::after{
+            content: url("../img/renew/top/linkbtn-arrow.svg");
+            display: block;
+            position: absolute;
+            right: 20px;
+            font-size: 0px;
+        }
+        &:hover{
+            background: #fff;
+            color: $theme-color;
+        }
+
+    }
+}
+.c-post-results{
+    padding-top: 0 !important;
+  
+}
