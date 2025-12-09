@@ -25,7 +25,7 @@ env:
 
   KUSTOMIZE_DIR: k8s/overlays/staging
   NAMESPACE: default
-  DEPLOYMENT_NAME: wordpress
+  DEPLOYMENT_NAME: mfeed-wp
 
 jobs:
   deploy:
