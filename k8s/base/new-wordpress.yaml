@@ -1,216 +1,66 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wp-config
-data:
-  wp-config.php: |
-    <?php
-    /**
-     * The base configuration for WordPress
-     *
-     * The wp-config.php creation script uses this file during the installation.
-     * You don't have to use the website, you can copy this file to "wp-config.php"
-     * and fill in the values.
-     *
-     * This file contains the following configurations:
-     *
-     * * Database settings
-     * * Secret keys
-     * * Database table prefix
-     * * ABSPATH
-     *
-     * This has been slightly modified (to read environment variables) for use in Docker.
-     *
-     * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/
-     *
-     * @package WordPress
-     */
-    
-    // IMPORTANT: this file needs to stay in-sync with https://github.com/WordPress/WordPress/blob/master/wp-config-sample.php
-    // (it gets parsed by the upstream wizard in https://github.com/WordPress/WordPress/blob/f27cb65e1ef25d11b535695a660e7282b98eb742/wp-admin/setup-config.php#L356-L392)
-    
-    // a helper function to lookup "env_FILE", "env", then fallback
-    if (!function_exists('getenv_docker')) {
-    	// https://github.com/docker-library/wordpress/issues/588 (WP-CLI will load this file 2x)
-    	function getenv_docker($env, $default) {
-    		if ($fileEnv = getenv($env . '_FILE')) {
-    			return rtrim(file_get_contents($fileEnv), "\r\n");
-    		}
-    		else if (($val = getenv($env)) !== false) {
-    			return $val;
-    		}
-    		else {
-    			return $default;
-    		}
-    	}
-    }
-    
-    // ** Database settings - You can get this info from your web host ** //
-    /** The name of the database for WordPress */
-    define( 'DB_NAME', getenv_docker('WORDPRESS_DB_NAME', 'wordpress') );
-    
-    /** Database username */
-    define( 'DB_USER', getenv_docker('WORDPRESS_DB_USER', 'example username') );
-    
-    /** Database password */
-    define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'example password') );
-    
-    /**
-     * Docker image fallback values above are sourced from the official WordPress installation wizard:
-     * https://github.com/WordPress/WordPress/blob/1356f6537220ffdc32b9dad2a6cdbe2d010b7a88/wp-admin/setup-config.php#L224-L238
-     * (However, using "example username" and "example password" in your database is strongly discouraged.  Please use strong, random credentials!)
-     */
-    
-    /** Database hostname */
-    define( 'DB_HOST', getenv_docker('WORDPRESS_DB_HOST', 'mysql') );
-    
-    /** Database charset to use in creating database tables. */
-    define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
-    
-    /** The database collate type. Don't change this if in doubt. */
-    define( 'DB_COLLATE', getenv_docker('WORDPRESS_DB_COLLATE', '') );
-    
-    /**#@+
-     * Authentication unique keys and salts.
-     *
-     * Change these to different unique phrases! You can generate these using
-     * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
-     *
-     * You can change these at any point in time to invalidate all existing cookies.
-     * This will force all users to have to log in again.
-     *
-     * @since 2.6.0
-     */
-    define( 'AUTH_KEY',         getenv_docker('WORDPRESS_AUTH_KEY',         'b7af66c8ca3f50163c863e95e12ff9bf4441ce34') );
-    define( 'SECURE_AUTH_KEY',  getenv_docker('WORDPRESS_SECURE_AUTH_KEY',  '019a92c13e5fc52ff2912f34a7f9f1b54746cc02') );
-    define( 'LOGGED_IN_KEY',    getenv_docker('WORDPRESS_LOGGED_IN_KEY',    '1a2bbd22fcd61ef70c2ef1920fb9fe26d7d71afd') );
-    define( 'NONCE_KEY',        getenv_docker('WORDPRESS_NONCE_KEY',        '589fa7de94ac58875dab9c437f783d3a9a5cdc18') );
-    define( 'AUTH_SALT',        getenv_docker('WORDPRESS_AUTH_SALT',        'a0fc5a1991211a8afd2aabf7d1fa63ce0ca4e335') );
-    define( 'SECURE_AUTH_SALT', getenv_docker('WORDPRESS_SECURE_AUTH_SALT', '5ca47f5aa081ca07e31510e8302fe42a93dd2ca8') );
-    define( 'LOGGED_IN_SALT',   getenv_docker('WORDPRESS_LOGGED_IN_SALT',   '1684a267b3b10d55ad1d477f107fff32126820c4') );
-    define( 'NONCE_SALT',       getenv_docker('WORDPRESS_NONCE_SALT',       '23be2672f8721abd41a865979e135ecd5da7a736') );
-    // (See also https://wordpress.stackexchange.com/a/152905/199287)
-    
-    /**#@-*/
-    
-    /**
-     * WordPress database table prefix.
-     *
-     * You can have multiple installations in one database if you give each
-     * a unique prefix. Only numbers, letters, and underscores please!
-     *
-     * At the installation time, database tables are created with the specified prefix.
-     * Changing this value after WordPress is installed will make your site think
-     * it has not been installed.
-     *
-     * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
-     */
-    $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
-    
-    /**
-     * For developers: WordPress debugging mode.
-     *
-     * Change this to true to enable the display of notices during development.
-     * It is strongly recommended that plugin and theme developers use WP_DEBUG
-     * in their development environments.
-     *
-     * For information on other constants that can be used for debugging,
-     * visit the documentation.
-     *
-     * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
-     */
-    define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
-    
-    /* Add any custom values between this line and the "stop editing" line. */
-    // ローカル用 URL 固定
-    //define( 'WP_HOME',    'http://localhost:8080' );
-    //define( 'WP_SITEURL', 'http://localhost:8080' );
-    
-    // --- マルチサイト有効化 ---
-    define( 'WP_ALLOW_MULTISITE', true );
-    // If we're behind a proxy server and using HTTPS, we need to alert WordPress of that fact
-    // see also https://wordpress.org/support/article/administration-over-ssl/#using-a-reverse-proxy
-    if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
-    	$_SERVER['HTTPS'] = 'on';
-    }
-    // (we include this by default because reverse proxying is extremely common in container environments)
-    
-    if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
-    	eval($configExtra);
-    }
-    define( 'MULTISITE', true );
-    define( 'SUBDOMAIN_INSTALL', false );
-    //define( 'DOMAIN_CURRENT_SITE', 'localhost:8080' );
-    define( 'PATH_CURRENT_SITE', '/' );
-    define( 'SITE_ID_CURRENT_SITE', 1 );
-    define( 'BLOG_ID_CURRENT_SITE', 1 );
-    
-    define( 'WP_DEBUG', true );
-    define( 'WP_DEBUG_LOG', true );
-    define( 'WP_DEBUG_DISPLAY', false );
-    /* That's all, stop editing! Happy publishing. */
-    
-    /** Absolute path to the WordPress directory. */
-    if ( ! defined( 'ABSPATH' ) ) {
-    	define( 'ABSPATH', __DIR__ . '/' );
-    }
-    
-    /** Sets up WordPress vars and included files. */
-    require_once ABSPATH . 'wp-settings.php';
-    
+# ------------------------------------------------------------
+# GKE + Cloud SQL + GCLB(HTTP) で WordPress(マルチサイト) を公開する最小構成
+# 方針2: ネットワーク基底を / に戻す（メイン管理画面を /wp-admin に統一）
+#
+# - Cloud SQL は cloud-sql-proxy サイドカー
+# - GCLB のヘルスチェックは /healthz (200 固定) を使う
+# - WP_HOME/WP_SITEURL は HTTP_HOST から決定（固定IP直書きしない）
+# - .htaccess は WordPress に生成させる（コンテナ起動時に上書きしない）
+# ------------------------------------------------------------
 
----
-# WordPress 用 K8s ServiceAccount
 apiVersion: v1
-kind: ServiceAccount
+kind: Namespace
 metadata:
-  name: wordpress-sa
-  namespace: default
-  annotations:
-    iam.gke.io/gcp-service-account: cloudsql-proxy@mfeed-web-staging.iam.gserviceaccount.com
----
-# DB 資格情報
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-  namespace: default
-type: Opaque
-stringData:
-  wp-user: wordpress
-  wp-password: 'MY]H"y4}>7xhV^R6'
+  name: mfeed
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: wp-content-pvc
+  namespace: mfeed
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
-
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: mfeed
+type: Opaque
+stringData:
+  WORDPRESS_DB_NAME: wordpress
+  WORDPRESS_DB_USER: wordpress
+  WORDPRESS_DB_PASSWORD: 'MY]H"y4}>7xhV^R6'
+  WORDPRESS_DB_HOST: "127.0.0.1:3306"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wordpress-sa
+  namespace: mfeed
+  annotations:
+    iam.gke.io/gcp-service-account: cloudsql-proxy@mfeed-web-staging.iam.gserviceaccount.com
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mfeed-wp
-  namespace: default
+  name: wordpress
+  namespace: mfeed
   labels:
-    app: mfeed-wp
+    app: wordpress
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
   selector:
     matchLabels:
-      app: mfeed-wp
+      app: wordpress
   template:
     metadata:
       labels:
-        app: mfeed-wp
+        app: wordpress
     spec:
       serviceAccountName: wordpress-sa
       securityContext:
@@ -222,46 +72,81 @@ spec:
             - containerPort: 80
           env:
             - name: WORDPRESS_DB_HOST
-              value: 127.0.0.1:3306
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: WORDPRESS_DB_HOST
             - name: WORDPRESS_DB_NAME
-              value: wordpress
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: WORDPRESS_DB_NAME
             - name: WORDPRESS_DB_USER
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
-                  key: wp-user
+                  key: WORDPRESS_DB_USER
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
-                  key: wp-password
-            - name: WORDPRESS_DEBUG
-              value: "1"
+                  key: WORDPRESS_DB_PASSWORD
+
+            # ネットワーク基底は / に統一（/wp-admin と /wp-admin/network が正）
             - name: WORDPRESS_CONFIG_EXTRA
-              value: |-
-                // Cloud SQL Auth Proxy 経由: クライアント側TLSは不要
-                if (!defined('MYSQL_CLIENT_FLAGS')) { define('MYSQL_CLIENT_FLAGS', 0); }
+              value: |
+                $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-                if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-                  $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
-                }
-                if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-                  $_SERVER['HTTPS'] = 'on';
-                }
-                $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-                $host  = $_SERVER['HTTP_HOST'] ?? 'localhost';
+                define('WP_HOME',    'http://' . $host);
+                define('WP_SITEURL', 'http://' . $host);
 
-                // 表示URLは /home
-                define('WP_HOME',    $proto.'://'.$host.'/home');
-                // WPコアの実体はルート（/home にしない）
-                define('WP_SITEURL', $proto.'://'.$host);
+                define('MULTISITE', true);
+                define('SUBDOMAIN_INSTALL', false);
+                define('DOMAIN_CURRENT_SITE', $host);
+                define('PATH_CURRENT_SITE', '/');
+                define('SITE_ID_CURRENT_SITE', 1);
+                define('BLOG_ID_CURRENT_SITE', 1);
+
+                // 切り分け用：stderrへ（落ち着いたら false に戻す）
+                define('WP_DEBUG', true);
+                define('WP_DEBUG_LOG', false);
+                define('WP_DEBUG_DISPLAY', true);
+                @ini_set('log_errors', '1');
+                @ini_set('error_log', '/dev/stderr');
+
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -lc
+                  - |
+                    set -eu
+                    printf "ok\n" > /var/www/html/healthz || true
+                    # .htaccess は上書きしない（WordPress 側に生成させる）
 
           volumeMounts:
             - name: wp-content
               mountPath: /var/www/html/wp-content
-            - name: wp-config
-              mountPath: /var/www/html/wp-config.php
-              subPath: wp-config.php
+
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 6
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 6
+
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.4
           args:
@@ -275,75 +160,55 @@ spec:
             limits:
               cpu: 200m
               memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+
       volumes:
         - name: wp-content
           persistentVolumeClaim:
             claimName: wp-content-pvc
-        - name: wp-config
-          configMap:
-            name: wp-config
-            items:
-              - key: wp-config.php
-                path: wp-config.php
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress
-  namespace: default
+  name: wordpress-svc
+  namespace: mfeed
   labels:
-    app: mfeed-wp
-spec:
-  type: ClusterIP
-  selector:
-    app: mfeed-wp
-  ports:
-    - name: http
-      port: 80
-      targetPort: 80
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    io.kompose.service: wp-data
-  name: wp-data
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ingress
-  namespace: default
+    app: wordpress
   annotations:
-    cloud.google.com/neg: '{"ingress": true}'                 # Pod直配信（推奨）
-    cloud.google.com/backend-config: '{"default":"ingress-hc"}'  # これで BackendConfig を適用
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default":"wordpress-backendconfig"}'
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
-    io.kompose.service: ingress
+    app: wordpress
   ports:
     - name: http
       port: 80
       targetPort: 80
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: wordpress-backendconfig
+  namespace: mfeed
+spec:
+  healthCheck:
+    requestPath: /healthz
+    port: 80
+    type: HTTP
+  securityPolicy:
+    name: allow-internal-only
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: wp-ing
-  namespace: default
+  name: wordpress-ingress
+  namespace: mfeed
   annotations:
-    kubernetes.io/ingress.class: "gce" 
-    # 固定グローバルIPを使う場合はここに置く（metadata直下）
+    kubernetes.io/ingress.class: "gce"
     kubernetes.io/ingress.global-static-ip-name: wp-gclb-ip
 spec:
-  ingressClassName: gce
   rules:
     - http:
         paths:
@@ -351,111 +216,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ingress
+                name: wordpress-svc
                 port:
                   number: 80
----
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: ingress-hc
-  namespace: default
-spec:
-  healthCheck:
-    requestPath: /healthz
-    port: 80
-# Cloud Armor のセキュリティポリシー利用設定
-  securityPolicy:
-    name: allow-internal-only
----
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: gce
-spec:
-  controller: k8s.io/ingress-gce
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.yml
-    kompose.version: 1.37.0 (HEAD)
-  labels:
-    io.kompose.service: ingress
-  name: ingress
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      io.kompose.service: ingress
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.yml
-        kompose.version: 1.37.0 (HEAD)
-      labels:
-        io.kompose.service: ingress
-    spec:
-      containers:
-        - image: nginx:latest
-          name: ingress
-          ports:
-            - containerPort: 80
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /etc/nginx/conf.d/default.conf
-              name: ingress-cm0
-              subPath: default.conf
-      restartPolicy: Always
-      volumes:
-        - configMap:
-            items:
-              - key: default.conf
-                path: default.conf
-            name: ingress-cm0
-          name: ingress-cm0
----
-apiVersion: v1
-data:
-  default.conf: |
-    server {
-      listen 80;
-      server_name _;
-
-      # /home → /home/ に統一
-      location = /home {
-        return 301 /home/;
-      }
-
-      # healthcheck
-      location = /healthz {
-        return 200;
-      }
-
-
-      # WordPress（/home/ 以下）
-      location ^~ /home/ {
-        proxy_pass http://wordpress:80/;   # 末尾 / で /home/ を剥がして渡す
-        proxy_set_header Host $http_host;  # ★ ポート含むHostを維持
-        proxy_set_header X-Forwarded-Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
-      }
-
-      # それ以外は静的サイト
-      location / {
-        proxy_pass http://static:80;
-      }
-    }
-kind: ConfigMap
-metadata:
-  annotations:
-    use-subpath: "true"
-  labels:
-    io.kompose.service: ingress
-  name: ingress-cm0
