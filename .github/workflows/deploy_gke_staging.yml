@@ -24,7 +24,7 @@ env:
   WORDPRESS_TAG: php8.3-apache
 
   KUSTOMIZE_DIR: k8s/overlays/staging
-  NAMESPACE: default
+  NAMESPACE: mfeed
   DEPLOYMENT_NAME: mfeed-wp
 
 jobs:
