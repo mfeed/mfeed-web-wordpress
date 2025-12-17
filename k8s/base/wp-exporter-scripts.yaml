@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: wp-exporter-scripts
-  namespace: default
+  namespace: mfeed
 data:
   exporter.sh: |
     #!/usr/bin/env bash
@@ -122,7 +122,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: wp-exporter-sa
-  namespace: default
+  namespace: mfeed
   annotations:
     iam.gke.io/gcp-service-account: cloudsql-proxy@mfeed-web-staging.iam.gserviceaccount.com
 ---
@@ -130,7 +130,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: wp-db-export
-  namespace: default
+  namespace: mfeed
 spec:
   schedule: "*/5 * * * *"
   concurrencyPolicy: Forbid
@@ -204,7 +204,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wp-uploads-watcher
-  namespace: default
+  namespace: mfeed
 spec:
   replicas: 1
   selector:
