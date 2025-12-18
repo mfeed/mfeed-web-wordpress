@@ -1,11 +1,11 @@
 # ------------------------------------------------------------
 # GKE + Cloud SQL + GCLB(HTTP) で WordPress(マルチサイト) を公開する最小構成
-# 方針2: ネットワーク基底を / に戻す（メイン管理画面を /wp-admin に統一）
+# 方針2: ネットワーク基底を /（管理画面を /wp-admin に統一）
 #
-# - Cloud SQL は cloud-sql-proxy サイドカー
-# - GCLB のヘルスチェックは /healthz (200 固定) を使う
-# - WP_HOME/WP_SITEURL は HTTP_HOST から決定（固定IP直書きしない）
-# - .htaccess は WordPress に生成させる（コンテナ起動時に上書きしない）
+# 追加（A方式・Git変更を都度反映）:
+# - Docker image 内の /seed/wp-content を PVC(/var/www/html/wp-content)へ同期する initContainer を追加
+# - 同期の基準は env: WP_CONTENT_SEED_VERSION（workflowで GITHUB_SHA を注入）
+# - uploads/ は保持（削除・上書きしない）
 # ------------------------------------------------------------
 
 apiVersion: v1
@@ -65,6 +65,88 @@ spec:
       serviceAccountName: wordpress-sa
       securityContext:
         fsGroup: 33
+
+      # --- initContainer: wp-content を seed から PVC に同期 ---
+      initContainers:
+        - name: seed-wp-content
+          # ★ wordpress コンテナと同じイメージ（/seed/wp-content を含む自前ビルド）を使う前提
+          image: wordpress:6.6-php8.2-apache
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: WP_CONTENT_SEED_VERSION
+              value: "dev"   # ★workflowで GITHUB_SHA に上書きする
+          command: ["sh","-lc"]
+          args:
+            - |
+              set -eu
+
+              SEED_DIR="/seed/wp-content"
+              TARGET="/var/www/html/wp-content"
+              VERSION_FILE="${TARGET}/.seed-version"
+
+              if [ ! -d "${SEED_DIR}" ]; then
+                echo "seed directory not found: ${SEED_DIR}"
+                echo "You must build an image that includes k8s/base/wp-content into /seed/wp-content"
+                exit 1
+              fi
+
+              desired="${WP_CONTENT_SEED_VERSION:-}"
+              current=""
+              if [ -f "${VERSION_FILE}" ]; then
+                current="$(cat "${VERSION_FILE}" || true)"
+              fi
+
+              if [ -n "${desired}" ] && [ "${desired}" = "${current}" ]; then
+                echo "wp-content already up-to-date (version=${current})"
+                exit 0
+              fi
+
+              echo "sync wp-content from ${SEED_DIR} to ${TARGET}"
+              echo "  desired=${desired} current=${current}"
+
+              mkdir -p "${TARGET}"
+
+              # 反映対象（Git管理下に置きやすい領域）:
+              # - themes, plugins, mu-plugins, languages
+              # - wp-content 直下のファイル（例: advanced-cache.php 等）
+              #
+              # 反映しない（運用データ）:
+              # - uploads, cache, debug.log など
+              #
+              # ※ “削除も含めたミラー” を themes/plugins/mu-plugins/languages に対して行い、
+              #    uploads は保持します。
+
+              for d in themes plugins mu-plugins languages; do
+                if [ -d "${SEED_DIR}/${d}" ]; then
+                  rm -rf "${TARGET:?}/${d}"
+                  mkdir -p "${TARGET}/${d}"
+                  # tar でコピー（cpのメタデータ差で事故りにくい）
+                  tar -C "${SEED_DIR}/${d}" -cf - . | tar -C "${TARGET}/${d}" -xpf -
+                fi
+              done
+
+              # wp-content 直下の “ファイルだけ” を同期（ディレクトリは上で扱う）
+              # 例: index.php, advanced-cache.php, object-cache.php, .user.ini など
+              find "${SEED_DIR}" -maxdepth 1 -type f \
+                ! -name ".seed-version" \
+                ! -name "debug.log" \
+                -print0 \
+                | while IFS= read -r -d '' f; do
+                    base="$(basename "$f")"
+                    cp -f "$f" "${TARGET}/${base}"
+                  done
+
+              # 所有権（WordPress コンテナは www-data）
+              chown -R www-data:www-data "${TARGET}" || true
+
+              # バージョン更新
+              echo -n "${desired}" > "${VERSION_FILE}"
+              echo "seed version updated: ${desired}"
+
+          volumeMounts:
+            - name: wp-content
+              mountPath: /var/www/html/wp-content
+
       containers:
         - name: wordpress
           image: wordpress:6.6-php8.2-apache
@@ -92,7 +174,7 @@ spec:
                   name: mysql-secret
                   key: WORDPRESS_DB_PASSWORD
 
-            # ネットワーク基底は / に統一（/wp-admin と /wp-admin/network が正）
+            # ネットワーク基底は /（/wp-admin と /wp-admin/network が正）
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
