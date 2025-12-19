@@ -5,7 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "k8s/base/wp-exporter/**"
-      - ".github/workflows/build-wp-exporter.yml"
+      - ".github/workflows/build-wp-exporter-staging.yml"
 
 permissions:
   contents: read
