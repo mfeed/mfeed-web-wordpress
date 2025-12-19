@@ -15,7 +15,7 @@ data:
     WORK=/work
     REPO=$WORK/repo
     OUT=$REPO/wordpress-export
-    mkdir -p "$WORK" "$OUT/db" "$OUT/uploads"
+    mkdir -p "$WORK"
 
     mkdir -p /root/.ssh
     chmod 700 /root/.ssh
@@ -27,14 +27,25 @@ data:
     git config --global user.name  "${GIT_NAME:-wp-exporter}"
     git config --global --add safe.directory "$REPO" || true
 
-    if [[ ! -d "$REPO/.git" ]]; then
-      git clone --branch "$GIT_BRANCH" "$GIT_URL" "$REPO"
+    # ===== repo prepare（ここが重要）=====
+    # /work/repo が中途半端に残っていたら掃除して作り直す
+    if [[ -e "$REPO" && ! -d "$REPO/.git" ]]; then
+      echo "[repo] $REPO exists but is not a git repo; cleaning up"
+      rm -rf "$REPO"
     fi
 
-    # 最新に揃える（浅い clone は rebase で詰まることがあるので depth は使わない）
-    git -C "$REPO" fetch origin "$GIT_BRANCH"
-    git -C "$REPO" checkout "$GIT_BRANCH"
-    git -C "$REPO" reset --hard "origin/$GIT_BRANCH"
+    if [[ ! -d "$REPO/.git" ]]; then
+      rm -rf "$REPO"
+      git clone --branch "$GIT_BRANCH" "$GIT_URL" "$REPO"
+    else
+      git -C "$REPO" fetch origin "$GIT_BRANCH"
+      git -C "$REPO" checkout "$GIT_BRANCH"
+      git -C "$REPO" reset --hard "origin/$GIT_BRANCH"
+      git -C "$REPO" clean -fdx
+    fi
+    # ================================
+
+    mkdir -p "$OUT/db" "$OUT/uploads"
 
     MYSQL=(mysql -h "$DB_HOST" -P "$DB_PORT" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME")
     DUMP=(mysqldump -h "$DB_HOST" -P "$DB_PORT" -u"$DB_USER" -p"$DB_PASS" --skip-comments --skip-extended-insert --single-transaction "$DB_NAME")
@@ -92,7 +103,7 @@ data:
     WORK=/work
     REPO=$WORK/repo
     OUT=$REPO/wordpress-export/uploads
-    mkdir -p "$WORK" "$OUT"
+    mkdir -p "$WORK"
 
     mkdir -p /root/.ssh
     chmod 700 /root/.ssh
@@ -103,13 +114,24 @@ data:
     git config --global user.name  "${GIT_NAME:-wp-exporter}"
     git config --global --add safe.directory "$REPO" || true
 
-    if [[ ! -d "$REPO/.git" ]]; then
-      git clone --branch "$GIT_BRANCH" "$GIT_URL" "$REPO"
+    # ===== repo prepare（ここが重要）=====
+    if [[ -e "$REPO" && ! -d "$REPO/.git" ]]; then
+      echo "[repo] $REPO exists but is not a git repo; cleaning up"
+      rm -rf "$REPO"
     fi
 
-    git -C "$REPO" fetch origin "$GIT_BRANCH"
-    git -C "$REPO" checkout "$GIT_BRANCH"
-    git -C "$REPO" reset --hard "origin/$GIT_BRANCH"
+    if [[ ! -d "$REPO/.git" ]]; then
+      rm -rf "$REPO"
+      git clone --branch "$GIT_BRANCH" "$GIT_URL" "$REPO"
+    else
+      git -C "$REPO" fetch origin "$GIT_BRANCH"
+      git -C "$REPO" checkout "$GIT_BRANCH"
+      git -C "$REPO" reset --hard "origin/$GIT_BRANCH"
+      git -C "$REPO" clean -fdx
+    fi
+    # ================================
+
+    mkdir -p "$OUT"
 
     sync_and_push() {
       rsync -a --delete "$UPLOADS_SRC"/ "$OUT"/
