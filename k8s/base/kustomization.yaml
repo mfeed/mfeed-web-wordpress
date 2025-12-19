@@ -6,7 +6,8 @@ resources:
   - new-wordpress.yaml
 #  - wordpress-svc.yaml
 #  - wp-data-persistentvolumeclaim.yaml
-  - wp-exporter-scripts.yaml
+#  - wp-exporter-scripts.yaml
+  - wp-exporter.yaml
 #  - static-cm0-configmap.yaml
 #  - static-deployment.yaml
 #  - static-svc.yaml
