@@ -1,0 +1,97 @@
+@use "../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _nav.scss
+  Summary:   グローバルナビ用ファイル
+  Author:    coder-ao
+================================*/
+
+// グロナビ
+.l-nav {
+  $block: #{&};
+  height: 100%;
+  .l-header & {
+    @include mq() {
+      display: none;
+    }
+  }
+  &__list {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: calc(27 / 14);
+    // white-space: nowrap;
+    @include mq('xl') {
+      font-size: min(1.3vw, 14px);
+    }
+    @include mq() {
+      flex-direction: column;
+      gap: 20px;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+  }
+  &__listItem {
+    height: 100%;
+    &:not(:last-child) {
+      border-right: 1px solid $color-white;
+    }
+    & > a, & > .c-accordion__btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: fit-content;
+      height: 100%;
+      padding: 0 17px;
+      background: transparent;
+      position: relative;
+      &::after {
+        content: '';
+        width: 100%;
+        height: 1px;
+        background: $color-white;
+        transform: scale(0, 1);
+        transform-origin: right bottom;
+        @include transition((transform));
+      }
+      @include transition((background));
+      &:hover, &.is-current {
+        text-decoration: none;
+        &::after {
+          transform: scale(1, 1);
+          transform-origin: left bottom;
+        }
+      }
+      &:visited {
+        color: $color-white;
+      }
+      @include mq('xl') {
+        height: auto;
+        padding: 0 min(calc(17 / 990 * 100vw), 17px);
+        margin: 0 auto;
+      }
+    }
+    & > .c-accordion__btn {
+      padding-right: calc(17px - 8px);
+    }
+    &:last-child > a {
+      padding-right: 0;
+    }
+    @include mq('xl') {
+      &.--pc {
+        display: none;
+      }
+    }
+    @include mq() {
+      &:not(:last-child) {
+        border-right: none;
+      }
+    }
+  }
+}

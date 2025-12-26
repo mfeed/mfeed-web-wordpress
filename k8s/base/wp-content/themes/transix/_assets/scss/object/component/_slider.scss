@@ -1,0 +1,49 @@
+@use '../../foundation/settings' as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _slider.scss
+  Summary:   スライダー用ファイル
+  Author:    coder-ao
+================================*/
+
+.c-sliderWrap {
+  width: min(100%, calc(1140px + $marginSP-LR * 2));
+  padding: 0 $marginSP-LR;
+  margin: 0 auto;
+  position: relative;
+  @include mq() {
+    padding: 0 8px;
+  }
+}
+.c-slider {
+  width: min(calc(100% - calc(36px * 2) - $marginSP-LR * 2), 978px);
+  margin: 0 auto;
+  position: initial;
+  @include mq() {
+    width: max(282px, calc(282 / 375 * 100vw));
+  }
+  &__btn {
+    width: 36px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    &::after {
+      display: none;
+    }
+    &.--prev {
+      left: $marginSP-LR;
+    }
+    &.--next {
+      right: $marginSP-LR;
+    }
+    @include mq() {
+      width: max(30px, calc(30 / 375 * 100vw));
+      &.--prev {
+        left: 8px;
+      }
+      &.--next {
+        right: 8px;
+      }
+    }
+  }
+}

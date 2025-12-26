@@ -6,13 +6,7 @@
   <title>INTERNET MULTIFEED CO.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:image" content="https://www.mfeed.ad.jp/images/mfeed-favicon.png">
-  <meta property="og:description" content="「すべてのコミュニケーションはここを通る。」私たちはそんな「場」と「ソリューション」を提供し、革新的な「付加価値」を創造していきます。">
-  
-  
-
-
-  
-    <link rel="alternate" href="/atom.xml" title="INTERNET MULTIFEED CO." type="application/atom+xml">
+    <link rel="alternate" href="<?php echo get_template_directory_uri();?>/atom.xml" title="INTERNET MULTIFEED CO." type="application/atom+xml">
   
   
     <link rel="icon" href="<?php echo get_template_directory_uri();?>/images/mfeed-favicon.png">
@@ -47,7 +41,12 @@
 </script>
 <!-- End Global site tag (gtag.js) - Google Analytics -->
 
-
+<!-- www.mfeed.ad.jp に対する OneTrust Cookie 同意通知の始点 -->
+<script src="https://cdn-au.onetrust.com/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="019b48f0-46cc-7465-80b5-2b0d148872c8" ></script>
+<script type="text/javascript">
+function OptanonWrapper() { }
+</script>
+<!-- www.mfeed.ad.jp に対する OneTrust Cookie 同意通知の終点 -->
 <?php wp_head(); ?>
 </head>
 </html>
@@ -157,21 +156,24 @@
         採用情報
       </a>
 
-      <!-- /.言語切替 -->
-      <ul class="navbar-nav navbar-nav-lang-switcher p-2">
-        
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link py-1 px-3 btn btn-secondary rounded-pill bg-dark border-0 mb-3 mb-lg-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-globe-asia mr-2 font-plq"></i>Language<i class="fas fa-chevron-down ml-1"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/en/index.html">English</a>
-            <a class="dropdown-item" href="/index.html">Japanese</a>
-          </div>
-        </li>
-        
-      </ul>
+     <!-- /.言語切替 -->
+<ul class="navbar-nav navbar-nav-lang-switcher p-2">
+
+  <?php 
+    // 言語切り替えURLを取得
+    $lang_urls = my_get_lang_switch_urls();
+  ?>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link py-1 px-3 btn btn-secondary rounded-pill bg-dark border-0 mb-3 mb-lg-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="fa fa-globe-asia mr-2 font-plq"></i>Language<i class="fas fa-chevron-down ml-1"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="<?php echo esc_url( $lang_urls['en'] ); ?>">English</a>
+      <a class="dropdown-item" href="<?php echo esc_url( $lang_urls['ja'] ); ?>">Japanese</a>
+    </div>
+  </li>
+</ul>
     </div>
   </div><!-- //collapse -->
 

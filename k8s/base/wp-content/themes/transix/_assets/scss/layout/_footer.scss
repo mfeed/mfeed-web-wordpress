@@ -1,0 +1,225 @@
+@use '../foundation/settings' as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _footer.scss
+  Summary:   フッター用ファイル
+  Author:    coder-ao
+================================*/
+
+/*-------------------
+	footer
+-------------------*/
+.l-footer {
+  a {
+    &:visited {
+      color: $color-visited-dark;
+    }
+  }
+  &--form {
+    padding: 20px 0 18px;
+    background: $color-gray_135deg;
+  }
+  &__main {
+    padding: 53px 0 42px;
+    background: $color-gray_135deg;
+    color: $color-white;
+    .c-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: min(calc(40 / 990 * 100vw), 40px);
+    }
+    @include mq('l') {
+      padding: 30px 0 50px;
+      .c-inner {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+      }
+    }
+  }
+  &__left {
+    flex: 0 0 auto;
+    width: min(100%, 220px);
+    .u-logo {
+      display: block;
+      width: min(100%, 219px);
+      & > img {
+        width: 100%;
+      }
+      & + small {
+        display: block;
+        margin-top: 16px;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: calc(20 / 12);
+      }
+    }
+    @include mq() {
+      width: min(100%, 278px);
+      .u-logo {
+        width: min(100%, 278px);
+        & + small {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+  &__btn {
+    margin-top: 37px;
+    .c-btnEnJa.--more {
+      width: min(100%, 217px);
+      gap: 5px;
+      padding: 15px 16px 16px;
+      line-height: 1;
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+    @include mq() {
+      &.u-sp {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        width: fit-content;
+        margin-top: calc(42px - 25px);
+        .c-btnEnJa.--more {
+          padding: 17px 40px 16px 9px;
+          font-size: 14px;
+          &::before, &::after {
+            right: 10px;
+          }
+          &:not(:last-child) {
+            margin-bottom: 0px;
+          }
+        }
+      }
+    }
+  }
+  &__right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: min(calc(40 / 990 * 100vw), 40px);
+    width: min(100%, 800px);
+    @include mq() {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      gap: $marginSP-LR;
+      width: min(100%, 278px);
+      margin: 0 auto;
+    }
+  }
+  &__sub {
+    padding: 33px 0 12px;
+  }
+}
+.c-fNav {
+  line-height: 1.6;
+  &__label {
+    // margin-bottom: 11px;
+    font-weight: 600;
+  }
+  &__list {
+  }
+}
+.c-fNavList {
+  font-size: 15px;
+  line-height: calc(24 / 15);
+  & > li {
+    &:not(:last-child) {
+      margin-bottom: 11px;
+    }
+  }
+  &.--space {
+    & > li {
+      font-weight: 600;
+      &:not(:last-child) {
+        margin-bottom: 39px;
+      }
+    }
+  }
+  @include mq() {
+    &.--space {
+      & > li {
+        &:not(:last-child) {
+          margin-bottom: 11px;
+        }
+      }
+    }
+  }
+  &__label {
+    font-weight: 600;
+  }
+  &__sub {
+    font-size: 14px;
+    & > li {
+      display: flex;
+      &::before {
+        content: '・';
+        display: block;
+      }
+      &:not(:last-child) {
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
+.c-fNavSub {
+  display: flex;
+  align-items: center;
+  gap: 77px;
+  .u-logo {
+    flex: 0 0 auto;
+    width: min(100%, 262px);
+    & > img {
+      width: 100%;
+    }
+  }
+  @include mq() {
+    flex-direction: column;
+    gap: 30px $marginSP-LR;
+    .u-logo {
+      flex: 0 0 auto;
+      width: min(100%, 304px);
+    }
+  }
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 45px;
+    width: min(100%, 584px);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: calc(24 / 15);
+    small {
+      font-size: inherit;
+    }
+    @include mq() {
+      flex-direction: column;
+      width: fit-content;
+      margin: 0 auto;
+      small {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.c-copyright {
+  margin-top: 28px;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 2;
+  text-align: center;
+  &.--white {
+    margin-top: 0;
+    color: $color-white;
+  }
+  @include mq() {
+    margin-top: 69px;
+  }
+}

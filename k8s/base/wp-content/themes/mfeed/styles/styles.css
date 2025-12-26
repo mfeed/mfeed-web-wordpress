@@ -110,7 +110,8 @@
   height: auto;
   margin: auto; }
 
-.article-entry .caption {
+.article-entry .caption,
+.wp-block-image .aligncenter>figcaption, .wp-block-image .alignleft>figcaption, .wp-block-image .alignright>figcaption, .wp-block-image.aligncenter>figcaption, .wp-block-image.alignleft>figcaption, .wp-block-image.alignright>figcaption {
   position: relative;
   display: block;
   margin-top: 0.5em;
@@ -9413,7 +9414,7 @@ strong {
         padding: 0 12px; }
   .article-entry .plain .gutter {
     display: none; }
-  .article-entry .caption {
+  .article-entry .caption,.wp-block-image .aligncenter>figcaption, .wp-block-image .alignleft>figcaption, .wp-block-image .alignright>figcaption, .wp-block-image.aligncenter>figcaption, .wp-block-image.alignleft>figcaption, .wp-block-image.alignright>figcaption {
     font-size: 12px; }
   .article-entry .article-more-link {
     margin: 15px 0; }

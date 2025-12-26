@@ -1,0 +1,204 @@
+@use "../foundation/settings" as *;
+@use "../object/component/versatility" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _WP.scss
+  Summary:   WP用ファイル
+  Author:    coder-ao
+================================*/
+
+// マークダウン
+.c-markDown {
+  .c-faqNumWrap {
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0;
+    &:not(:last-child) {
+      margin-bottom: 19px;
+    }
+    .c-faqNum {
+      gap: 8px;
+      font-size: em(28, 22);
+      letter-spacing: 0.05em;
+      line-height: 1.5;
+      &::before {
+        width: em(32, 18);
+        font-size: em(18, 28);
+      }
+    }
+    @include mq() {
+      font-size: 20px;
+      .c-faqNum {
+        gap: 8px;
+        font-size: 1em;
+        letter-spacing: 0.05em;
+        line-height: 1.9;
+        &::before {
+          width: em(32, 18);
+          font-size: em(18, 28);
+        }
+      }
+    }
+  }
+  h1 {
+    @extend .c-headingUnderline;
+    font-size: 26px;
+    @include mq() {
+      font-size: 20px;
+    }
+  }
+  h2 {
+    @extend .c-headingLine;
+    &:not(:first-child) {
+      margin-top: 44px;
+    }
+    &:not(:last-child) {
+      margin-bottom: 28px;
+    }
+  }
+  h3 {
+    @extend .c-headingDot;
+    &:not(:first-child) {
+      margin-top: 40px;
+    }
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+  h4, h5, h6 {
+    &:not(:first-child) {
+      margin-top: 2em;
+    }
+    &:not(:last-child) {
+      margin-bottom: 1em;
+    }
+  }
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  p {
+    &:not(:last-child) {
+      margin-bottom: 40px;
+    }
+  }
+  ul {
+    &:not(:last-child) {
+      margin-bottom: 24px;
+    }
+    li {
+      padding-left: 1em;
+      position: relative;
+      &::before {
+        content: '・';
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+  ol {
+    counter-reset: number;
+    &:not(:last-child) {
+      margin-bottom: 24px;
+    }
+    li {
+      counter-increment: number;
+
+      padding-left: 1.5em;
+      position: relative;
+      &::before {
+        content: counter(number)'.';
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+  hr {
+    height: 1px;
+    margin: 1lh 0;
+    border: none;
+    background-color: $color-gray;
+  }
+  figure {
+    &:has(table) {
+      width: 100%;
+      overflow: hidden;
+      & > table,
+      & > .has-fixed-layout {
+        width: 880px;
+        margin: 0 auto;
+      }
+      @include mq('xl') {
+        overflow-x: scroll;
+        &:not(:last-child):not(:has(~ .wp-block-spacer)) {
+          margin-bottom: $marginSP;
+        }
+      }
+    }
+    &:has(img) {
+      text-align: center;
+      &:not(:last-child) {
+        margin-bottom: 48px;
+      }
+    }
+  }
+  code {
+    background: $color-pink;
+  }
+  pre {
+    padding: $marginSP-LR;
+    background: $color-lightgray;
+    code {
+      background: none;
+    }
+  }
+  blockquote {
+    padding-left: 1em;
+    border-left: 6px solid $color-gray;
+    color: $color-gray;
+  }
+}
+
+// 検索結果
+.p-searchResult {
+  &__count {
+    margin-bottom: 10px;
+  }
+  &__pager {
+    margin-top: 32px;
+  }
+}
+.c-searchResultList {
+  $block: #{&};
+  border-top: 1px solid $color-gray;
+  &__item {
+    border-bottom: 1px solid $color-gray;
+  }
+  &__link {
+    display: block;
+    padding: 32px 0 40px;
+    @include opacityBtn;
+  }
+  &__title {
+    font-size: 20px;
+    line-height: calc(34 / 20);
+    text-decoration: underline;
+    &::before {
+      display: none;
+    }
+    &:not(:last-child) {
+      margin-bottom: 29px;
+    }
+    #{$block}__link:hover & {
+      text-decoration: none;
+    }
+  }
+  &__excerpt {
+    margin-left: 1em;
+  }
+}

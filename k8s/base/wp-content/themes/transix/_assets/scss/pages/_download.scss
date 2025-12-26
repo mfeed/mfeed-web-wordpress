@@ -1,0 +1,51 @@
+@use "../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _download.scss
+  Summary:   downloadページ用ファイル
+  Author:    coder-ao
+================================*/
+
+.c-download {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $marginSP-LR 64px;
+  padding: 64px 0 80px;
+  @include mq('l') {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  &__left {
+    .c-label {
+      font-size: 1rem;
+      &::before {
+        display: none;
+      }
+    }
+    .c-headline {
+      margin-top: 20px;
+      font-size: 24px;
+      letter-spacing: 0;
+      line-height: calc(43 / 24);
+    }
+    .c-figure {
+      margin-top: 24px;
+    }
+    .c-text {
+      margin-top: 32px;
+    }
+    @include mq() {
+      .c-headline {
+        font-size: 20px;
+      }
+    }
+  }
+  &__right {
+    padding: 40px;
+    border-radius: 10px;
+    background: $color-lightgray;
+    @include mq('l') {
+      padding: 40px $marginSP-LR;
+    }
+  }
+}

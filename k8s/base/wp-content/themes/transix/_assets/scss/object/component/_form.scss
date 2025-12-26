@@ -1,0 +1,154 @@
+@use "../../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _form.scss
+  Summary:   フォーム用ファイル
+  Author:    coder-ao
+================================*/
+
+.c-form {
+  &__summary {
+    strong {
+      display: block;
+    }
+    small {
+      display: block;
+      margin-top: 19px;
+      font-size: 14px;
+    }
+  }
+  &__contents {
+    margin-top: 21px;
+  }
+  &__item {
+    display: grid;
+    grid-template-columns: 8em 1fr;
+    gap: 0.5em 32px;
+    &:not(:last-child) {
+      margin-bottom: 1em;
+    }
+    @include mq() {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  &__label {
+    padding-top: 0.8em;
+    font-weight: 600;
+  }
+  &__privacy {
+    margin-top: 36px;
+    line-height: calc(29.25 / 16);
+    a:not([class]) {
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  &__check {
+    margin-top: 34px;
+    text-align: center;
+  }
+  &__btn {
+    margin-top: 38px;
+  }
+}
+.c-checkbox {
+  display: none;
+  &__label {
+    padding-left: 26px;
+    cursor: pointer;
+    position: relative;
+    &::before, &::after {
+      content: '';
+      width: 16px;
+      aspect-ratio: 1 / 1;
+      border: 1px solid $color-gray;
+      background: $color-white;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    &::before {
+      content: '✓';
+      border: none;
+      background: none;
+      line-height: 1;
+      color: $color-red;
+      opacity: 0;
+      z-index: 2;
+    }
+  }
+  &:checked ~ .c-checkbox__label {
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+// cf7
+.c-form__check {
+  .wpcf7-list-item {
+    input {
+      display: none;
+    }
+    .wpcf7-list-item-label {
+      padding-left: 26px;
+      cursor: pointer;
+      position: relative;
+      &::before, &::after {
+        content: '';
+        width: 16px;
+        aspect-ratio: 1 / 1;
+        border: 1px solid $color-gray;
+        background: $color-white;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        z-index: 1;
+      }
+      &::before {
+        content: '✓';
+        border: none;
+        background: none;
+        line-height: 1;
+        color: $color-red;
+        opacity: 0;
+        z-index: 2;
+      }
+    }
+    input:checked ~ .wpcf7-list-item-label {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+.c-thanks {
+  padding: 64px 0 80px;
+  .c-text {
+    color: #444444;
+  }
+  &__title {
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: calc(43 / 28);
+    text-align: center;
+    @include mq() {
+      font-size: 20px;
+    }
+  }
+  &__btn {
+    margin-top: 77px;
+    .c-btn {
+      width: min(100%, 285px);
+    }
+  }
+}

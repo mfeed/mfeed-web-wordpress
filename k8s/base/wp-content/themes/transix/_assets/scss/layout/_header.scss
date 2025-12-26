@@ -1,0 +1,234 @@
+@use "../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _header.scss
+  Summary:   ヘッダー用ファイル
+  Author:    coder-ao
+================================*/
+
+/*-------------------
+	header
+-------------------*/
+.l-header {
+  display: grid;
+  grid-template-columns: 258px 1fr;
+  gap: 3px;
+  // width: max(1240px, calc(100% - calc(#{$marginSP-LR} * 2)));
+  width: calc(100% - calc(#{$marginSP-LR} * 2));
+  // height: $gnav_height;
+  position: fixed;
+  top: 0;
+  left: $marginSP-LR;
+  z-index: 1000;
+  // .pageCode-top & {
+  //   position: fixed;
+  // }
+  &--form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+  }
+  @include mq('xl') {
+    grid-template-columns: min(calc(160 / 990 * 100vw), 160px) 1fr;
+    height: auto;
+  }
+  @include mq() {
+    grid-template-columns: 110px 1fr;
+    width: calc(100% - calc(#{$marginSP-LR} * 2));
+    height: $gnav_heightSP;
+    left: $marginSP-LR;
+    transform: none;
+  }
+  &__left {
+    height: 100%;
+  }
+  &__logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(to bottom, #ffffff 0%,#ffffff 50%,#e5e3e3 100%);
+    box-shadow: 0 0 20px rgba(#000, 0.1);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 2;
+    text-align: center;
+    & > img {
+      width: min(calc(160 / 258 * 100%), 160px);
+      margin: 0 auto;
+    }
+    &:visited {
+      color: $color-black;
+    }
+    @include mq('xl') {
+      & > img {
+        width: calc(113 / 160 * 100%);
+      }
+      & > p {
+        display: none;
+      }
+    }
+    @include mq() {
+      width: 100%;
+      padding: 0 4px;
+      gap: 4px;
+      & > img {
+        width: 160px;
+      }
+    }
+  }
+  &__right {
+    width: 100%;
+    height: 100%;
+    padding: 7px 21px;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(to bottom, #BA2A26 0%, #9B0805 100%);
+    box-shadow: 0 0 20px rgba(#000, 0.1);
+    color: $color-white;
+    // overflow: hidden;
+    @include mq('xl') {
+      padding: min(calc(7 / 990 * 100vw), 7px) min(calc(21 / 990 * 100vw), 21px);
+    }
+    @include mq() {
+      padding-right: $drawer-btn-size;
+    }
+  }
+  &__head {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: min(1vw, 11px);
+    .c-accordion {
+      width: min(100%, 160px);
+      &__btn {
+        display: none;
+      }
+      &__target {
+        width: auto;
+        height: auto;
+        opacity: 1;
+        pointer-events: initial;
+      }
+    }
+    .c-searchBox {
+      width: min(100%, 160px);
+      height: 32px;
+    }
+    .c-ipType {
+      flex: 0 0 auto;
+      margin-left: 9px;
+    }
+    @include mq('xl') {
+      .c-searchBox {
+        width: min(calc(160 / 990 * 100vw), 160px);
+      }
+      .c-ipType {
+        margin-left: 0;
+      }
+    }
+    @include mq() {
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
+      .c-accordion {
+        width: min(100%, 160px);
+        height: 44px;
+        &__btn {
+          display: block;
+          margin-left: auto;
+          border: none;
+          background: none;
+          @include transition((opacity));
+          &.is-open {
+            opacity: 0;
+            pointer-events: none;
+          }
+        }
+        &__target {
+          width: min(100%, 160px);
+          height: 32px;
+          opacity: 0;
+          pointer-events: none;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          @include transition((opacity, transform));
+          transform: scale(0, 1) translateY(-50%);
+          &.is-open {
+            width: min(100%, 160px);
+            opacity: 1;
+            pointer-events: initial;
+            transform: scale(1, 1) translateY(-50%);
+          }
+        }
+      }
+      .c-searchBox {
+        width: 100%;
+      }
+      .c-faqChose,
+      .c-ipType {
+        display: none;
+      }
+    }
+  }
+  &__nav {
+    margin-top: 22px;
+    @include mq('xl') {
+      margin-top: min(calc(12 / 990 * 100vw), 12px);
+    }
+    @include mq() {
+      display: none;
+    }
+  }
+}
+
+.c-faqChose {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 3px;
+  border: 1px solid $color-white;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: calc(22 / 14);
+  @include mq('xl') {
+    font-size: min(calc(13 / 990 * 100vw), 14px);
+  }
+  @include mq() {
+    flex-direction: column;
+    width: 100%;
+    padding: 1em 8px;
+    font-size: 14px;
+  }
+  &__label {
+    padding-right: 2px;
+  }
+  &__item {
+    & > a:not([class]) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: fit-content;
+      padding: 0px 8px;
+      border-radius: 3px;
+      border: 1px solid $color-white;
+      background: $color-white;
+      font-weight: 600;
+      line-height: calc(22 / 14);
+      color: $color-primary;
+      @include transition((border, background, color));
+      &:hover {
+        border-color: $color-pink;
+        background: $color-pink;
+        text-decoration: none;
+      }
+    }
+  }
+}
