@@ -1,0 +1,141 @@
+@use '../foundation/settings' as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _drawer.scss
+  Summary:   ドロワーナビ用ファイル
+  Author:    coder-ao
+================================*/
+
+
+/*-------------------
+	drawer
+-------------------*/
+.c-drawerBtn {
+  $block: #{&};
+  display: none;
+	justify-content: center;
+  align-items: center;
+	width: $drawer-btn-size;
+	height: $drawer-btn-size;
+	border: $drawer-btn-border;
+  border-radius: 0 0 10px 10px;
+	background: none;
+  // box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	font-size: 1rem;
+	color: $drawer-btn-iconColor;
+	text-align: center;
+  position: fixed;
+	top: 0;
+	right: $marginSP-LR;
+	z-index: 10005;
+  @include transition((background));
+  &__border {
+    width: 25px;
+    height: 2px;
+    background: #FFF;
+    position: relative;
+    @include transition((background));
+    &::before, &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #FFF;
+      @include transition((margin, transform));
+    }
+    &::before {
+      margin-top: -8px;
+    }
+    &::after {
+      width: 12px;
+      margin-top: 15px;
+    }
+    #{$block}.is-open & {
+      background: transparent;
+      &::before {
+        margin: 0;
+        transform: rotate(-45deg) translate(0px, 0px);
+      }
+      &::after {
+        width: 25px;
+        margin: 0;
+        transform: rotate(45deg) translate(0px, 0px);
+      }
+    }
+  }
+  body.is-loaded & {
+    position: fixed;
+  }
+  @include mq() {
+    display: flex;
+  }
+}
+
+.l-drawer {
+  display: none;
+	width: max(100%, 100vw);
+	height: min(var(--js-viewHeight), 100vh);
+  height: max(100%, 100dvh);
+  background: $color-primary;
+	font-size: inherit;
+  color: $color-white;
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 10001;
+  transform: scaleY(0);
+  transform-origin: top center;
+  @include transition(transform, opacity);
+  &.is-closed {
+    opacity: 0;
+    pointer-events: none;
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+	&.is-open {
+		opacity: 1;
+		pointer-events: inherit;
+    transform: scaleY(1);
+    transform-origin: top center;
+	}
+  @include mq() {
+    display: block;
+  }
+	&__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 100px $marginSP-LR 50px;
+    opacity: 0;
+    @include transition((opacity));
+    transition-delay: .2s;
+    .l-drawer.is-open & {
+      overflow-y: scroll;
+      opacity: 1;
+    }
+	}
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    .c-faqChose {
+      margin-top: 1em;
+    }
+  }
+  &__nav {
+    margin-top: 3em;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: calc(26 / 18);
+  }
+  &__btn {
+    width: min(100%, 340px);
+    margin: 2em auto 0;
+  }
+}
+

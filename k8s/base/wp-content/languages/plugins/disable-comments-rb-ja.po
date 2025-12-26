@@ -1,0 +1,95 @@
+# Translation of Plugins - Disable Comments - Stable (latest release) in Japanese
+# This file is distributed under the same license as the Plugins - Disable Comments - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2022-08-19 09:40:25+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: ja_JP\n"
+"Project-Id-Version: Plugins - Disable Comments - Stable (latest release)\n"
+
+#: information.php:232
+msgid "Install Disable Right Click"
+msgstr "Disable Right Click をインストールする"
+
+#: information.php:216
+msgid "Install Duplicate Post"
+msgstr "Duplicate Post をインストールする"
+
+#: information.php:226
+msgid "Simple plugin that allows you to disable right click option easily"
+msgstr "右クリックを無効化するだけのシンプルなプラグイン"
+
+#: information.php:210
+msgid "Simple plugin that allows you to duplicate post easily"
+msgstr "投稿を複製できるようにするだけのシンプルなプラグイン"
+
+#: information.php:242
+msgid "Create Free Gallery with Premium features with Robo Gallery"
+msgstr "Robo Gallery の特別な機能付きのギャラリーを作成"
+
+#: information.php:258
+msgid "Free website uptime and performance monitoring service for your WordPress"
+msgstr "あなたの WordPress サイトのためのサーバー監視サービス"
+
+#: information.php:248
+msgid "Install Gallery"
+msgstr "Gallery をインストールする"
+
+#: information.php:262
+msgid "Register Free Account"
+msgstr "無料アカウントを作成"
+
+#: options.php:55
+msgid "Enable all Comments (comments on entire site will be turned on)"
+msgstr "すべてのコメントを有効にする（サイト全体で有効になります）"
+
+#: options.php:39
+msgid "Here you can configure your disabled comments tools. Section with all configuration settings of this tool."
+msgstr "ここでは、コメント無効化プラグインの設定ができます。このツールのすべての設定ができるセクションです。"
+
+#. Author of the plugin
+#: disable-comments-rb.php
+msgid "rbPlugins"
+msgstr "rbPlugins"
+
+#: classDisableComments.php:129 classDisableComments.php:164
+msgid "Comments are closed."
+msgstr "コメントは受け付けていません。"
+
+#. Plugin Name of the plugin
+#: disable-comments-rb.php classDisableComments.php:239 options.php:37
+msgid "Disable Comments RB"
+msgstr "RB コメント無効化"
+
+#: options.php:47
+msgid "Disable all comments"
+msgstr "すべてのコメントを無効にする"
+
+#. Description of the plugin
+#: disable-comments-rb.php
+msgid "Easy tool to disable comments for your blog posts, pages. Admin can disable comments in just few clicks. Delete comments from blog post."
+msgstr "あなたの投稿・固定ページのコメントを簡単に無効にするツール。コメントを数クリックで無効化できます。コメントを投稿から消してしまいましょう。"
+
+#: options.php:62
+msgid "Save Changes"
+msgstr "変更を保存"
+
+#: classDisableComments.php:216
+msgid "Settings"
+msgstr "設定"
+
+#: classDisableComments.php:155
+msgid "The <em>Disable Comments</em> plugin is active, but isn't configured to do anything yet. Visit the <a href=\"%s\">configuration page</a> to choose which post types to disable comments on."
+msgstr ""
+"<em>コメント無効化</em>プラグインは有効化されていますが、設定が済んでいません。\n"
+"<a href=\"%s\">設定ページ</a>にアクセスして、どの投稿タイプでコメントを無効化するかを設定してください。"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: disable-comments-rb.php
+msgid "https://robosoft.co/wordpress-plugins/disable-comments"
+msgstr "https://robosoft.co/wordpress-plugins/disable-comments"

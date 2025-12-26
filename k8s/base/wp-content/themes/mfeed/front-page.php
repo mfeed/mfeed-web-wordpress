@@ -1,8 +1,5 @@
 <?php get_header(); ?>
 <?php
-// ===============================
-// JPNAP REST API から最新 Press を1件取得（シンプル版）
-// ===============================
 
 $jpnap_press = [
   'date'  => '',
@@ -10,7 +7,6 @@ $jpnap_press = [
   'url'   => '',
 ];
 
-// シンプルなログ関数（wp-content/jpnap-api-debug.log に書き出す）
 if ( ! function_exists( 'jpnap_log' ) ) {
   function jpnap_log( $msg ) {
     $file = WP_CONTENT_DIR . '/jpnap-api-debug.log';
@@ -19,7 +15,7 @@ if ( ! function_exists( 'jpnap_log' ) ) {
   }
 }
 
-// 日付フォーマット（既存のまま）
+// 日付フォーマット
 if ( ! function_exists( 'mfeed_format_ja_date' ) ) {
   function mfeed_format_ja_date( $iso ) {
     $t = strtotime( $iso );
@@ -30,7 +26,6 @@ if ( ! function_exists( 'mfeed_format_ja_date' ) ) {
   }
 }
 
-// curl で確認した URL と同じ
 $endpoint = 'http://www-jpnap-net-wordpress-svc/home/api/wp/v2/notice_ja/';
 
 $response = wp_remote_get(
@@ -54,14 +49,12 @@ if ( is_wp_error( $response ) ) {
   jpnap_log( 'jpnap api body len: ' . strlen( $body ) );
   jpnap_log( 'jpnap api body head: ' . substr( $body, 0, 200 ) );
 
-  // 生のレスポンスを保存（デバッグ用・不要ならコメントアウト可）
   file_put_contents( WP_CONTENT_DIR . '/jpnap-api-raw.json', $body );
 
   if ( $body === '' ) {
     jpnap_log( 'jpnap api body is empty, skip json_decode' );
     $data = [];
   } else {
-    // ★ 普通の json_decode だけに戻す
     $data = json_decode( $body, true );
     $err  = json_last_error();
     jpnap_log( 'jpnap api json decode error: ' . json_last_error_msg() );
@@ -73,17 +66,16 @@ if ( is_wp_error( $response ) ) {
 
 if ( is_array( $data ) && ! empty( $data ) ) {
 
-  // 単体オブジェクトで返ってきた場合にも対応
   if ( isset( $data['id'] ) ) {
     $data = [ $data ];
   }
 
-  $press_cat_id  = 3;  // Press
-  $topics_cat_id = 6;  // Topics
-  $max_press     = 6;  // Press を出す件数（最大6件）
+  $press_cat_id  = 3; 
+  $topics_cat_id = 6; 
+  $max_press     = 6; 
 
   // ==========================
-  // ☆ Press（カテゴリID=3）を最大6件取得
+  // ☆ Press（カテゴリID=3）
   // ==========================
   $press_items = [];
 
@@ -101,10 +93,15 @@ if ( is_array( $data ) && ! empty( $data ) ) {
       continue;
     }
 
+    $url = '';
+    if ( ! empty( $post['id'] ) ) {
+      $url = 'https://www.jpnap.net/news_detail.php?id=' . (int) $post['id'];
+    }
+
     $press_items[] = [
       'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
       'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
-      'url'   => ! empty( $post['link'] ) ? $post['link'] : '',
+      'url'   => $url,
     ];
 
     if ( count( $press_items ) >= $max_press ) {
@@ -112,7 +109,6 @@ if ( is_array( $data ) && ! empty( $data ) ) {
     }
   }
 
-  // Press が0件なら、先頭部分を救済（念のため）
   if ( empty( $press_items ) ) {
     $cnt = 0;
     foreach ( $data as $post ) {
@@ -126,11 +122,10 @@ if ( is_array( $data ) && ! empty( $data ) ) {
     }
   }
 
-  // ★ 一番上の Press 表示用に "最初の1件" をセット
   $jpnap_press = $press_items[0];
 
   // ==========================
-  // ☆ Topics（カテゴリID=6）を全件取得
+  // ☆ Topics（カテゴリID=6）
   // ==========================
   $jpnap_topics_items = [];
 
@@ -149,14 +144,18 @@ if ( is_array( $data ) && ! empty( $data ) ) {
       continue;
     }
 
+    $url = '';
+    if ( ! empty( $post['id'] ) ) {
+      $url = 'https://www.jpnap.net/news_detail.php?id=' . (int) $post['id'];
+    }
+
     $jpnap_topics_items[] = [
       'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
       'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
-      'url'   => ! empty( $post['link'] ) ? $post['link'] : '',
+      'url'   => $url,
     ];
   }
 
-  // Topics が0件のときの保険（任意）
   if ( empty( $jpnap_topics_items ) ) {
     foreach ( $data as $post ) {
       $jpnap_topics_items[] = [
@@ -354,7 +353,7 @@ if ( is_array( $data ) && ! empty( $data ) ) {
           </div>
 
           <h2 itemprop="name">
-            <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $post['url'] ); ?>">
+            <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $post['url'] ); ?>" target="_blank" rel="noopener noreferrer">
               <?php echo esc_html( $post['title'] ); ?>
             </a>
           </h2>
@@ -411,7 +410,7 @@ if ( is_array( $data ) && ! empty( $data ) ) {
               </div>
             </div>
             <h2 itemprop="name">
-              <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $item['url'] ); ?>">
+              <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $item['url'] ); ?>" target="_blank" rel="noopener noreferrer">
                 <?php echo esc_html( $item['title'] ); ?>
               </a>
             </h2>

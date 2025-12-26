@@ -1,0 +1,105 @@
+@use "../../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _accordion.scss
+  Summary:   アコーディオン用ファイル
+  Author:    coder-ao
+================================*/
+
+// c-accordion
+.c-accordion {
+  $block: #{&};
+  position: relative;
+  &__btn {
+    cursor: pointer;
+    & > span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      &::after {
+        content: '';
+        display: block;
+        width: 8px;
+        height: 5px;
+        background: $color-white;
+        clip-path: polygon(50% 100%, 0 0, 100% 0);
+        @include transition((background));
+      }
+    }
+    &.is-open {
+      & > span {
+        &::after {
+        }
+      }
+    }
+  }
+  &__target {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    @include transition((opacity, height, padding));
+    &.is-open {
+      width: auto;
+      height: auto;
+      opacity: 1;
+      pointer-events: inherit;
+      z-index: 99;
+      @include transition((opacity, height, padding));
+    }
+    #{$block}.--hover & {
+      overflow: visible;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  }
+}
+
+.c-accordionNav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 309px;
+  padding: 15px;
+  background: $color-white;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  &__item {
+    width: 100%;
+    color: $color-text;
+  }
+  &__link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: $color-text;
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      width: 18px;
+      aspect-ratio: 1 / 1;
+      margin-top: 4px;
+      border-radius: 6px;
+      background: $color-black url(../img/common/arrow_more-wh.svg) center no-repeat;
+      background-size: 9px 8px;
+      @include transition((background));
+    }
+    &:visited {
+      color: $color-text;
+    }
+    &:hover, &.is-current {
+      color: $color-primary;
+      &::before {
+        background-color: $color-primary;
+      }
+      &:visited {
+        color: $color-primary;
+      }
+    }
+  }
+}

@@ -1,0 +1,203 @@
+@use 'variables' as *;
+@use 'functions' as fun;
+@use 'mixin' as mix;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _animations.scss
+  Summary:   アニメーション用ファイル
+  Author:    coder-ao
+================================*/
+
+// フェードイン
+@keyframes fadeInAnime {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@mixin fadeIn($delay: $animation-delay*8) {
+  opacity: 0;
+  &.is-animated  {
+    animation-name: fadeInAnime;
+    animation-fill-mode: forwards;
+    animation-duration: $animation-time;
+    animation-iteration-count: 1;
+    animation-timing-function: $animation-function;
+    animation-delay: $delay;
+    animation-direction: normal;
+  }
+}
+.js-scrollAnime-fadeIn {
+  @include fadeIn(0);
+}
+
+// フェードインアップ（下から上）
+@keyframes fadeInUpAnime {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@mixin fadeInUp($delay: $animation-delay*8) {
+  opacity: 0;
+  &.is-animated  {
+    animation-name: fadeInUpAnime;
+    animation-fill-mode: forwards;
+    animation-duration: $animation-time;
+    animation-iteration-count: 1;
+    animation-timing-function: $animation-function;
+    animation-delay: $delay;
+    animation-direction: normal;
+  }
+}
+.js-scrollAnime-fadeInUp {
+  @include fadeInUp(0);
+}
+
+// フェードイン（左から右へ）
+@keyframes fadeInLeftRightAnime {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@mixin fadeInLeftRight($delay: $animation-delay*8) {
+  opacity: 0;
+  &.is-animated  {
+    animation-name: fadeInLeftRightAnime;
+    animation-fill-mode: forwards;
+    animation-duration: $animation-time;
+    animation-iteration-count: 1;
+    animation-timing-function: $animation-function;
+    animation-delay: $delay;
+    animation-direction: normal;
+  }
+}
+.js-scrollAnime-fadeInLeftRight {
+  @include fadeInLeftRight(0);
+}
+
+// フェードイン（右から左へ）
+@keyframes fadeInRightLeftAnime {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@mixin fadeInRightLeft($delay: $animation-delay*8) {
+  opacity: 0;
+  &.is-animated  {
+    animation-name: fadeInRightLeftAnime;
+    animation-fill-mode: forwards;
+    animation-duration: $animation-time;
+    animation-iteration-count: 1;
+    animation-timing-function: $animation-function;
+    animation-delay: $delay;
+    animation-direction: normal;
+  }
+}
+.js-scrollAnime-fadeInRightLeft {
+  @include fadeInRightLeft(0);
+}
+
+
+// 帯状の見出し
+@keyframes headingBand {
+	0%{
+		transform: scale(0, 1);
+    transform-origin: center left;
+	}
+  30% {
+		transform: scale(1, 1);
+    transform-origin: center left;
+  }
+  70% {
+		transform: scale(1, 1);
+    transform-origin: center right;
+  }
+	100%{
+		transform: scale(0, 1);
+    transform-origin: center right;
+	}
+}
+
+// スクロールバー
+@keyframes scrollDown {
+	0%{
+		top: 0;
+    opacity: 1;
+	}
+  80% {
+    top: 80%;
+    opacity: 1;
+  }
+	100%{
+		top: 100%;
+    opacity: 0;
+	}
+}
+
+// 手順
+@keyframes procedureLine {
+  0% {
+    transform: scale(0, 1);
+    transform-origin: left center;
+  }
+  100% {
+    transform: scale(1, 1);
+    transform-origin: left center;
+  }
+}
+
+// 矢印
+@keyframes arrowGrow01 {
+  0% {
+    width: 100%;
+  }
+  20% {
+    width: 100%;
+  }
+  80% {
+    width: 120%;
+  }
+  100% {
+    width: 120%;
+  }
+}
+
+//テキストを左から右に流れるように
+@keyframes txtLeftRightWrap {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes txtLeftRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,26 @@
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _functions.scss
+  Summary:   自作関数定義用ファイル
+  Author:    coder-ao
+================================*/
+
+// em
+@function em($font-size, $base-size) {
+	@return calc(#{$font-size} / #{$base-size} * 1em);
+}
+
+// line-height
+@function lh($height, $font-size) {
+	@return calc(#{$height} / #{$font-size});
+}
+
+// ratio
+// 幅に対してのアイテムの比率計算用
+@function ratio($width-size, $con-width) {
+	@return calc($width-size / $con-width * 100%);
+}
+@function ratioVW($width-size, $con-width) {
+	@return calc($width-size / $con-width * 100vw);
+}

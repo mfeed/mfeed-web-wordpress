@@ -1,0 +1,161 @@
+@use "../../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _kv.scss
+  Summary:   KV用ファイル
+  Author:    coder-ao
+================================*/
+
+.p-kvWrap {
+  background: $color-lightgray;
+}
+.p-kv {
+  display: flex;
+  align-items: center;
+  width: min(100%, 1980px);
+  height: clamp(660px, calc(830 / 1280 * 100vw), 830px);
+  padding: $gnav_height $marginSP-LR 37px;
+  margin: 0 auto;
+  color: $color-white;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  @include mq('xl') {
+    height: auto;
+    padding: 0;
+  }
+  &__inner {
+    width: 100%;
+  }
+}
+.c-kv {
+  width: clamp(1012px, 100%, calc(1012 / 1280 * 100vw));
+  // padding: clamp(58px, calc(58 / 1280 * 100vw), 58px) 0 0;
+  padding: 0 0 clamp(58px, calc(58 / 1280 * 100vw), 58px);
+  margin: 0 auto;
+  @include mq('xl') {
+    width: 100%;
+    padding: min(calc(var(--js-headerHeight) + 3vw), calc(var(--js-headerHeight) + 31px)) min(11.5vw, 115px) min(calc(93 / 990 * 100vw), 90px);
+    position: relative;
+    z-index: 1;
+  }
+  @include mq() {
+    padding: calc(var(--js-headerHeight) + min(calc(28 / 390 * 100vw), 28px)) $marginSP-LR min(calc(93 / 990 * 100vw), 90px);
+  }
+  &__bg {
+    width: 100%;
+    height: 100%;
+    background-image:
+      url("../img/top/anim.gif"),
+      url("../img/top/bg.webp");
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, cover;
+    background-position: 50% 50%, 50% 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    @include mq('xl') {
+      background-position: 83% 0, 83% 0;
+    }
+  }
+  &__sub {
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+    @include mq() {
+      font-size: 1em;
+    }
+  }
+  &__catch {
+    font-size: clamp(41px, calc(41 / 1280 * 100vw), 41px);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    line-height: calc(64 / 41);
+    @include mq() {
+      font-size: min(calc(27 / 375 * 100vw), 40px);
+      font-weight: 700;
+      font-feature-settings: 'palt';
+      line-height: calc(42 / 27);
+    }
+  }
+  &__btn {
+    display: flex;
+    gap: 20px;
+    margin-top: 58px;
+    .c-btnEnJa {
+      filter: drop-shadow(0px 0px 10px transparent);
+      &:hover {
+        filter: drop-shadow(0px 0px 10px #FFF);
+      }
+    }
+    @include mq('xl') {
+      margin-top: min(3vw, 26px);
+    }
+    @include mq() {
+      margin-top: min(calc(193 / 375 * 100vw), 193px);
+      .c-btnEnJa {
+        gap: 5px;
+        padding: 12px 8px 10px 11px;
+        font-size: 14px;
+        &::before, &::after {
+          right: 8px;
+        }
+      }
+    }
+  }
+}
+.c-information {
+  width: 100%;
+  padding: 30px $marginSP-LR 32px;
+  background: rgba($color-black, 0.8);
+  line-height: calc(28 / 16);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  @include mq('xl') {
+    width: 100%;
+    margin: 0 auto;
+    background: $color-black;
+    position: relative;
+    bottom: auto;
+    left: auto;
+  }
+  &__contents {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+    width: min(100%, 992px);
+    margin: 0 auto;
+    @include mq() {
+      flex-direction: column;
+    }
+  }
+  &__label {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 9px 24px 11px;
+    border: 1px solid $color-white;
+    border-radius: 3em;
+    @include mq() {
+      width: 100%;
+      padding: 9px $marginSP-LR 10px;
+    }
+  }
+  &__body {
+    width: 100%;
+    font-size: 14px;
+    line-height: 2;
+    a:not([class]) {
+      display: inline-block;
+      color: $color-primary;
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

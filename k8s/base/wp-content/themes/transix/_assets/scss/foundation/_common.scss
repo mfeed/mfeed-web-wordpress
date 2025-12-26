@@ -1,0 +1,153 @@
+@use "settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _common.scss
+  Summary:   全ページ共通定義用ファイル
+  Author:    coder-ao
+================================*/
+
+:root {
+  --leading-trim: calc((1em - 1lh) / 2);
+}
+* {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+html {
+  @include mq() {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+body {
+  // overflow: hidden;
+  min-width: 375px;
+  // height: min(100vh, var(--js-viewHeight));
+  // height: clamp(100dvh, var(--js-viewHeight), 100vh);
+  background: $color-white;
+  font-family: $font;
+  font-size: clamp(16px, calc(16 / 1280 * 100vw), #{$font-size}px);
+  font-weight: #{$font-weight};
+  line-height: calc(#{$font-lineHeight} / #{$font-size});
+  letter-spacing: calc(#{$font-letterSpacing} * 0.001em);
+  color: $color-text;
+  @include transition((opacity));
+  z-index: 1;
+}
+input,
+textarea {
+  font-family: inherit;
+}
+figure {
+  body & {
+    margin: 0;
+  }
+}
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  image-rendering: crisp-edges;
+}
+a {
+  cursor: pointer;
+  text-decoration: none;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  @include opacityBtn((opacity, color));
+  &:not([class]) {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &:visited {
+    color: $color-visited-bright;
+    &.is-darkMode {
+      color: $color-visited-dark;
+    }
+  }
+}
+img,
+a,
+button,
+select {
+  @include transition;
+}
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  height: 52px;
+  padding: 16px 16px 12px;
+  border: none;
+  border-radius: 5px;
+  background: $color-white;
+  font-family: inherit;
+  line-height: 1.5;
+  &::placeholder {
+    color: $color-black;
+  }
+  @include mq() {
+    font-size: inherit;
+  }
+}
+select {
+  cursor: pointer;
+  &:focus {
+    color: inherit;
+  }
+}
+textarea {
+  width: 100%;
+  height: 181px;
+  padding: 16px 16px 12px;
+  resize: vertical;
+}
+mark {
+  display: inline;
+  background: #faee00;
+  color: $color-text;
+}
+strong {
+  font-weight: 600;
+}
+ul {
+  list-style-type: none;
+}
+sub, sup {
+  font-size: 10px;
+}
+time {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgba($color-black, 0.5);
+}
+pre {
+  white-space: pre-wrap;
+  font-family: "Consolas", "ＭＳ ゴシック", "Osaka", sans-serif;
+  font-weight: 400;
+  code {
+    font-family: inherit;
+    font-weight: inherit;
+  }
+}
+::selection {
+  background: $color-primary;
+  color: $color-white;
+}

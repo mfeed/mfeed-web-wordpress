@@ -1,0 +1,63 @@
+@use 'variables' as *;
+@use 'functions' as fun;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _mixin.scss
+  Summary:   汎用定義ファイル
+  Author:    coder-ao
+================================*/
+
+
+// transition
+@mixin transition($property: $transition-property, $function: $transition-function, $time: $transition-time) {
+  transition: $function $time;
+  transition-property: $property;
+}
+
+// opacity / @include opacityBtn(0.7);
+@mixin opacityBtn($opacity: $hoverOpacity) {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    opacity: $opacity;
+  }
+}
+
+// clear fix
+@mixin clearFix {
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+    @include mq() {
+      display: none;
+    }
+  }
+}
+
+// object-fit
+@mixin ofi {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// hoverScale
+@mixin hoverScale {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  object-fit: cover;
+  @include transition(transform);
+}
+@mixin hoverScale--hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}

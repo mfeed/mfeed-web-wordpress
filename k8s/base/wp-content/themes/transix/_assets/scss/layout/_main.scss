@@ -1,0 +1,79 @@
+@use "../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _main.scss
+  Summary:   メイン用ファイル
+  Author:    coder-ao
+================================*/
+
+/*-------------------
+	main
+-------------------*/
+.l-main {
+  // display: none;
+  max-width: 100%;
+  min-height: var(--js-viewHeight);
+  position: relative;
+  z-index: 1;
+  // &.is-loaded {
+  //   display: block;
+  // }
+  &__section {
+    scroll-margin-top: calc(var(--js-headerHeight) + 0em);
+    &:not(:last-child):not(:has(+ [class*="cta"])) {
+      padding-bottom: $marginPC;
+    }
+    &:not(:last-child):has(.c-pickUp) {
+      padding-bottom: 46px;
+    }
+    &.--lightgray {
+      padding: $marginPC 0;
+      background: $color-lightgray;
+      &.--column {
+        padding-top: 0;
+      }
+      &:has(.c-helpful) {
+        padding: $marginPC*0.5 0;
+      }
+      &:not(:last-child):not(:has(+ [class*="cta"])) {
+        margin-bottom: $marginPC;
+      }
+    }
+    &.--gray {
+      padding: $marginPC 0;
+      background: $color-gray_135deg;
+      color: $color-white;
+      .c-headingLine {
+        color: inherit;
+      }
+      &:has(.p-keyword) {
+        padding: 46px 0;
+      }
+      &:not(:last-child):not(:has(+ [class*="cta"])) {
+        margin-bottom: $marginPC;
+      }
+    }
+    @include mq() {
+      &:not(:last-child):not(:has(+ [class*="cta"])) {
+        padding-bottom: $marginSP;
+      }
+      &.--lightgray {
+        padding: $marginSP 0;
+        &:has(.c-helpful) {
+          padding: $marginSP*0.5 0;
+        }
+        &:not(:last-child):not(:has(+ [class*="cta"])) {
+          margin-bottom: $marginSP;
+        }
+      }
+      &.--gray {
+        padding: $marginSP 0;
+        &:not(:last-child):not(:has(+ [class*="cta"])) {
+          margin-bottom: $marginSP;
+        }
+      }
+    }
+  }
+}
+

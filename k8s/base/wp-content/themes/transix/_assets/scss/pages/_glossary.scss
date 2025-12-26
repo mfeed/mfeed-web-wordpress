@@ -1,0 +1,32 @@
+@use "../foundation/settings" as *;
+/*================================
+  SCSS Information
+----------------------------------
+  File name: _glossary.scss
+  Summary:   glossaryページ用ファイル
+  Author:    coder-ao
+================================*/
+
+.p-glossary {
+  .c-tableScroll {
+    overflow: hidden;
+    & > table {
+      width: fit-content;
+      tr {
+        td {
+          &:first-child {
+            min-width: 14em;
+          }
+        }
+      }
+    }
+  }
+  @include mq() {
+    .c-tableScroll {
+      overflow-x: scroll;
+      & > table {
+        width: 740px;
+      }
+    }
+  }
+}
