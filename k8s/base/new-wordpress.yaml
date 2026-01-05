@@ -1,10 +1,10 @@
 # ------------------------------------------------------------
 # GKE + Cloud SQL + GCLB(HTTP) で WordPress(マルチサイト) を公開する最小構成
-# 方針2: ネットワーク基底を /（管理画面を /wp-admin に統一）
+# ネットワーク基底を /（管理画面を /wp-admin に統一）
 #
-# 追加（A方式・Git変更を都度反映）:
-# - Docker image 内の /seed/wp-content を PVC(/var/www/html/wp-content)へ同期する initContainer を追加
-# - 同期の基準は env: WP_CONTENT_SEED_VERSION（workflowで GITHUB_SHA を注入）
+# 固定タグ + seedバージョンで同期制御:
+# - Docker image 内の /seed/wp-content を PVC(/var/www/html/wp-content)へ同期する initContainer
+# - 同期の基準は env: WP_CONTENT_SEED_VERSION（workflowで値を変える）
 # - uploads/ は保持（削除・上書きしない）
 # ------------------------------------------------------------
 
@@ -35,6 +35,7 @@ stringData:
   WORDPRESS_DB_NAME: wordpress
   WORDPRESS_DB_USER: wordpress
   WORDPRESS_DB_PASSWORD: 'MY]H"y4}>7xhV^R6'
+  # Cloud SQL Proxy サイドカーが 127.0.0.1:3306 で listen する前提
   WORDPRESS_DB_HOST: "127.0.0.1:3306"
 ---
 apiVersion: v1
@@ -44,6 +45,98 @@ metadata:
   namespace: mfeed
   annotations:
     iam.gke.io/gcp-service-account: cloudsql-proxy@mfeed-web-staging.iam.gserviceaccount.com
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wordpress-config
+  namespace: mfeed
+data:
+  wp-config.php: |
+    <?php
+    /**
+     * The base configuration for WordPress
+     *
+     * This has been slightly modified (to read environment variables) for use in Docker.
+     *
+     * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/
+     * @package WordPress
+     */
+
+    // a helper function to lookup "env_FILE", "env", then fallback
+    if (!function_exists('getenv_docker')) {
+      function getenv_docker($env, $default) {
+        if ($fileEnv = getenv($env . '_FILE')) {
+          return rtrim(file_get_contents($fileEnv), "\r\n");
+        } else if (($val = getenv($env)) !== false) {
+          return $val;
+        } else {
+          return $default;
+        }
+      }
+    }
+
+    // ** Database settings ** //
+    // ★ Secret/Env から読む（Cloud SQL Proxy / k8s で矛盾しない）
+    define( 'DB_NAME',     getenv_docker('WORDPRESS_DB_NAME', 'wordpress') );
+    define( 'DB_USER',     getenv_docker('WORDPRESS_DB_USER', 'wordpress') );
+    define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'wordpress') );
+    define( 'DB_HOST',     getenv_docker('WORDPRESS_DB_HOST', '127.0.0.1:3306') );
+
+    define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
+    define( 'DB_COLLATE', getenv_docker('WORDPRESS_DB_COLLATE', '') );
+
+    // keys/salts (dev用途の例)
+    define( 'AUTH_KEY',         getenv_docker('WORDPRESS_AUTH_KEY',         'b7af66c8ca3f50163c863e95e12ff9bf4441ce34') );
+    define( 'SECURE_AUTH_KEY',  getenv_docker('WORDPRESS_SECURE_AUTH_KEY',  '019a92c13e5fc52ff2912f34a7f9f1b54746cc02') );
+    define( 'LOGGED_IN_KEY',    getenv_docker('WORDPRESS_LOGGED_IN_KEY',    '1a2bbd22fcd61ef70c2ef1920fb9fe26d7d71afd') );
+    define( 'NONCE_KEY',        getenv_docker('WORDPRESS_NONCE_KEY',        '589fa7de94ac58875dab9c437f783d3a9a5cdc18') );
+    define( 'AUTH_SALT',        getenv_docker('WORDPRESS_AUTH_SALT',        'a0fc5a1991211a8afd2aabf7d1fa63ce0ca4e335') );
+    define( 'SECURE_AUTH_SALT', getenv_docker('WORDPRESS_SECURE_AUTH_SALT', '5ca47f5aa081ca07e31510e8302fe42a93dd2ca8') );
+    define( 'LOGGED_IN_SALT',   getenv_docker('WORDPRESS_LOGGED_IN_SALT',   '1684a267b3b10d55ad1d477f107fff32126820c4') );
+    define( 'NONCE_SALT',       getenv_docker('WORDPRESS_NONCE_SALT',       '23be2672f8721abd41a865979e135ecd5da7a736') );
+
+    $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
+
+    // --- マルチサイト有効化 ---
+    define( 'WP_ALLOW_MULTISITE', true );
+
+    if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
+      $_SERVER['HTTPS'] = 'on';
+    }
+
+    // ★ Deployment の env WORDPRESS_CONFIG_EXTRA を eval する（動的 WP_HOME/WP_SITEURL など）
+    if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
+      eval($configExtra);
+    }
+
+    // ★ multisite 基本
+    define( 'MULTISITE', true );
+    define( 'SUBDOMAIN_INSTALL', false );
+    if ( ! defined( 'DOMAIN_CURRENT_SITE' ) ) {
+      define( 'DOMAIN_CURRENT_SITE', $_SERVER['HTTP_HOST'] );
+    }
+    define( 'PATH_CURRENT_SITE', '/' );
+    define( 'SITE_ID_CURRENT_SITE', 1 );
+    define( 'BLOG_ID_CURRENT_SITE', 1 );
+
+    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_DEBUG_DISPLAY', false );
+
+    define('ALLOW_UNFILTERED_UPLOADS', true);
+    define('FS_METHOD', 'direct');
+
+    if ( ! defined( 'ABSPATH' ) ) {
+      define( 'ABSPATH', __DIR__ . '/' );
+    }
+
+    require_once ABSPATH . 'wp-settings.php';
+
+  uploads.ini: |
+    upload_max_filesize = 128M
+    post_max_size = 128M
+    memory_limit = 256M
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -66,15 +159,16 @@ spec:
       securityContext:
         fsGroup: 33
 
-      # --- initContainer: wp-content を seed から PVC に同期 ---
+      # ★ 固定タグ（例: bookworm） + seedバージョンで同期制御
+      # ※ここを固定タグに合わせて変更
+      # 今回の固定タグはstable
       initContainers:
         - name: seed-wp-content
-          # ★ wordpress コンテナと同じイメージ（/seed/wp-content を含む自前ビルド）を使う前提
-          image: wordpress:6.6-php8.2-apache
+          image: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress:stable
           imagePullPolicy: IfNotPresent
           env:
             - name: WP_CONTENT_SEED_VERSION
-              value: "dev"   # ★workflowで GITHUB_SHA に上書きする
+              value: "dev"   # ★workflowで値を変えて同期トリガーにする
           command: ["sh","-lc"]
           args:
             - |
@@ -106,27 +200,19 @@ spec:
 
               mkdir -p "${TARGET}"
 
-              # 反映対象（Git管理下に置きやすい領域）:
+              # 反映対象:
               # - themes, plugins, mu-plugins, languages
-              # - wp-content 直下のファイル（例: advanced-cache.php 等）
-              #
               # 反映しない（運用データ）:
-              # - uploads, cache, debug.log など
-              #
-              # ※ “削除も含めたミラー” を themes/plugins/mu-plugins/languages に対して行い、
-              #    uploads は保持します。
-
+              # - uploads など
               for d in themes plugins mu-plugins languages; do
                 if [ -d "${SEED_DIR}/${d}" ]; then
                   rm -rf "${TARGET:?}/${d}"
                   mkdir -p "${TARGET}/${d}"
-                  # tar でコピー（cpのメタデータ差で事故りにくい）
                   tar -C "${SEED_DIR}/${d}" -cf - . | tar -C "${TARGET}/${d}" -xpf -
                 fi
               done
 
-              # wp-content 直下の “ファイルだけ” を同期（ディレクトリは上で扱う）
-              # 例: index.php, advanced-cache.php, object-cache.php, .user.ini など
+              # wp-content 直下の “ファイルだけ” を同期
               find "${SEED_DIR}" -maxdepth 1 -type f \
                 ! -name ".seed-version" \
                 ! -name "debug.log" \
@@ -136,20 +222,17 @@ spec:
                     cp -f "$f" "${TARGET}/${base}"
                   done
 
-              # 所有権（WordPress コンテナは www-data）
               chown -R www-data:www-data "${TARGET}" || true
 
-              # バージョン更新
               echo -n "${desired}" > "${VERSION_FILE}"
               echo "seed version updated: ${desired}"
-
           volumeMounts:
             - name: wp-content
               mountPath: /var/www/html/wp-content
 
       containers:
         - name: wordpress
-          image: wordpress:6.6-php8.2-apache
+          image: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress:stable
           ports:
             - containerPort: 80
           env:
@@ -174,27 +257,12 @@ spec:
                   name: mysql-secret
                   key: WORDPRESS_DB_PASSWORD
 
-            # ネットワーク基底は /（/wp-admin と /wp-admin/network が正）
+            # wp-config.php 側で eval する（動的ホスト依存部分だけここに残す）
             - name: WORDPRESS_CONFIG_EXTRA
               value: |
                 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-
                 define('WP_HOME',    'http://' . $host);
                 define('WP_SITEURL', 'http://' . $host);
-
-                define('MULTISITE', true);
-                define('SUBDOMAIN_INSTALL', false);
-                define('DOMAIN_CURRENT_SITE', $host);
-                define('PATH_CURRENT_SITE', '/');
-                define('SITE_ID_CURRENT_SITE', 1);
-                define('BLOG_ID_CURRENT_SITE', 1);
-
-                // 切り分け用：stderrへ（落ち着いたら false に戻す）
-                define('WP_DEBUG', true);
-                define('WP_DEBUG_LOG', false);
-                define('WP_DEBUG_DISPLAY', true);
-                @ini_set('log_errors', '1');
-                @ini_set('error_log', '/dev/stderr');
 
           lifecycle:
             postStart:
@@ -205,11 +273,21 @@ spec:
                   - |
                     set -eu
                     printf "ok\n" > /var/www/html/healthz || true
-                    # .htaccess は上書きしない（WordPress 側に生成させる）
 
           volumeMounts:
             - name: wp-content
               mountPath: /var/www/html/wp-content
+
+            # ★ wp-config.php / php.ini を反映
+            - name: wordpress-config
+              mountPath: /var/www/html/wp-config.php
+              subPath: wp-config.php
+              readOnly: true
+
+            - name: wordpress-config
+              mountPath: /usr/local/etc/php/conf.d/uploads.ini
+              subPath: uploads.ini
+              readOnly: true
 
           readinessProbe:
             httpGet:
@@ -249,6 +327,9 @@ spec:
         - name: wp-content
           persistentVolumeClaim:
             claimName: wp-content-pvc
+        - name: wordpress-config
+          configMap:
+            name: wordpress-config
 ---
 apiVersion: v1
 kind: Service

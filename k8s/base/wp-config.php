@@ -41,13 +41,13 @@ if (!function_exists('getenv_docker')) {
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', getenv_docker('WORDPRESS_DB_NAME', 'wordpress') );
+define( 'DB_NAME', 'wordpress' );
 
 /** Database username */
-define( 'DB_USER', getenv_docker('WORDPRESS_DB_USER', 'example username') );
+define( 'DB_USER', 'wordpress' );
 
 /** Database password */
-define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'example password') );
+define( 'DB_PASSWORD', 'wordpress' );
 
 /**
  * Docker image fallback values above are sourced from the official WordPress installation wizard:
@@ -56,7 +56,8 @@ define( 'DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'example password'
  */
 
 /** Database hostname */
-define( 'DB_HOST', getenv_docker('WORDPRESS_DB_HOST', 'mysql') );
+// define( 'DB_HOST', getenv_docker('WORDPRESS_DB_HOST', 'mysql') );
+define( 'DB_HOST', 'db:3306' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
@@ -113,12 +114,12 @@ $table_prefix = getenv_docker('WORDPRESS_TABLE_PREFIX', 'wp_');
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
+// define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 
 /* Add any custom values between this line and the "stop editing" line. */
 // ローカル用 URL 固定
-define( 'WP_HOME',    'http://localhost:8080' );
-define( 'WP_SITEURL', 'http://localhost:8080' );
+// define( 'WP_HOME',    'http://localhost:8080' );
+// define( 'WP_SITEURL', 'http://localhost:8080' );
 
 // --- マルチサイト有効化 ---
 define( 'WP_ALLOW_MULTISITE', true );
@@ -134,7 +135,9 @@ if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
 }
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', false );
-define( 'DOMAIN_CURRENT_SITE', 'localhost:8080' );
+if ( ! defined( 'DOMAIN_CURRENT_SITE' ) ) {
+    define( 'DOMAIN_CURRENT_SITE', $_SERVER['HTTP_HOST'] );
+}
 define( 'PATH_CURRENT_SITE', '/' );
 define( 'SITE_ID_CURRENT_SITE', 1 );
 define( 'BLOG_ID_CURRENT_SITE', 1 );
@@ -142,6 +145,9 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', true );
 define( 'WP_DEBUG_DISPLAY', false );
+define('ALLOW_UNFILTERED_UPLOADS', true);
+define('FS_METHOD', 'direct');
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
