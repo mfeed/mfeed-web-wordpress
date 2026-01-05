@@ -137,6 +137,31 @@ data:
     upload_max_filesize = 128M
     post_max_size = 128M
     memory_limit = 256M
+
+  .htaccess: |
+    # BEGIN WordPress
+    RewriteEngine On
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    RewriteBase /
+
+    # --- ★重要: /{site}/wp-content や /{site}/wp-includes を /wp-content に寄せる ---
+    # 例: /transix/wp-content/...  -> /wp-content/...
+    RewriteRule ^([_0-9a-zA-Z-]+)/(wp-content|wp-includes)/(.*)$ $2/$3 [L]
+
+    # 通常の静的
+    RewriteRule ^(wp-content|wp-includes)/ - [L]
+
+    RewriteRule ^index\.php$ - [L]
+
+    # （必要なら）ms-files
+    RewriteRule ^([_0-9a-zA-Z-]+/)?files/(.+) wp-includes/ms-files.php?file=$2 [L]
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    RewriteRule . index.php [L]
+    # END WordPress
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -287,6 +312,11 @@ spec:
             - name: wordpress-config
               mountPath: /usr/local/etc/php/conf.d/uploads.ini
               subPath: uploads.ini
+              readOnly: true
+
+            - name: wordpress-config
+              mountPath: /var/www/html/.htaccess
+              subPath: .htaccess
               readOnly: true
 
           readinessProbe:
