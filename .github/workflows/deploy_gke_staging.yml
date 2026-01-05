@@ -59,6 +59,7 @@ jobs:
         run: |
           echo "DST_IMAGE=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/wordpress:${GITHUB_SHA}" >> "$GITHUB_ENV"
           echo "DST_IMAGE_LATEST=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/wordpress:latest" >> "$GITHUB_ENV"
+          echo "DST_IMAGE_STABLE=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/wordpress:stable" >> "$GITHUB_ENV"
 
       - name: Build image (includes wp-content seed)
         run: |
@@ -67,14 +68,16 @@ jobs:
             --build-arg WORDPRESS_TAG="${WORDPRESS_TAG}" \
             -t "$DST_IMAGE" \
             -t "$DST_IMAGE_LATEST" \
+            -t "$DST_IMAGE_STABLE" \
             k8s/base
 
       - name: Push image to GAR
         run: |
           docker push "$DST_IMAGE"
           docker push "$DST_IMAGE_LATEST"
+          docker push "$DST_IMAGE_STABLE"
           docker inspect --format='Pushed: {{index .RepoDigests 0}}' "$DST_IMAGE" || true
-
+          
       - name: Install kustomize
         run: |
           curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.4.3/kustomize_v5.4.3_linux_amd64.tar.gz \
@@ -91,8 +94,8 @@ jobs:
       - name: Update image in kustomization (wordpress + initContainer)
         working-directory: ${{ env.KUSTOMIZE_DIR }}
         run: |
-          # base/overlay 側で image 名が wordpress 前提
-          kustomize edit set image wordpress="$DST_IMAGE"
+          # sha ではなく stable を参照させる
+          kustomize edit set image wordpress="$DST_IMAGE_STABLE"
 
       - name: Deploy to GKE
         run: |
