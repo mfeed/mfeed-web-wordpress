@@ -20,7 +20,8 @@ metadata:
   namespace: mfeed
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  storageClassName: standard-rwx
   resources:
     requests:
       storage: 5Gi
