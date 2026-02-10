@@ -25,7 +25,7 @@ env:
   WORDPRESS_TAG: php8.3-apache
 
   KUSTOMIZE_DIR: k8s/overlays/staging
-  NAMESPACE: mfeed
+  NAMESPACE: web-staging
   DEPLOYMENT_NAME: wordpress
 
   DOCKERFILE_PATH: docker/wordpress/Dockerfile
