@@ -1,9 +1,9 @@
 <section class="l-main__section">
   <div class="c-inner">
-    <h2 class="c-headingUnderline">カテゴリから探す</h2>
+    <h2 class="c-headingUnderline">カテゴリーから探す</h2>
 
     <?php
-    // 親タームを取得（ISP事業者の方 / 個人のお客さま…）
+    // 親タームを取得 (ISP事業者さまの方 / 個人のお客さま…)
     $faq_parents = get_terms([
       'taxonomy'   => 'faq-category', // タクソノミー名
       'hide_empty' => false,
@@ -15,7 +15,7 @@
     if ( ! is_wp_error( $faq_parents ) && ! empty( $faq_parents ) ) :
       foreach ( $faq_parents as $parent ) :
 
-        // 親タームのスラッグ（business / personなど）
+        // 親タームのスラッグ (business / personなど)
         $parent_slug = $parent->slug;
 
         // 親ごとに ul のバリエーションを変えたい場合
@@ -29,7 +29,7 @@
           <dd class="c-pageLinkCat__body">
             <ul class="c-pageLink <?php echo esc_attr( $ul_mod ); ?>">
               <?php
-              // 子ターム（サービス全般 / 手続き …）を取得
+              // 子ターム (サービス全般 / 手続き …) を取得
               $child_terms = get_terms([
                 'taxonomy'   => 'faq-category',
                 'hide_empty' => false,

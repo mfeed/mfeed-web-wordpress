@@ -10,7 +10,7 @@ $terms = get_the_terms( get_the_ID(), 'faq-category' );
 
 if ( $terms && ! is_wp_error( $terms ) ) {
 
-  // 子ターム優先で1つ選ぶ（親・子両方付いているとき用）
+  // 子ターム優先で1つ選ぶ (親・子両方付いているとき用)
   $current_term = null;
   foreach ( $terms as $t ) {
     if ( $t->parent ) {
@@ -22,7 +22,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
     $current_term = reset( $terms ); // なければ先頭
   }
 
-  // トップレベルの親タームを取得（business / individual など）
+  // トップレベルの親タームを取得 (business / person など)
   $top_term = $current_term;
   while ( $top_term->parent ) {
     $top_term = get_term( $top_term->parent, 'faq-category' );
@@ -34,7 +34,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
   // ここから番号ロジック
   $post_id = get_the_ID();
 
-  // 親が business の場合 → 「親カテゴリ番号-当該記事が何番目か」（例：1-09）
+  // 親が business の場合 → 「親カテゴリ番号-当該記事が何番目か」 (例：1-09)
   if ( $top_term && $top_term->slug === 'business' ) {
 
     // business 配下の子カテゴリ一覧を、管理画面の並び順どおりに取得
@@ -59,7 +59,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
       }
     }
 
-    // 当該カテゴリ内での並び順（Intuitive Custom Post Order の順）
+    // 当該カテゴリ内での並び順 (Intuitive Custom Post Order の順)
     $faq_posts = get_posts( [
       'post_type'      => 'faq',
       'posts_per_page' => -1,
@@ -90,11 +90,11 @@ if ( $terms && ! is_wp_error( $terms ) ) {
       $faq_number = sprintf( '%d-%02d', $this_cat_index, $post_index );
     }
 
-  // 親が individual の場合 → 「当該記事が何番目か」だけ（例：09）
-  } elseif ( $top_term && $top_term->slug === 'individual' ) {
+  // 親が person の場合 → 「当該記事が何番目か」だけ (例：09)
+  } elseif ( $top_term && $top_term->slug === 'person' ) {
 
-    // individual 配下のターム（current_term）内での並び順
-    $individual_posts = get_posts( [
+    // person 配下のターム (current_term) 内での並び順
+    $person_posts = get_posts( [
       'post_type'      => 'faq',
       'posts_per_page' => -1,
       'tax_query'      => [
@@ -111,8 +111,8 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 
     $post_index = 0;
 
-    if ( $individual_posts ) {
-      foreach ( $individual_posts as $p ) {
+    if ( $person_posts ) {
+      foreach ( $person_posts as $p ) {
         $post_index++;
         if ( $p->ID === $post_id ) {
           break;
@@ -130,8 +130,8 @@ if ( $terms && ! is_wp_error( $terms ) ) {
   <div class="c-pageTitle">
     <div class="c-pageTitle__inner c-inner">
       <h1 class="c-pageTitle__title">
-        <small>IPoE接続サービス transix（VNE）</small>
-        <strong>よくあるご質問（<?php echo esc_html( $faq_parent_name ); ?>）</strong>
+        <small>IPoE接続サービス transix (VNE) </small>
+        <strong>よくあるご質問 (<?php echo esc_html( $faq_parent_name ); ?>) </strong>
       </h1>
     </div>
   </div>

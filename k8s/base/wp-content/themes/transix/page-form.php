@@ -9,7 +9,7 @@ Template Post Type: page
   <div class="c-pageTitle --small">
     <div class="c-pageTitle__inner c-inner">
       <h1 class="c-pageTitle__title">
-        <small>IPoE接続サービス transix（VNE）</small>
+        <small>IPoE接続サービス transix (VNE) </small>
         <strong>資料ダウンロード</strong>
       </h1>
     </div>

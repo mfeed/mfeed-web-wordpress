@@ -1,4 +1,4 @@
-<div class="c-fixedBanner">
+<div class="c-fixedBanner js-scrollFixed">
   <button class="c-fixedBanner__close" type="button" aria-label="バナーを非表示">
     <img src="<?php echo get_template_directory_uri(); ?>/_assets/img/common/icon_close.svg" alt="閉じる">
   </button>
@@ -15,6 +15,9 @@
     <div class="c-fixedBanner__label">お問い合わせ</div>
   </a>
 </div>
+<a href="#header" class="c-pageTop js-scrollFixed" onclick="scrollToHead()">
+  <svg class="svg-inline--fa fa-angle-up fa-w-10 text-white" aria-hidden="true" data-prefix="fa" data-icon="angle-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path></svg>
+</a>
 <footer class="l-footer">
   <div class="l-footer__main">
     <div class="c-inner">
@@ -23,7 +26,7 @@
           <img src="<?php echo get_template_directory_uri(); ?>/_assets/img/common/logo_wh.svg" alt="transix" width="219" height="47">
         </picture>
         <small>
-          ISP事業者向けインターネット<br class="u-pc">接続 (VNE) サービス
+          ISP事業者さま向けインターネット<br class="u-pc">接続 (VNE) サービス
         </small>
         <div class="l-footer__btn u-pc">
           <a href="<?php echo home_url('downloads'); ?>" target="_blank" class="c-btnEnJa --more --white">

@@ -15,17 +15,27 @@ const mainContents = document.querySelector(".l-main__contents");
 const pageCode = body.className;
 
 // 要素の幅・高さ取得
-const windowWidth = window.innerWidth;
-const scrollbarWidth = window.innerWidth - document.body.clientWidth;
-const viewHeight = window.innerHeight;
-const headerHeight = header.offsetHeight;
-const footerHeight = footer.offsetHeight;
+function setVars() {
+  const windowWidth = window.innerWidth;
+  const scrollbarWidth = window.innerWidth - document.body.clientWidth;
+  const viewHeight = window.innerHeight;
 
-document.documentElement.style.setProperty("--js-scrollbarWidth", `${scrollbarWidth}px`);
-document.documentElement.style.setProperty("--js-viewHeight", `${viewHeight}px`);
-document.documentElement.style.setProperty("--js-headerHeight", `${headerHeight}px`);
-document.documentElement.style.setProperty("--js-footerHeight", `${footerHeight}px`);
-// document.documentElement.style.setProperty('--js-contentsHeight', `${contentsHeight}px`);
+  const header = document.querySelector(".l-header");
+  const footer = document.querySelector("footer");
+
+  const headerHeight = header ? header.offsetHeight : 0;
+  const footerHeight = footer ? footer.offsetHeight : 0;
+
+  document.documentElement.style.setProperty("--js-scrollbarWidth", `${scrollbarWidth}px`);
+  document.documentElement.style.setProperty("--js-viewHeight", `${viewHeight}px`);
+  document.documentElement.style.setProperty("--js-headerHeight", `${headerHeight}px`);
+  document.documentElement.style.setProperty("--js-footerHeight", `${footerHeight}px`);
+}
+
+document.addEventListener("DOMContentLoaded", setVars);
+window.addEventListener("load", setVars);
+window.addEventListener("resize", setVars);
+
 
 window.addEventListener("scroll", function () {
   var scroll = window.scrollY;
@@ -90,22 +100,20 @@ function scrollToHead() {
 }
 
 // アンカーリンククリックでscroll-margin-topが効くように補正スクロール
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    const targetId = this.getAttribute('href');
-    const target = document.querySelector(targetId);
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    const target = document.querySelector(id);
+    if (!target) return;
 
-    if (target) {
-      e.preventDefault();
+    e.preventDefault();
 
-      const headerHeight = header.offsetHeight || 0;
-      const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+    target.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
 
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth',
-      });
-    }
+    history.pushState(null, '', id);
   });
 });
 
@@ -281,17 +289,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 追従バナー
 document.addEventListener('DOMContentLoaded', function () {
-  const banner = document.querySelector('.c-fixedBanner');
-  if (!banner) return;
+  const banners = document.querySelectorAll('.js-scrollFixed');
+  if (!banners.length) return;
 
   const THRESHOLD = 20; // px
 
   function onScroll() {
-    if (window.scrollY >= THRESHOLD) {
-      banner.classList.add('is-fixed');
-    } else {
-      banner.classList.remove('is-fixed');
-    }
+    banners.forEach(banner => {
+      if (window.scrollY >= THRESHOLD) {
+        banner.classList.add('is-fixed');
+      } else {
+        banner.classList.remove('is-fixed');
+      }
+    });
   }
 
   // 初期状態

@@ -194,8 +194,8 @@ function sanitize_custom_html( $input ) {
 // /faq/glossary/ を「faq/glossary 固定ページ」に強制マッピング
 add_action( 'init', function() {
   add_rewrite_rule(
-    '^faq/glossary/?$',             // URLパターン（ドメイン・サイトパスは不要）
-    'index.php?pagename=faq/glossary', // 固定ページのパスを指定（親/子）
+    '^faq/glossary/?$',             // URLパターン (ドメイン・サイトパスは不要)
+    'index.php?pagename=faq/glossary', // 固定ページのパスを指定 (親/子)
     'top'
   );
 });

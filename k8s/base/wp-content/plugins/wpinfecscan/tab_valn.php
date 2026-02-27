@@ -51,7 +51,6 @@
                                 <tr>
                                     <th>'.__('WordPress/Plugin name', "wpinfecscan").'</th>
                                     <th>'.__('CVE3 Score', "wpinfecscan").'</th>
-                                    <th>'.__('CVE2 Score', "wpinfecscan").'</th>
                                     <th>'.__('Add date', "wpinfecscan").'</th>
                                 </tr>
                             </thead>
@@ -61,31 +60,17 @@
                             continue;
                         }
                         $title = '';
-                        $cve2score = '';
                         $cve3score = '';
                         $addate = '';
                         if(isset($items[0])){
                             $title = $items[0];
                         }
                         if($items[1]==='0'){
-                            $cve2score = 'NA';
+                            $cve3score = 'NA';
                         }else{
                             if(isset($items[1])){
                                 if(is_numeric($items[1])){
-                                    $cve2score = intval($items[1])*0.1;
-                                }else{
-                                    $cve2score = 'NA';
-                                }
-                            }else{
-                                $cve2score = 'NA';
-                            }
-                        }
-                        if($items[2]==='0'){
-                            $cve3score = 'NA';
-                        }else{
-                            if(isset($items[2])){
-                                if(is_numeric($items[2])){
-                                    $cve3score = intval($items[2])*0.1;
+                                    $cve3score = intval($items[1])*0.1;
                                 }else{
                                     $cve3score = 'NA';
                                 }
@@ -93,6 +78,12 @@
                                 $cve3score = 'NA';
                             }
                         }
+						
+						$asper = " / 10";
+						if($cve3score == 'NA'){
+							$asper = "";
+						}
+                       
                         if(isset($items[3])){
                             $addate = $items[3];
                         }
@@ -100,8 +91,7 @@
                         echo "
                             <tr>
                                 <td><b>".$title."</b></td>
-                                <td>".$cve2score."</td>
-                                <td>".$cve3score."</td>
+                                <td>".$cve3score.$asper."</td>
                                 <td>".$addate."</td>
                             </tr>";
                         }

@@ -4,19 +4,19 @@
     <h2 id="isp" class="c-headingUnderline u-anchorLink">よくあるご質問一覧</h2>
 
     <?php
-    // 親カテゴリ：ISP事業者の方（business）
+    // 親カテゴリ：ISP事業者さまの方 (business)
     $parent_business = get_term_by( 'slug', 'business', 'faq-category' );
-    // 親カテゴリ：個人のお客さま（person）
+    // 親カテゴリ：個人のお客さま (person)
     $parent_person = get_term_by( 'slug', 'person', 'faq-category' );
 
     /**
      * ----------------------------
-     * ISP事業者の方（business）
+     * ISP事業者さまの方 (business)
      * ----------------------------
      */
     if ( $parent_business && ! is_wp_error( $parent_business ) ) :
 
-      // business 配下の子カテゴリ（サービス全般 / 手続き / …）
+      // business 配下の子カテゴリ (サービス全般 / 手続き / …)
       $business_children = get_terms( [
         'taxonomy'   => 'faq-category',
         'hide_empty' => false,
@@ -87,12 +87,12 @@
 
     /**
      * ----------------------------
-     * 個人のお客さま（person）
+     * 個人のお客さま (person)
      * ----------------------------
      */
     if ( $parent_person && ! is_wp_error( $parent_person ) ) :
 
-      // person 配下の子カテゴリ（※1つでも複数でもOK）
+      // person 配下の子カテゴリ (※1つでも複数でもOK)
       $person_children = get_terms( [
         'taxonomy'   => 'faq-category',
         'hide_empty' => false,
@@ -105,7 +105,7 @@
 
         foreach ( $person_children as $child_term ) :
 
-          // 見出し h3（id を「小カテゴリーのスラッグ」にする）
+          // 見出し h3 (id を「小カテゴリーのスラッグ」にする)
           ?>
           <h3 id="<?php echo esc_attr( $child_term->slug ); ?>" class="c-headingLine u-anchorLink">
             <?php echo esc_html( $child_term->name ); ?>

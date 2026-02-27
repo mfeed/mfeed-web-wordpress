@@ -89,17 +89,17 @@
       background-size: 9px 8px;
       @include transition((background));
     }
-    &:visited {
-      color: $color-text;
-    }
+    // &:visited {
+    //   color: $color-text;
+    // }
     &:hover, &.is-current {
       color: $color-primary;
       &::before {
         background-color: $color-primary;
       }
-      &:visited {
-        color: $color-primary;
-      }
+      // &:visited {
+      //   color: $color-primary;
+      // }
     }
   }
 }

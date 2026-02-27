@@ -762,13 +762,13 @@
       z-index: -1;
       @include transition((opacity));
     }
-    &:visited {
-      color: $color-white;
-    }
+    // &:visited {
+    //   color: $color-white;
+    // }
     &:hover {
-      &:visited {
-        color: $color-white;
-      }
+      // &:visited {
+      //   color: $color-white;
+      // }
       &::before {
         opacity: 1;
       }

@@ -1403,3 +1403,168 @@ msgstr "Automatisches Blockieren von Cookie-basierten Hacks (kostenpflichtig)"
 
 msgid "Are you sure you want to disable the plugin? Doing so will reset settings, logs, and other data."
 msgstr "Sind Sie sicher, dass Sie das Plugin deaktivieren möchten? Dadurch werden Einstellungen, Protokolle und andere Daten zurückgesetzt."
+
+msgid "Content Security Policy"
+msgstr "Content Security Policy"
+
+msgid "CSP (Content Security Policy) is a mechanism that specifies to the browser “which types of sources (such as scripts, images, stylesheets, etc.) are allowed to be loaded and from where,” helping to prevent XSS (Cross-Site Scripting: attacks that execute external scripts on a site), and even if unauthorized code is embedded due to site tampering, it can partially (though not perfectly) prevent users accessing the site from executing such malicious scripts; when enabled, it is recommended to verify the site’s display and behavior."
+msgstr "CSP (Content Security Policy) ist ein Mechanismus, der dem Browser vorgibt, „welche Arten von Ressourcen (z. B. Skripte, Bilder, Stylesheets usw.) von welchen Quellen geladen werden dürfen“. Dadurch hilft er, XSS (Cross-Site Scripting: Angriffe, bei denen externe Skripte auf einer Website ausgeführt werden) zu verhindern. Selbst wenn durch Manipulation der Website unbefugter Code eingebettet wird, kann CSP – wenn auch nicht vollständig – die Ausführung solcher schädlichen Skripte durch Besucher der Website teilweise verhindern. Nach der Aktivierung wird empfohlen, Darstellung und Verhalten der Website zu überprüfen."
+
+msgid "Enable CSP settings"
+msgstr "CSP-Einstellungen aktivieren"
+
+msgid "✓Check the current CSP externally"
+msgstr "※ Aktuelle CSP extern überprüfen"
+
+msgid "Basic rule setting: default-src"
+msgstr "Grundlegende Regel-Einstellung: default-src"
+
+msgid "When default-src is set, it collectively specifies various CSP settings such as script-src below; however, if script-src or other directives are additionally set, they will override default-src, so please be careful."
+msgstr "Wenn default-src gesetzt ist, werden damit mehrere CSP-Einstellungen wie z. B. script-src gemeinsam definiert. Werden jedoch zusätzlich script-src oder andere Direktiven gesetzt, überschreiben diese die Einstellung von default-src. Bitte beachten Sie dies."
+
+msgid "Example: If default-src and script-src are both specified → only the script-src setting is applied to JavaScript."
+msgstr "Beispiel: Wenn default-src und script-src beide definiert sind → gilt für JavaScript nur die Einstellung von script-src."
+
+msgid "Global settings for allowing browser loading"
+msgstr "Globale Einstellungen für vom Browser erlaubte Ladevorgänge"
+
+msgid "Do not set"
+msgstr "Nicht festlegen"
+
+msgid "Allow all"
+msgstr "Alles erlauben"
+
+msgid "Allow only sources on the same domain (Recommended: make this strict and configure allowed domains individually in other items)"
+msgstr "Nur Quellen von der eigenen Domain erlauben (Empfohlen: Diese Einstellung strikt halten und erlaubte Domains in anderen Punkten individuell konfigurieren)"
+
+msgid "Allow sources on the same domain and the sources entered below"
+msgstr "Quellen von der eigenen Domain sowie die unten angegebenen Quellen erlauben"
+
+msgid "✓To add allowed domains, please add one per line in the text area"
+msgstr "※ Um erlaubte Domains hinzuzufügen, bitte jeweils eine Domain pro Zeile im Textfeld eintragen"
+
+msgid "* means all subdomains are included"
+msgstr "* bedeutet, dass alle Subdomains eingeschlossen sind"
+
+msgid "Control of inline scripts and CSS"
+msgstr "Steuerung von Inline-Skripten und CSS"
+
+msgid "JavaScript loading settings: script-src"
+msgstr "JavaScript-Ladeeinstellungen: script-src"
+
+msgid "This setting controls the sources from which JavaScript can be loaded and executed, serving as a countermeasure against XSS and the execution of maliciously embedded scripts."
+msgstr "Diese Einstellung steuert, von welchen Quellen JavaScript geladen und ausgeführt werden darf. Sie dient als Gegenmaßnahme gegen XSS sowie gegen die Ausführung bösartig eingebetteter Skripte."
+
+msgid "JavaScript allowed to be loaded by the browser"
+msgstr "Vom Browser erlaubte JavaScript-Quellen"
+
+msgid "Do not set (uses the default-src setting)"
+msgstr "Nicht festlegen (verwendet die Einstellung von default-src)"
+
+msgid "Allow only sources on the same domain"
+msgstr "Nur Quellen von der eigenen Domain erlauben"
+
+msgid "Allow sources on the same domain and specified external sources (Recommended)"
+msgstr "Quellen von der eigenen Domain sowie angegebene externe Quellen erlauben (Empfohlen)"
+
+msgid "Check the domains to allow"
+msgstr "Erlaubte Domains auswählen"
+
+msgid "✓To add more allowed domains, please add one per line in the text area"
+msgstr "※ Um weitere erlaubte Domains hinzuzufügen, bitte jeweils eine Domain pro Zeile im Textfeld eintragen"
+
+msgid "Control of inline scripts"
+msgstr "Steuerung von Inline-Skripten"
+
+msgid "Allow eval (Not recommended)"
+msgstr "eval erlauben (Nicht empfohlen)"
+
+msgid "Destination settings for connections: connect-src"
+msgstr "Einstellungen für Verbindungsziele: connect-src"
+
+msgid "Restricts destination URLs for communications performed by JavaScript at runtime (fetch / XHR / Beacon / WebSocket / EventSource, etc.), helping to prevent information leakage via external communications and the retrieval of malicious data from external servers."
+msgstr "Beschränkt die Ziel-URLs für von JavaScript zur Laufzeit ausgeführte Kommunikationsvorgänge (fetch / XHR / Beacon / WebSocket / EventSource usw.). Dies hilft, Informationslecks durch externe Kommunikation sowie das Abrufen schädlicher Daten von externen Servern zu verhindern."
+
+msgid "Settings for destinations allowed by the browser for communication"
+msgstr "Einstellungen für vom Browser erlaubte Kommunikationsziele"
+
+msgid "WordPress plugin/theme information, API communication"
+msgstr "WordPress-Plugin-/Theme-Informationen, API-Kommunikation"
+
+msgid "iframe source settings: frame-src / child-src"
+msgstr "Einstellungen für iframe-Quellen: frame-src / child-src"
+
+msgid "This setting prevents loading malicious advertisements or embedded content by restricting which domains iframe elements (and their generated child content) embedded in a page can be loaded from."
+msgstr "Diese Einstellung verhindert das Laden schädlicher Werbung oder eingebetteter Inhalte, indem festgelegt wird, von welchen Domains iframe-Elemente (und deren erzeugte Inhalte) geladen werden dürfen."
+
+msgid "Settings for allowed iframe sources"
+msgstr "Einstellungen für erlaubte iframe-Quellen"
+
+msgid "All Google services"
+msgstr "Alle Google-Dienste"
+
+msgid "Stylesheet (CSS) source settings: style-src"
+msgstr "Einstellungen für Stylesheet-(CSS)-Quellen: style-src"
+
+msgid "This CSP directive restricts which domains and formats CSS applied to a page (external CSS, inline CSS, style attributes, etc.) can be loaded from, helping to prevent information leakage or XSS via abused styles."
+msgstr "Diese CSP-Direktive beschränkt, von welchen Domains und in welchen Formen CSS (externes CSS, Inline-CSS, style-Attribute usw.) geladen werden darf. Dadurch werden Informationslecks oder XSS-Angriffe durch missbrauchte Styles verhindert."
+
+msgid "Settings for allowed stylesheet (CSS) sources"
+msgstr "Einstellungen für erlaubte Stylesheet-(CSS)-Quellen"
+
+msgid "Control of inline styles"
+msgstr "Steuerung von Inline-Styles"
+
+msgid "Restrictions on use of the base tag: base-uri"
+msgstr "Einschränkungen für die Verwendung des base-Tags: base-uri"
+
+msgid "This CSP setting prevents attacks that redirect relative URLs to external sites or send information externally by restricting the base URL that can be specified with the HTML base tag."
+msgstr "Diese CSP-Einstellung verhindert Angriffe, bei denen relative URLs auf externe Websites umgeleitet oder Informationen nach außen gesendet werden, indem die mit dem HTML-base-Tag festlegbare Basis-URL eingeschränkt wird."
+
+msgid "Same domain only"
+msgstr "Nur eigene Domain"
+
+msgid "Disallow"
+msgstr "Nicht erlauben"
+
+msgid "Form submission destination settings: form-action"
+msgstr "Einstellungen für Formular-Zieladressen: form-action"
+
+msgid "This CSP setting prevents attacks where form submission destinations are changed to unauthorized external sites through XSS or tampering, resulting in stolen input data, by restricting the URLs to which HTML forms (form tags) can submit data."
+msgstr "Diese CSP-Einstellung verhindert Angriffe, bei denen durch XSS oder Manipulation das Ziel von Formularübermittlungen auf unbefugte externe Websites geändert wird und dadurch Eingabedaten gestohlen werden, indem die URLs eingeschränkt werden, an die HTML-Formulare (form-Tags) Daten senden dürfen."
+
+msgid "Settings for destinations to which form tags can submit data"
+msgstr "Einstellungen für Ziele, an die Formulare Daten senden dürfen"
+
+msgid "Image source settings: img-src"
+msgstr "Einstellungen für Bildquellen: img-src"
+
+msgid "img-src is a setting that restricts image loading sources to specific domains, preventing information leakage (tracking) via unauthorized external images and malicious resource loading through XSS attacks."
+msgstr "img-src ist eine Einstellung, die die Bildladequellen auf bestimmte Domains beschränkt und so Informationslecks (Tracking) durch unbefugte externe Bilder sowie das Laden bösartiger Ressourcen durch XSS-Angriffe verhindert."
+
+msgid "Settings for allowed image loading sources"
+msgstr "Einstellungen für erlaubte Bild-Ladequellen"
+
+msgid "Allow your own domain and add additional allowed domains"
+msgstr "Eigene Domain erlauben und zusätzliche erlaubte Domains hinzufügen"
+
+msgid "Allow images in the data: format"
+msgstr "Bilder im data:-Format erlauben"
+
+msgid "Font source settings: font-src"
+msgstr "Einstellungen für erlaubte Schriftquellen"
+
+msgid "This CSP directive restricts which domains and formats Fonts applied to a page. Prevents tracking and information leaks caused by font loading."
+msgstr "Diese CSP-Direktive beschränkt, aus welchen Domains und in welchen Formaten Schriftarten auf einer Seite geladen werden dürfen. Sie verhindert Tracking und Informationslecks durch das Laden von Schriftarten."
+
+msgid "Settings for allowed Font sources"
+msgstr "Einstellungen für erlaubte Schriftquellen"
+
+msgid "Allow font load in the data: format"
+msgstr "Laden von Schriftarten im data:-Format erlauben"
+
+msgid "Use add_action (Using a cache plugin may cause it to not work.)"
+msgstr "add_action verwenden (Bei Verwendung eines Cache-Plugins kann es vorkommen, dass es nicht funktioniert.)"
+
+msgid "Use htaccess"
+msgstr "htaccess verwenden"

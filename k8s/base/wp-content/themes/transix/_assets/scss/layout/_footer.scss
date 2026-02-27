@@ -12,9 +12,9 @@
 -------------------*/
 .l-footer {
   a {
-    &:visited {
-      color: $color-visited-dark;
-    }
+    // &:visited {
+    //   color: $color-visited-dark;
+    // }
   }
   &--form {
     padding: 20px 0 18px;
@@ -221,5 +221,32 @@
   }
   @include mq() {
     margin-top: 69px;
+  }
+}
+
+.c-pageTop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 35px;
+  background: rgba(100, 100, 100, 0.5);
+  opacity: 0;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 1000;
+  @include transition((background, opacity));
+  & > svg {
+    width: 10px;
+    color: $color-white;
+  }
+  &.is-fixed {
+    opacity: 0.5;
+    pointer-events: initial;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0.5;
   }
 }
