@@ -1,5 +1,5 @@
 <?php
-// FAQ専用クエリパラメータ取得（URLが ?faq_s=サービス のようになる前提）
+// FAQ専用クエリパラメータ取得 (URLが ?faq_s=サービス のようになる前提)
 $keyword = isset( $_GET['faq_s'] ) ? sanitize_text_field( wp_unslash( $_GET['faq_s'] ) ) : '';
 
 // キーワードがあるときだけ検索実行
@@ -46,7 +46,7 @@ if ( $keyword !== '' ) :
             // 抜粋生成
             $excerpt = wp_trim_words( wp_strip_all_tags( get_the_content() ), 200, '…' );
 
-            // キーワードをハイライト（タイトル・本文）
+            // キーワードをハイライト (タイトル・本文)
             if ( $search_keyword ) {
               $pattern = '/' . preg_quote( $search_keyword, '/' ) . '/iu';
               $replace = '<mark class="c-searchResultList__highlight">$0</mark>';

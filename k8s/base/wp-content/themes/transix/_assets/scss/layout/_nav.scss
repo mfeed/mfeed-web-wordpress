@@ -68,9 +68,9 @@
           transform-origin: left bottom;
         }
       }
-      &:visited {
-        color: $color-white;
-      }
+      // &:visited {
+      //   color: $color-white;
+      // }
       @include mq('xl') {
         height: auto;
         padding: 0 min(calc(17 / 990 * 100vw), 17px);

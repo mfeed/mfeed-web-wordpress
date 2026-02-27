@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: 固定ページ（汎用）
+Template Name: 固定ページ (汎用)
 Template Post Type: page
 */
 ; ?>

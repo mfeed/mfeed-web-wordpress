@@ -61,13 +61,13 @@
     }
   }
   &__txt {
-    flex: 0 0 auto;
     width: min(100%, var(--w));
     @include mq('l') {
       width: 100%;
     }
   }
   &__img {
+    flex: 0 0 auto;
     display: block;
     width: min(100%, var(--w));
     & > img {
@@ -801,9 +801,9 @@ dl:not([class]) {
     }
     &:hover {
     }
-    &:visited {
-      color: $color-white;
-    }
+    // &:visited {
+    //   color: $color-white;
+    // }
   }
   &.--gray {
     background: $color-gray_135deg;
@@ -821,9 +821,9 @@ dl:not([class]) {
       background-image: url(../img/common/arrow_submit.svg);
       background-size: contain;
     }
-    &:visited {
-      color: $color-black;
-    }
+    // &:visited {
+    //   color: $color-black;
+    // }
   }
   @include mq() {
     width: min(100%, 236px);
@@ -847,17 +847,17 @@ dl:not([class]) {
     border: 1px solid $color-primary;
     background: $color-primary;
     color: $color-white;
-    &:visited {
-      color: $color-white;
-    }
+    // &:visited {
+    //   color: $color-white;
+    // }
   }
   &.--white {
     border: 1px solid $color-white;
     background: $color-white;
     color: $color-black;
-    &:visited {
-      color: $color-black;
-    }
+    // &:visited {
+    //   color: $color-black;
+    // }
   }
   &.--grd {
     border: none;
@@ -908,15 +908,15 @@ dl:not([class]) {
       border-color: $color-black;
       background: $color-black;
       color: $color-white;
-      &:visited {
-        color: $color-white;
-      }
+      // &:visited {
+      //   color: $color-white;
+      // }
     }
     &.--grd {
       color: $color-white;
-      &:visited {
-        color: $color-white;
-      }
+      // &:visited {
+      //   color: $color-white;
+      // }
     }
     &.--more {
       position: relative;
@@ -1029,9 +1029,9 @@ dl:not([class]) {
     position: relative;
     z-index: 2;
   }
-  &:visited {
-    color: $color-white;
-  }
+  // &:visited {
+  //   color: $color-white;
+  // }
   &:hover {
     &::after {
       opacity: 1;
@@ -1164,9 +1164,9 @@ dl:not([class]) {
       right: 13px;
       transform: translateY(-50%);
     }
-    &:visited {
-      color: $color-black;
-    }
+    // &:visited {
+    //   color: $color-black;
+    // }
     small {
       font-family: $font-en;
       font-size: inherit;
@@ -1202,9 +1202,9 @@ dl:not([class]) {
   //   background: $color-black;
   //   color: $color-white;
   // }
-  &:visited {
-    color: $color-black;
-  }
+  // &:visited {
+  //   color: $color-black;
+  // }
   @include mq('l') {
     gap: 20px;
     padding: 14px $marginSP-LR 31px;
@@ -1771,9 +1771,9 @@ table {
   color: $color-white;
   position: relative;
   z-index: 1;
-  &:visited {
-    color: $color-white;
-  }
+  // &:visited {
+  //   color: $color-white;
+  // }
   &.--dl {
     background-image: url(../img/common/bg_cta-dl.webp);
   }
@@ -2425,16 +2425,16 @@ table {
       font-size: inherit;
       color: $color-black;
       @include transition((background, color));
-      &:visited {
-        color: $color-black;
-      }
+      // &:visited {
+      //   color: $color-black;
+      // }
       &:hover, &.current {
         border-color: $color-primary;
         background: $color-primary;
         color: $color-white;
-        &:visited {
-          color: $color-white;
-        }
+        // &:visited {
+        //   color: $color-white;
+        // }
       }
     }
     .page-numbers.next,

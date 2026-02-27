@@ -68,12 +68,12 @@ a {
       text-decoration: underline;
     }
   }
-  &:visited {
-    color: $color-visited-bright;
-    &.is-darkMode {
-      color: $color-visited-dark;
-    }
-  }
+  // &:visited {
+  //   color: $color-visited-bright;
+  //   &.is-darkMode {
+  //     color: $color-visited-dark;
+  //   }
+  // }
 }
 img,
 a,

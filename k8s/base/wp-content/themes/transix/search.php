@@ -41,7 +41,7 @@
                 // 抜粋生成
                 $excerpt = wp_trim_words( wp_strip_all_tags( get_the_content() ), 200, '…' );
 
-                // キーワードをハイライト（タイトル・本文）
+                // キーワードをハイライト (タイトル・本文)
                 if ( $search_keyword ) {
                   $pattern = '/' . preg_quote( $search_keyword, '/' ) . '/iu';
                   $replace = '<mark class="c-searchResultList__highlight">$0</mark>';

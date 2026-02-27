@@ -1,6 +1,6 @@
 <?php
 // サイズ用クラスを作る
-$pagetitle_size = get_field('pagetitle_size'); // チェックボックス（配列）
+$pagetitle_size = get_field('pagetitle_size'); // チェックボックス (配列)
 $pt_classes = 'c-pageTitle';
 
 if ( $pagetitle_size && in_array('largeタグ', $pagetitle_size, true) ) {

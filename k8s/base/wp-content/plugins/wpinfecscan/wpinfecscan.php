@@ -3,7 +3,7 @@
 Plugin Name:WPDoctor Malware Scanner & Security Pro 
 Plugin URI: https://website-malware-removal.com/
 description: WP doctor Malware scan and Security plugin
-Version: 2.8
+Version: 2.8.6
 Author: WP-Doctor
 Author URI: https://wp-doctor.jp/
 Text Domain: wpinfecscan
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $wpinfecscanversion;
-$wpinfecscanversion = "2.8";
+$wpinfecscanversion = "2.8.6";
 
 
 require_once('scannerdata/wpinfectsecurity.php');
@@ -323,6 +323,10 @@ function wpinfectscannercron_deactivate() {
 	
     $res = $secfunc->security_ipblock();
     $res = $secfunc->wpinfecscan_deactivated();
+	
+	delete_option( 'wpinfectscanner_csp');
+	
+	$res = $secfunc->security_csp(0);
     
 } 
 register_deactivation_hook (__FILE__, 'wpinfectscannercron_deactivate');
@@ -2028,6 +2032,7 @@ function wpinfec_my_plugin_options() {
             <li><a href="#ContentH" data-toggle="tab"><?php _e('Vulnerability','wpinfecscan'); ?></a></li>
             <li><a href="#ContentF" data-toggle="tab"><?php _e('Hack monitor & IP blocker','wpinfecscan'); ?></a></li>
             <li><a href="#ContentG" data-toggle="tab"><?php _e('Real-time block','wpinfecscan'); ?></a></li>
+			<li><a href="#ContentI" data-toggle="tab"><?php _e('CSP','wpinfecscan'); ?></a></li>
             <?php
                 
                 $ptcount = get_option( 'wpinfectscanner_newpatternnum');
@@ -2053,6 +2058,7 @@ function wpinfec_my_plugin_options() {
                 <?php require_once('tab_valn.php'); ?>
                 <?php require_once('tab_ipblock.php'); ?>
                 <?php require_once('tab_realtimeblock.php'); ?>
+				<?php require_once('tab_csp.php'); ?>
                 <?php require_once('tab_shownotinstalledpatterns.php'); ?>
             </div>  
             <script>
@@ -2414,6 +2420,9 @@ function wpinfec_my_plugin_options() {
                 if($setting_realtimeblock_changed){
                     echo "jQuery('[href=\"#ContentG\"]').tab('show');";
                 }
+				if($setting_csp_changed){
+                    echo "jQuery('[href=\"#ContentI\"]').tab('show');";
+                }
             ?>
             function showexptalert(){
                 jQuery('#myModal2').modal('show');
@@ -2646,4 +2655,345 @@ function wp_timezone_string() {
 }
 }
 
+function wpinfecscan_str_replace_last($search,$replace,$str){
+	$pos = strrpos($str, $search);
+	if ($pos !== false) {
+		$str = substr_replace($str, $replace, $pos, strlen($search));
+	}
+
+	return $str;
+}
+add_action('send_headers', function () {
+	
+	if (is_admin()) {
+        return;
+    }
+	
+	$csp_options = get_option( 'wpinfectscanner_csp', "" );
+	
+	if(! empty($csp_options)){
+		$wpinfectscanner_csp = $csp_options['csp'] ?? '';
+		$wpinfectscanner_csp_mode = $csp_options['csp_mode'] ?? '';
+		
+		if($wpinfectscanner_csp==1 && $wpinfectscanner_csp_mode == 1){
+			// ======================
+			// default-src
+			// ======================
+			$output = "Content-Security-Policy: ";
+			$set_default_src   = $csp_options['default-src']['enable'] ?? '';
+			if(! empty($set_default_src)){
+				if($set_default_src == "*"){
+					$output .= "default-src *; ";
+				}
+				if($set_default_src == "self"){
+					$output .= " default-src 'self'; ";
+				}
+				if($set_default_src == "selfplus"){
+					$output_s = "default-src 'self'; ";
+					$set_default_src_o = $csp_options['default-src']['other']  ?? '';
+					if(! empty($set_default_src_o)){
+						$set_default_src_o = implode(" ",explode("\n",$set_default_src_o));
+						$output_s = "default-src 'self' ".$set_default_src_o."; ";
+					}
+					$output .= $output_s;
+				}
+			}
+			
+			$set_default_src_i = $csp_options['default-src']['inline'] ?? '';
+			if($set_default_src_i == "unsafe-inline"){
+				if(strpos($output,'default-src') !== false){
+					$output = wpinfecscan_str_replace_last(";" ," 'unsafe-inline';",$output);
+				}else{
+					$output .= "default-src 'unsafe-inline'; ";
+				}
+			}
+			
+
+			// ======================
+			// script-src
+			// ======================
+			$set_script_src   = $csp_options['script-src']['enable'] ?? '';
+			
+			if(! empty($set_script_src)){
+				if($set_script_src == "*"){
+					$output .= " script-src *; ";
+				}
+				if($set_script_src == "self"){
+					$output .= " script-src 'self'; ";
+				}
+				if($set_script_src == "selfplus"){
+					$output_s = " script-src 'self'; ";
+					
+					$set_script_src_d = $csp_options['script-src']['domain'] ?? array();
+					if(count($set_script_src_d) > 0){
+						$set_script_src_d = " ".implode(" ",$set_script_src_d)." ";
+					}else{
+						$set_script_src_d = "";
+					}
+					$set_script_src_o = $csp_options['script-src']['other']  ?? '';
+					if(! empty($set_script_src_o)){
+						$set_script_src_o = " ".implode(" ",explode("\n",$set_script_src_o))." ";
+					}
+					
+					$output_s = " script-src 'self' ".$set_script_src_d.$set_script_src_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+			
+			$set_script_src_i = $csp_options['script-src']['inline'] ?? '';
+			if($set_script_src_i == "unsafe-inline"){
+				if(strpos($output,'script-src') !== false){
+					$output = wpinfecscan_str_replace_last(";" ," 'unsafe-inline';",$output);
+				}else{
+					$output .= " script-src 'unsafe-inline'; ";
+				}
+			}
+			if($set_script_src_i == "unsafe-eval"){
+				if(strpos($output,'script-src') !== false){
+					$output = wpinfecscan_str_replace_last(";" ," 'unsafe-eval';",$output);
+				}else{
+					$output .= " script-src 'unsafe-eval'; ";
+				}
+			}
+
+			// ======================
+			// connect-src
+			// ======================
+			$set_connect_src   = $csp_options['connect-src']['enable'] ?? '';
+			
+			if(! empty($set_connect_src)){
+				if($set_connect_src == "*"){
+					$output .= " connect-src *; ";
+				}
+				if($set_connect_src == "self"){
+					$output .= " connect-src 'self'; ";
+				}
+				if($set_connect_src == "selfplus"){
+					$output_s = " connect-src 'self'; ";
+					
+					$set_connect_src_d = $csp_options['connect-src']['domain'] ?? array();
+					if(count($set_connect_src_d) > 0){
+						$set_connect_src_d = " ".implode(" ",$set_connect_src_d)." ";
+					}else{
+						$set_connect_src_d = "";
+					}
+					$set_connect_src_o = $csp_options['connect-src']['other']  ?? '';
+					if(! empty($set_connect_src_o)){
+						$set_connect_src_o = " ".implode(" ",explode("\n",$set_connect_src_o))." ";
+					}
+					
+					$output_s = " connect-src 'self' ".$set_connect_src_d.$set_connect_src_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+			
+			// ======================
+			// frame-src
+			// ======================
+			$set_frame_src   = $csp_options['frame-src']['enable'] ?? '';
+			if(! empty($set_frame_src)){
+				if($set_frame_src == "*"){
+					$output .= " frame-src *; ";
+				}
+				if($set_frame_src == "self"){
+					$output .= " frame-src 'self'; ";
+				}
+				if($set_frame_src == "selfplus"){
+					$output_s = " frame-src 'self'; ";
+					
+					$set_frame_src_d = $csp_options['frame-src']['domain'] ?? array();
+					if(count($set_frame_src_d) > 0){
+						$set_frame_src_d = " ".implode(" ",$set_frame_src_d)." ";
+					}else{
+						$set_frame_src_d = "";
+					}
+					$set_frame_src_o = $csp_options['frame-src']['other']  ?? '';
+					if(! empty($set_frame_src_o)){
+						$set_frame_src_o = " ".implode(" ",explode("\n",$set_frame_src_o))." ";
+					}
+					
+					$output_s = " frame-src 'self' ".$set_frame_src_d.$set_frame_src_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+			
+			// ======================
+			// style-src
+			// ======================
+			$set_style_src   = $csp_options['style-src']['enable'] ?? '';
+			
+			if(! empty($set_style_src)){
+				if($set_style_src == "*"){
+					$output .= " style-src *; ";
+				}
+				if($set_style_src == "self"){
+					$output .= " style-src 'self'; ";
+				}
+				if($set_style_src == "selfplus"){
+					$output_s = " style-src 'self'; ";
+					
+					$set_style_src_d = $csp_options['style-src']['domain'] ?? array();
+					if(count($set_style_src_d) > 0){
+						$set_style_src_d = " ".implode(" ",$set_style_src_d)." ";
+					}else{
+						$set_style_src_d = "";
+					}
+					$set_style_src_o = $csp_options['style-src']['other']  ?? '';
+					if(! empty($set_style_src_o)){
+						$set_style_src_o = " ".implode(" ",explode("\n",$set_style_src_o))." ";
+					}
+					
+					$output_s = " style-src 'self' ".$set_style_src_d.$set_style_src_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+			
+			$set_style_src_i = $csp_options['style-src']['inline'] ?? '';
+			if($set_style_src_i == "unsafe-inline"){
+				if(strpos($output,'style-src') !== false){
+					$output = wpinfecscan_str_replace_last(";" ," 'unsafe-inline';",$output);
+				}else{
+					$output .= " style-src 'unsafe-inline'; ";
+				}
+			}
+			
+			// ======================
+			// base-uri
+			// ======================
+			$set_base_uri = $csp_options['base-uri'] ?? '';
+			if($set_base_uri == "self"){
+				$output .= " base-uri 'self'; ";
+			}
+			if($set_base_uri == "none"){
+				$output .= " base-uri 'none'; ";
+			}
+
+			// ======================
+			// form-action
+			// ======================
+			$set_form_action   = $csp_options['form-action']['enable'] ?? '';
+			
+			if(! empty($set_form_action)){
+				if($set_form_action == "*"){
+					$output .= " form-action *; ";
+				}
+				if($set_form_action == "self"){
+					$output .= " form-action 'self'; ";
+				}
+				if($set_form_action == "selfplus"){
+					$output_s = " form-action 'self'; ";
+					
+					$set_form_action_d = $csp_options['form-action']['domain'] ?? array();
+					if(count($set_form_action_d) > 0){
+						$set_form_action_d = " ".implode(" ",$set_form_action_d)." ";
+					}else{
+						$set_form_action_d = "";
+					}
+					$set_form_action_o = $csp_options['form-action']['other']  ?? '';
+					if(! empty($set_form_action_o)){
+						$set_form_action_o = " ".implode(" ",explode("\n",$set_form_action_o))." ";
+					}
+					
+					$output_s = " form-action 'self' ".$set_form_action_d.$set_form_action_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+
+			// ======================
+			// img-src
+			// ======================
+			$set_img_src   = $csp_options['img-src']['enable'] ?? '';
+			if(! empty($set_img_src)){
+				if($set_img_src == "*"){
+					$output .= " img-src *; ";
+				}
+				if($set_img_src == "self"){
+					$output .= " img-src 'self'; ";
+				}
+				if($set_img_src == "selfplus"){
+					$output_s = " img-src 'self'; ";
+					
+					$set_img_src_d = $csp_options['img-src']['domain'] ?? array();
+					if(count($set_img_src_d) > 0){
+						$set_img_src_d = " ".implode(" ",$set_img_src_d)." ";
+					}else{
+						$set_img_src_d = "";
+					}
+					$set_img_src_o = $csp_options['img-src']['other']  ?? '';
+					if(! empty($set_img_src_o)){
+						$set_img_src_o = " ".implode(" ",explode("\n",$set_img_src_o))." ";
+					}
+					
+					$output_s = " img-src 'self' ".$set_img_src_d.$set_img_src_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+			
+			$set_img_src_i = $csp_options['img-src']['inline'] ?? '';
+			if($set_img_src_i == "data:"){
+				if(strpos($output,'img-src') !== false){
+					$output = wpinfecscan_str_replace_last(";" ," data:;",$output);
+				}else{
+					$output .= " img-src data:; ";
+				}
+			}
+			
+			// ======================
+			// font-src
+			// ======================
+			$set_font_src   = $csp_options['font-src']['enable'] ?? '';
+			
+			if(! empty($set_font_src)){
+				if($set_font_src == "*"){
+					$output .= " font-src *; ";
+				}
+				if($set_font_src == "self"){
+					$output .= " font-src 'self'; ";
+				}
+				if($set_font_src == "selfplus"){
+					$output_s = " font-src 'self'; ";
+					
+					$set_font_src_d = $csp_options['font-src']['domain'] ?? array();
+					if(count($set_font_src_d) > 0){
+						$set_font_src_d = " ".implode(" ",$set_font_src_d)." ";
+					}else{
+						$set_font_src_d = "";
+					}
+					$set_font_src_o = $csp_options['font-src']['other']  ?? '';
+					if(! empty($set_font_src_o)){
+						$set_font_src_o = " ".implode(" ",explode("\n",$set_font_src_o))." ";
+					}
+					
+					$output_s = " font-src 'self' ".$set_font_src_d.$set_font_src_o."; ";
+					
+					$output .= $output_s;
+				}
+			}
+			
+			$set_font_src_i = $csp_options['font-src']['inline'] ?? '';
+			if($set_font_src_i == "data:"){
+				if(strpos($output,'font-src') !== false){
+					$output = wpinfecscan_str_replace_last(";" ," data:;",$output);
+				}else{
+					$output .= " font-src data:; ";
+				}
+			}
+			
+			
+			$output = preg_replace('/\s{2,}/u', ' ', $output);
+			$output = str_replace('Security-Policy:  ','Security-Policy: ',$output);
+			
+			header(
+				trim($output)
+			);
+	
+		}
+	}
+});
 ?>
