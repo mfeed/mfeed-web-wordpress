@@ -13,7 +13,7 @@ spec:
               value: "prod"
       containers:
         - name: www-mfeed-ad-jp-wordpress
-          env:
+#          env:
 #            - name: WORDPRESS_CONFIG_EXTRA
 #              value: |
 #                define('WP_HOME',    'https://www.mfeed.ad.jp');
