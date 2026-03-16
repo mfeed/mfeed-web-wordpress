@@ -1,0 +1,184 @@
+name: Export WordPress content (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      export_target:
+        description: "What to export"
+        type: choice
+        required: true
+        default: both
+        options:
+          - both
+          - db
+          - uploads
+      commit_message:
+        description: "Commit message (optional)"
+        required: false
+        default: "chore(export): manual snapshot"
+      gcs_bucket:
+        description: "GCS bucket for Cloud SQL export (gs://...)"
+        required: true
+        default: "gs://storage-for-dump"
+      cloudsql_instance:
+        description: "Cloud SQL instance name"
+        required: true
+        default: "mfeed-web-wordpress"
+      cloudsql_db:
+        description: "DB name"
+        required: true
+        default: "wordpress"
+
+permissions:
+  contents: write
+  id-token: write
+
+env:
+  PROJECT_ID: mfeed-web-staging
+  WORKLOAD_ID_PROVIDER: projects/396254140546/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
+  SERVICE_ACCOUNT_EMAIL: gh-gke-deployer@mfeed-web-staging.iam.gserviceaccount.com
+
+  GKE_CLUSTER: cluster-1
+  GKE_REGION: asia-northeast1
+  NAMESPACE: web-staging
+  WORDPRESS_PVC: wp-content-pvc
+
+  OUT_DIR: wordpress-export
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history for committing)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: auth
+        name: Authenticate to Google Cloud (Workload Identity)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_ID_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT_EMAIL }}
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_REGION }}
+
+      - name: Prepare output dirs
+        run: |
+          set -eu
+          mkdir -p "${OUT_DIR}/db" "${OUT_DIR}/uploads"
+
+      # -----------------------------
+      # DB export (Cloud SQL -> GCS -> repo)
+      # -----------------------------
+      - name: Export DB to GCS (Cloud SQL export)
+        if: ${{ inputs.export_target == 'db' || inputs.export_target == 'both' }}
+        run: |
+          set -eu
+          TS="$(date -u +%Y%m%dT%H%M%SZ)"
+          echo "TS=$TS" >> "$GITHUB_ENV"
+
+          # Export destination in GCS
+          EXPORT_URI="${{ inputs.gcs_bucket }}/${{ inputs.cloudsql_instance }}/${TS}.sql.gz"
+          echo "EXPORT_URI=$EXPORT_URI" >> "$GITHUB_ENV"
+
+          echo "Exporting Cloud SQL -> $EXPORT_URI"
+          gcloud sql export sql "${{ inputs.cloudsql_instance }}" "$EXPORT_URI" \
+            --database="${{ inputs.cloudsql_db }}" \
+            --project="${PROJECT_ID}" \
+            --quiet
+
+      - name: Download DB dump from GCS into repo
+        if: ${{ inputs.export_target == 'db' || inputs.export_target == 'both' }}
+        run: |
+          set -eu
+          mkdir -p "${OUT_DIR}/db"
+          gsutil cp "$EXPORT_URI" "${OUT_DIR}/db/cloudsql-${TS}.sql.gz"
+
+      # -----------------------------
+      # uploads export (PVC -> temp pod -> kubectl cp -> repo)
+      # -----------------------------
+      - name: Create temp pod for PVC access
+        if: ${{ inputs.export_target == 'uploads' || inputs.export_target == 'both' }}
+        run: |
+          set -euo pipefail
+
+          # 念のため既存の wp-export-pvc-reader Podを消す（前回失敗の残骸対策）
+          kubectl -n "${NAMESPACE}" delete pod/wp-export-pvc-reader --ignore-not-found
+
+          cat <<YAML | kubectl -n "${NAMESPACE}" apply -f -
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: wp-export-pvc-reader
+            labels:
+              app: wp-export-pvc-reader
+          spec:
+            restartPolicy: Never
+            volumes:
+              - name: wp-content
+                persistentVolumeClaim:
+                  claimName: ${WORDPRESS_PVC}
+            containers:
+              - name: reader
+                image: alpine:3.20
+                command: ["sh","-lc","sleep 3600"]
+                volumeMounts:
+                  - name: wp-content
+                    mountPath: /wp-content
+          YAML
+
+          # 状態が詰まった時に理由が見えるように describe を出す
+          kubectl -n "${NAMESPACE}" get pod wp-export-pvc-reader -o wide || true
+          kubectl -n "${NAMESPACE}" describe pod wp-export-pvc-reader | sed -n '/Events:/,$p' || true
+
+          # 待機時間も少し伸ばす（Attach待ちの保険）
+          kubectl -n "${NAMESPACE}" wait --for=condition=Ready pod/wp-export-pvc-reader --timeout=300s
+
+      - name: Copy uploads from PVC to runner
+        if: ${{ inputs.export_target == 'uploads' || inputs.export_target == 'both' }}
+        run: |
+          set -eu
+          rm -rf /tmp/wp-uploads
+          mkdir -p /tmp/wp-uploads
+
+          # Copy uploads directory out of the pod
+          kubectl -n "${NAMESPACE}" cp wp-export-pvc-reader:/wp-content/uploads /tmp/wp-uploads/uploads
+
+          # Sync into repo output dir
+          rsync -a --delete /tmp/wp-uploads/uploads/ "${OUT_DIR}/uploads/"
+
+      - name: Cleanup temp pod
+        if: ${{ always() }}
+        run: |
+          kubectl -n "${NAMESPACE}" delete pod/wp-export-pvc-reader --ignore-not-found
+
+      # -----------------------------
+      # commit & push
+      # -----------------------------
+      - name: Commit & push changes
+        run: |
+          set -eu
+          git config user.email "actions@github.com"
+          git config user.name  "github-actions[bot]"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          MSG="${{ inputs.commit_message }}"
+          git commit -m "$MSG"
+          git push

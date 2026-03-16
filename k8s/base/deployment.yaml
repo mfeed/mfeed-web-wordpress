@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www-mfeed-ad-jp-wordpress
+  labels:
+    app: www-mfeed-ad-jp-wordpress
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: www-mfeed-ad-jp-wordpress
+  template:
+    metadata:
+      labels:
+        app: www-mfeed-ad-jp-wordpress
+    spec:
+      serviceAccountName: wordpress-sa
+      securityContext:
+        fsGroup: 33
+
+      initContainers:
+        - name: seed-wp-content
+          image: wordpress:stable
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: WP_CONTENT_SEED_VERSION
+              value: "dev"
+          command: ["sh","-lc"]
+          args:
+            - |
+              set -eu
+
+              SEED_DIR="/seed/wp-content"
+              TARGET="/var/www/html/wp-content"
+              VERSION_FILE="${TARGET}/.seed-version"
+
+              if [ ! -d "${SEED_DIR}" ]; then
+                echo "seed directory not found: ${SEED_DIR}"
+                echo "You must build an image that includes k8s/base/wp-content into /seed/wp-content"
+                exit 1
+              fi
+
+              desired="${WP_CONTENT_SEED_VERSION:-}"
+              current=""
+              if [ -f "${VERSION_FILE}" ]; then
+                current="$(cat "${VERSION_FILE}" || true)"
+              fi
+
+              if [ -n "${desired}" ] && [ "${desired}" = "${current}" ]; then
+                echo "wp-content already up-to-date (version=${current})"
+                exit 0
+              fi
+
+              echo "sync wp-content from ${SEED_DIR} to ${TARGET}"
+              echo "  desired=${desired} current=${current}"
+
+              mkdir -p "${TARGET}"
+
+              for d in themes plugins mu-plugins languages; do
+                if [ -d "${SEED_DIR}/${d}" ]; then
+                  rm -rf "${TARGET:?}/${d}"
+                  mkdir -p "${TARGET}/${d}"
+                  tar -C "${SEED_DIR}/${d}" -cf - . | tar -C "${TARGET}/${d}" -xpf -
+                fi
+              done
+
+              find "${SEED_DIR}" -maxdepth 1 -type f \
+                ! -name ".seed-version" \
+                ! -name "debug.log" \
+                -print0 \
+                | while IFS= read -r -d '' f; do
+                    base="$(basename "$f")"
+                    cp -f "$f" "${TARGET}/${base}"
+                  done
+
+              chown -R www-data:www-data "${TARGET}" || true
+
+              echo -n "${desired}" > "${VERSION_FILE}"
+              echo "seed version updated: ${desired}"
+          volumeMounts:
+            - name: wp-content
+              mountPath: /var/www/html/wp-content
+
+      containers:
+        - name: www-mfeed-ad-jp-wordpress
+          image: wordpress:stable
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: WORDPRESS_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: WORDPRESS_DB_HOST
+            - name: WORDPRESS_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: WORDPRESS_DB_NAME
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: WORDPRESS_DB_USER
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: WORDPRESS_DB_PASSWORD
+
+            # overlay で環境差分にする
+            - name: WORDPRESS_CONFIG_EXTRA
+              value: |
+                $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+                define('WP_HOME',    'http://' . $host);
+                define('WP_SITEURL', 'http://' . $host);
+
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -lc
+                  - |
+                    set -eu
+                    printf "ok\n" > /var/www/html/healthz || true
+
+          volumeMounts:
+            - name: wp-content
+              mountPath: /var/www/html/wp-content
+            - name: wordpress-config
+              mountPath: /var/www/html/wp-config.php
+              subPath: wp-config.php
+              readOnly: true
+            - name: wordpress-config
+              mountPath: /usr/local/etc/php/conf.d/uploads.ini
+              subPath: uploads.ini
+              readOnly: true
+            - name: wordpress-config
+              mountPath: /var/www/html/.htaccess
+              subPath: .htaccess
+              readOnly: true
+
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 6
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 6
+
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.4
+          args:
+            - "--port=3306"
+            - "--structured-logs"
+            - "PROJECT_ID:asia-northeast1:mfeed-web-wordpress"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+
+      volumes:
+        - name: wp-content
+          persistentVolumeClaim:
+            claimName: wp-content-pvc
+        - name: wordpress-config
+          configMap:
+            name: wordpress-config

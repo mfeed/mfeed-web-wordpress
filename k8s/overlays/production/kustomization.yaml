@@ -5,11 +5,11 @@ resources:
   - ../../base
   - secret.yaml
 
-namespace: web-staging
+namespace: web-production
 
 images:
   - name: wordpress
-    newName: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress
+    newName: asia-northeast1-docker.pkg.dev/mfeed-web-production/mfeed-web-production-repo/wordpress
     newTag: stable
 
 patches:
@@ -20,4 +20,4 @@ patches:
   - path: patch-ingress-ipv6.yaml
 
 commonLabels:
-  app.kubernetes.io/environment: staging
+  app.kubernetes.io/environment: production

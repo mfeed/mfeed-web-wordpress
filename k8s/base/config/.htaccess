@@ -1,0 +1,16 @@
+# BEGIN WordPress
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+
+RewriteRule ^([_0-9a-zA-Z-]+)/(wp-content|wp-includes)/(.*)$ $2/$3 [L]
+RewriteRule ^(wp-content|wp-includes)/ - [L]
+RewriteRule ^index\.php$ - [L]
+RewriteRule ^([_0-9a-zA-Z-]+/)?files/(.+) wp-includes/ms-files.php?file=$2 [L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule . index.php [L]
+# END WordPress
