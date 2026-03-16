@@ -1,8 +1,25 @@
-resources:
-  - mfeed-web-wordpress.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 
-# ベースの image 名は 'wordpress' にしておく（Actions で set image するため）
-images:
-  - name: wordpress
-    newName: wordpress
-    newTag: latest
+resources:
+  - pvc.yaml
+  - serviceaccount.yaml
+  - deployment.yaml
+  - service.yaml
+  - backendconfig.yaml
+  - ingress.yaml
+  - ingress-ipv6.yaml
+
+configMapGenerator:
+  - name: wordpress-config
+    files:
+      - config/wp-config.php
+      - config/uploads.ini
+      - config/.htaccess
+
+generatorOptions:
+  disableNameSuffixHash: false
+
+commonLabels:
+  app.kubernetes.io/name: wordpress
+  app.kubernetes.io/part-of: mfeed-web

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www-mfeed-ad-jp-wordpress
+spec:
+  replicas: 3
+  template:
+    spec:
+      initContainers:
+        - name: seed-wp-content
+          env:
+            - name: WP_CONTENT_SEED_VERSION
+              value: "dev"
+      containers:
+        - name: www-mfeed-ad-jp-wordpress
+          env:
+            - name: WORDPRESS_CONFIG_EXTRA
+              value: |
+                define('WP_HOME',    'http://www.wp-stg.mfeed.ad.jp');
+                define('WP_SITEURL', 'http://www.wp-stg.mfeed.ad.jp');
+        - name: cloud-sql-proxy
+          args:
+            - "--port=3306"
+            - "--structured-logs"
+            - "mfeed-web-staging:asia-northeast1:mfeed-web-wordpress"
