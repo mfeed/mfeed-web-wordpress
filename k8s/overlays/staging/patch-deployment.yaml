@@ -14,10 +14,10 @@ spec:
       containers:
         - name: www-mfeed-ad-jp-wordpress
           env:
-            - name: WORDPRESS_CONFIG_EXTRA
-              value: |
-                define('WP_HOME',    'http://www.wp-stg.mfeed.ad.jp');
-                define('WP_SITEURL', 'http://www.wp-stg.mfeed.ad.jp');
+#            - name: WORDPRESS_CONFIG_EXTRA
+#              value: |
+#                define('WP_HOME',    'http://www.wp-stg.mfeed.ad.jp');
+#                define('WP_SITEURL', 'http://www.wp-stg.mfeed.ad.jp');
         - name: cloud-sql-proxy
           args:
             - "--port=3306"
