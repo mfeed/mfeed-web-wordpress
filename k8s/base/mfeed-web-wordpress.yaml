@@ -167,19 +167,19 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress
+  name: www-mfeed-ad-jp-wordpress
   namespace: web-staging
   labels:
-    app: wordpress
+    app: www-mfeed-ad-jp-wordpress
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: wordpress
+      app: www-mfeed-ad-jp-wordpress
   template:
     metadata:
       labels:
-        app: wordpress
+        app: www-mfeed-ad-jp-wordpress
     spec:
       serviceAccountName: wordpress-sa
       securityContext:
@@ -257,7 +257,7 @@ spec:
               mountPath: /var/www/html/wp-content
 
       containers:
-        - name: wordpress
+        - name: www-mfeed-ad-jp-wordpress
           image: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress:stable
           ports:
             - containerPort: 80
@@ -368,14 +368,14 @@ metadata:
   name: wordpress-svc
   namespace: web-staging
   labels:
-    app: wordpress
+    app: www-mfeed-ad-jp-wordpress
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
     cloud.google.com/backend-config: '{"default":"wordpress-backendconfig"}'
 spec:
   type: NodePort
   selector:
-    app: wordpress
+    app: www-mfeed-ad-jp-wordpress
   ports:
     - name: http
       port: 80
