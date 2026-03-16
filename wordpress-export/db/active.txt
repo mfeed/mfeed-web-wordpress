@@ -1,0 +1,3 @@
+active_plugins = a:0:{}
+stylesheet = mfeed
+template = mfeed
