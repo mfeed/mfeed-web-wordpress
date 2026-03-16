@@ -13,7 +13,7 @@ spec:
               value: "dev"
       containers:
         - name: www-mfeed-ad-jp-wordpress
-          env:
+#          env:
 #            - name: WORDPRESS_CONFIG_EXTRA
 #              value: |
 #                define('WP_HOME',    'http://www.wp-stg.mfeed.ad.jp');

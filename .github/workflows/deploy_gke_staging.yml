@@ -108,6 +108,6 @@ jobs:
 
       - name: Wait for rollout
         run: |
-          kubectl -n "${NAMESPACE}" rollout status deploy/${DEPLOYMENT_NAME} --timeout=10m
+          kubectl -n "${NAMESPACE}" rollout status deploy/${DEPLOYMENT_NAME} --timeout=20m
           kubectl -n "${NAMESPACE}" get pod -o wide
           kubectl -n "${NAMESPACE}" get svc -o wide
