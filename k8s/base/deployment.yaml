@@ -111,11 +111,11 @@ spec:
                   key: WORDPRESS_DB_PASSWORD
 
             # overlay で環境差分にする
-            - name: WORDPRESS_CONFIG_EXTRA
-              value: |
-                $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-                define('WP_HOME',    'http://' . $host);
-                define('WP_SITEURL', 'http://' . $host);
+#            - name: WORDPRESS_CONFIG_EXTRA
+#              value: |
+#                $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+#                define('WP_HOME',    'http://' . $host);
+#                define('WP_SITEURL', 'http://' . $host);
 
           lifecycle:
             postStart:
