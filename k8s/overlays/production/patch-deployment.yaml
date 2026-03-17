@@ -6,6 +6,9 @@ spec:
   replicas: 3
   template:
     spec:
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+
       initContainers:
         - name: seed-wp-content
           env:
