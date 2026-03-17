@@ -10,14 +10,36 @@ spec:
         - name: seed-wp-content
           env:
             - name: WP_CONTENT_SEED_VERSION
-              value: "prod"
+              value: dev
+
       containers:
         - name: www-mfeed-ad-jp-wordpress
           env:
             - name: WP_DOMAIN_CURRENT_SITE
               value: www.mfeed.ad.jp
+            - name: WORDPRESS_DB_HOST_FILE
+              value: /var/run/secrets/wordpress/WORDPRESS_DB_HOST
+            - name: WORDPRESS_DB_NAME_FILE
+              value: /var/run/secrets/wordpress/WORDPRESS_DB_NAME
+            - name: WORDPRESS_DB_USER_FILE
+              value: /var/run/secrets/wordpress/WORDPRESS_DB_USER
+            - name: WORDPRESS_DB_PASSWORD_FILE
+              value: /var/run/secrets/wordpress/WORDPRESS_DB_PASSWORD
+          volumeMounts:
+            - name: mfeed-wordpress-secrets
+              mountPath: /var/run/secrets/wordpress
+              readOnly: true
+
         - name: cloud-sql-proxy
           args:
             - "--port=3306"
             - "--structured-logs"
-            - "mfeed-web-production:asia-northeast1:mfeed-web-wordpress"
+            - "mfeed-web-1:asia-northeast1:mfeed-web-wordpress"
+
+      volumes:
+        - name: mfeed-wordpress-secrets
+          csi:
+            driver: secrets-store-gke.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: mfeed-wordpress-secrets
