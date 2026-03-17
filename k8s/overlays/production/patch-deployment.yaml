@@ -13,12 +13,9 @@ spec:
               value: "prod"
       containers:
         - name: www-mfeed-ad-jp-wordpress
-#          env:
-#            - name: WORDPRESS_CONFIG_EXTRA
-#              value: |
-#                define('WP_HOME',    'https://www.mfeed.ad.jp');
-#                define('WP_SITEURL', 'https://www.mfeed.ad.jp');
-                $_SERVER['HTTPS'] = 'on';
+          env:
+            - name: WP_DOMAIN_CURRENT_SITE
+              value: www.mfeed.ad.jp
         - name: cloud-sql-proxy
           args:
             - "--port=3306"
