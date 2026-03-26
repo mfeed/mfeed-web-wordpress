@@ -11,7 +11,7 @@ resources:
   - ingress-ipv6.yaml
 
 configMapGenerator:
-  - name: mfeed-wordpress-config
+  - name: wordpress-config
     files:
       - config/wp-config.php
       - config/uploads.ini
@@ -21,5 +21,5 @@ generatorOptions:
   disableNameSuffixHash: false
 
 commonLabels:
-  app.kubernetes.io/name: mfeed-wordpress
+  app.kubernetes.io/name: wordpress
   app.kubernetes.io/part-of: mfeed-web

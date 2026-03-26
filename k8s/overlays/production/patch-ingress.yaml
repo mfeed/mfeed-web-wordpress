@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mfeed-wordpress-ingress
+  name: wordpress-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: web-v4-2
+    kubernetes.io/ingress.global-static-ip-name: wp-gclb-ip
 spec:
   rules:
     - host: www.mfeed.ad.jp
@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: mfeed-wordpress-svc
+                name: wordpress-svc
                 port:
                   number: 80

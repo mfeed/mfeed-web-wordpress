@@ -9,7 +9,7 @@ resources:
 namespace: web-production
 
 images:
-  - name: mfeed-wordpress
+  - name: wordpress
     newName: asia-northeast1-docker.pkg.dev/mfeed-web-production/mfeed-web-production-repo/wordpress
     newTag: stable
 
