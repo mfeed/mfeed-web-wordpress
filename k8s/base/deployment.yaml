@@ -14,12 +14,12 @@ spec:
       labels:
         app: www-mfeed-ad-jp-wordpress
     spec:
-      serviceAccountName: mfeed-wordpress-sa
+      serviceAccountName: wordpress-sa
       securityContext:
         fsGroup: 33
 
       initContainers:
-        - name: mfeed-seed-wp-content
+        - name: seed-wp-content
           image: wordpress:stable
           imagePullPolicy: IfNotPresent
           env:
@@ -78,7 +78,7 @@ spec:
               echo -n "${desired}" > "${VERSION_FILE}"
               echo "seed version updated: ${desired}"
           volumeMounts:
-            - name: mfeed-wp-content
+            - name: wp-content
               mountPath: /var/www/html/wp-content
 
       containers:
@@ -100,17 +100,17 @@ spec:
                     printf "ok\n" > /var/www/html/healthz || true
 
           volumeMounts:
-            - name: mfeed-wp-content
+            - name: wp-content
               mountPath: /var/www/html/wp-content
-            - name: mfeed-wordpress-config
+            - name: wordpress-config
               mountPath: /var/www/html/wp-config.php
               subPath: wp-config.php
               readOnly: true
-            - name: mfeed-wordpress-config
+            - name: wordpress-config
               mountPath: /usr/local/etc/php/conf.d/uploads.ini
               subPath: uploads.ini
               readOnly: true
-            - name: mfeed-wordpress-config
+            - name: wordpress-config
               mountPath: /var/www/html/.htaccess
               subPath: .htaccess
               readOnly: true
@@ -150,9 +150,9 @@ spec:
             runAsNonRoot: true
 
       volumes:
-        - name: mfeed-wp-content
+        - name: wp-content
           persistentVolumeClaim:
-            claimName: mfeed-wp-content-pvc
-        - name: mfeed-wordpress-config
+            claimName: wp-content-pvc
+        - name: wordpress-config
           configMap:
-            name: mfeed-wordpress-config
+            name: wordpress-config
