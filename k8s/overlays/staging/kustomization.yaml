@@ -9,7 +9,7 @@ resources:
 namespace: web-staging
 
 images:
-  - name: wordpress
+  - name: mfeed-wordpress
     newName: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress
     newTag: stable
 

@@ -41,9 +41,9 @@ env:
   GKE_CLUSTER: cluster-1
   GKE_REGION: asia-northeast1
   NAMESPACE: web-staging
-  WORDPRESS_PVC: wp-content-pvc
+  WORDPRESS_PVC: mfeed-wp-content-pvc
 
-  OUT_DIR: wordpress-export
+  OUT_DIR: mfeed-wordpress-export
 
 jobs:
   export:
