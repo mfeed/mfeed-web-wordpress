@@ -10,7 +10,7 @@ spec:
         iam.gke.io/gke-metadata-server-enabled: "true"
 
       initContainers:
-        - name: seed-wp-content
+        - name: mfeed-seed-wp-content
           env:
             - name: WP_CONTENT_SEED_VERSION
               value: dev

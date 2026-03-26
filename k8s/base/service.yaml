@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-svc
+  name: mfeed-wordpress-svc
   labels:
     app: www-mfeed-ad-jp-wordpress
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
-    cloud.google.com/backend-config: '{"default":"wordpress-backendconfig"}'
+    cloud.google.com/backend-config: '{"default":"mfeed-wordpress-backendconfig"}'
 spec:
   type: NodePort
   selector:
