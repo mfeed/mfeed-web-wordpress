@@ -1902,9 +1902,9 @@ table {
   font-weight: 400;
   letter-spacing: 0;
   color: $color-black;
-  &:not(:last-child) {
-    margin-bottom: 40px;
-  }
+  // &:not(:last-child) {
+  //   margin-bottom: 40px;
+  // }
   &__list {
     display: flex;
     flex-wrap: wrap;

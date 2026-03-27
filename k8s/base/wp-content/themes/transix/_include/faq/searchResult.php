@@ -7,12 +7,16 @@ if ( $keyword !== '' ) :
 
   $paged = isset( $_GET['paged'] ) ? max( 1, (int) $_GET['paged'] ) : 1;
 
-  $faq_query = new WP_Query( array(
-    'post_type'      => 'faq',
-    's'              => $keyword,
-    'posts_per_page' => 10,
-    'paged'          => $paged,
+   $faq_query = new WP_Query( array(
+    'post_type'           => 'faq',
+    'post_status'         => 'publish',
+    's'                   => $keyword,
+    'posts_per_page'      => 10,
+    'paged'               => $paged,
+    'ignore_sticky_posts' => true,
+    'suppress_filters'    => true,
   ) );
+
 
   if ( $faq_query->have_posts() ) :
 

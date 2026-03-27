@@ -79,7 +79,7 @@
   <div class="l-header__left">
     <a href="<?php echo home_url(); ?>" class="l-header__logo">
       <img src="<?php echo get_template_directory_uri(); ?>/_assets/img/common/logo.svg" alt="transix" width="160" height="34">
-      <p>ISP事業者さま向けインターネット接続 (VNE) サービス</p>
+      <p>ISP事業者向けインターネット接続 (VNE) サービス</p>
     </a>
   </div>
   <div class="l-header__right">

@@ -202,3 +202,10 @@
     margin-left: 1em;
   }
 }
+
+//reCAPTCHA
+
+.grecaptcha-badge{
+  bottom: 60px !important;
+  z-index: 9999;
+}
