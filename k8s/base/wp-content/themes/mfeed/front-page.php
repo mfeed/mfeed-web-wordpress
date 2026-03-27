@@ -1,12 +1,6 @@
 <?php get_header(); ?>
 <?php
 
-$jpnap_press = [
-  'date'  => '',
-  'title' => '',
-  'url'   => '',
-];
-
 if ( ! function_exists( 'jpnap_log' ) ) {
   function jpnap_log( $msg ) {
     $file = WP_CONTENT_DIR . '/jpnap-api-debug.log';
@@ -26,6 +20,10 @@ if ( ! function_exists( 'mfeed_format_ja_date' ) ) {
   }
 }
 
+// Use local WP DB: fetch posts by category
+
+/*
+// Original: fetch from external JPNAP API
 $endpoint = 'http://www-jpnap-net-wordpress-svc/home/api/wp/v2/notice_ja/';
 
 $response = wp_remote_get(
@@ -64,110 +62,154 @@ if ( is_wp_error( $response ) ) {
     }
   }
 
-if ( is_array( $data ) && ! empty( $data ) ) {
+  if ( is_array( $data ) && ! empty( $data ) ) {
 
-  if ( isset( $data['id'] ) ) {
-    $data = [ $data ];
-  }
-
-  $press_cat_id  = 3; 
-  $topics_cat_id = 6; 
-  $max_press     = 6; 
-
-  // ==========================
-  // ☆ Press（カテゴリID=3）
-  // ==========================
-  $press_items = [];
-
-  foreach ( $data as $post ) {
-    $cid            = isset( $post['category_id'] ) ? (int) $post['category_id'] : 0;
-    $cats = isset( $post['categories'] ) && is_array( $post['categories'] )
-      ? array_map( 'intval', $post['categories'] )
-      : [];
-
-    $is_press =
-      ( $cid === $press_cat_id ) ||
-      in_array( $press_cat_id, $cats, true );
-
-    if ( ! $is_press ) {
-      continue;
+    if ( isset( $data['id'] ) ) {
+      $data = [ $data ];
     }
 
-    $url = '';
-    if ( ! empty( $post['id'] ) ) {
-      $url = 'https://www.jpnap.net/news_detail.php?id=' . (int) $post['id'];
-    }
+    $press_cat_id  = 3; 
+    $topics_cat_id = 6; 
+    $max_press     = 6; 
 
-    $press_items[] = [
-      'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
-      'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
-      'url'   => $url,
-    ];
+    // ==========================
+    // ☆ Press（カテゴリID=3）
+    // ==========================
+    $press_items = [];
 
-    if ( count( $press_items ) >= $max_press ) {
-      break;
-    }
-  }
-
-  if ( empty( $press_items ) ) {
-    $cnt = 0;
     foreach ( $data as $post ) {
+      $cid            = isset( $post['category_id'] ) ? (int) $post['category_id'] : 0;
+      $cats = isset( $post['categories'] ) && is_array( $post['categories'] )
+        ? array_map( 'intval', $post['categories'] )
+        : [];
+
+      $is_press =
+        ( $cid === $press_cat_id ) ||
+        in_array( $press_cat_id, $cats, true );
+
+      if ( ! $is_press ) {
+        continue;
+      }
+
+      $url = '';
+      if ( ! empty( $post['id'] ) ) {
+        $url = 'https://www.jpnap.net/news_detail.php?id=' . (int) $post['id'];
+      }
+
       $press_items[] = [
         'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
         'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
-        'url'   => ! empty( $post['link'] ) ? $post['link'] : '',
+        'url'   => $url,
       ];
-      $cnt++;
-      if ( $cnt >= $max_press ) break;
-    }
-  }
 
-  $jpnap_press = $press_items[0];
-
-  // ==========================
-  // ☆ Topics（カテゴリID=6）
-  // ==========================
-  $jpnap_topics_items = [];
-
-  foreach ( $data as $post ) {
-
-    $cid            = isset( $post['category_id'] ) ? (int) $post['category_id'] : 0;
-    $cats = isset( $post['categories'] ) && is_array( $post['categories'] )
-      ? array_map( 'intval', $post['categories'] )
-      : [];
-
-    $is_topics =
-      ( $cid === $topics_cat_id ) ||
-      in_array( $topics_cat_id, $cats, true );
-
-    if ( ! $is_topics ) {
-      continue;
+      if ( count( $press_items ) >= $max_press ) {
+        break;
+      }
     }
 
-    $url = '';
-    if ( ! empty( $post['id'] ) ) {
-      $url = 'https://www.jpnap.net/news_detail.php?id=' . (int) $post['id'];
+    if ( empty( $press_items ) ) {
+      $cnt = 0;
+      foreach ( $data as $post ) {
+        $press_items[] = [
+          'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
+          'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
+          'url'   => ! empty( $post['link'] ) ? $post['link'] : '',
+        ];
+        $cnt++;
+        if ( $cnt >= $max_press ) break;
+      }
     }
 
-    $jpnap_topics_items[] = [
-      'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
-      'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
-      'url'   => $url,
-    ];
-  }
+    $jpnap_press = $press_items[0];
 
-  if ( empty( $jpnap_topics_items ) ) {
+    // ==========================
+    // ☆ Topics（カテゴリID=6）
+    // ==========================
+    $jpnap_topics_items = [];
+
     foreach ( $data as $post ) {
+
+      $cid            = isset( $post['category_id'] ) ? (int) $post['category_id'] : 0;
+      $cats = isset( $post['categories'] ) && is_array( $post['categories'] )
+        ? array_map( 'intval', $post['categories'] )
+        : [];
+
+      $is_topics =
+        ( $cid === $topics_cat_id ) ||
+        in_array( $topics_cat_id, $cats, true );
+
+      if ( ! $is_topics ) {
+        continue;
+      }
+
+      $url = '';
+      if ( ! empty( $post['id'] ) ) {
+        $url = 'https://www.jpnap.net/news_detail.php?id=' . (int) $post['id'];
+      }
+
       $jpnap_topics_items[] = [
         'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
         'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
-        'url'   => ! empty( $post['link'] ) ? $post['link'] : '',
+        'url'   => $url,
       ];
+    }
+
+    if ( empty( $jpnap_topics_items ) ) {
+      foreach ( $data as $post ) {
+        $jpnap_topics_items[] = [
+          'date'  => ! empty( $post['date'] ) ? $post['date'] : '',
+          'title' => ! empty( $post['title']['rendered'] ) ? wp_strip_all_tags( $post['title']['rendered'] ) : '',
+          'url'   => ! empty( $post['link'] ) ? $post['link'] : '',
+        ];
+      }
     }
   }
 }
+*/
 
+$press_cat_id  = 3;
+$topics_cat_id = 6;
+$max_press     = 6;
+
+$press_items = array();
+$press_posts = get_posts( array(
+  'post_type'      => 'post',
+  'cat'            => $press_cat_id,
+  'posts_per_page' => $max_press,
+  'post_status'    => 'publish',
+  'orderby'        => 'date',
+  'order'          => 'DESC',
+) );
+
+if ( ! empty( $press_posts ) ) {
+  foreach ( $press_posts as $p ) {
+    $press_items[] = array(
+      'date'  => get_the_date( 'c', $p->ID ),
+      'title' => get_the_title( $p->ID ),
+      'url'   => get_permalink( $p->ID ),
+    );
+  }
 }
+
+//$jpnap_topics_items = array();
+//$topic_posts = get_posts( array(
+//  'post_type'      => 'post',
+//  'cat'            => $topics_cat_id,
+//  'posts_per_page' => 6,
+//  'post_status'    => 'publish',
+//  'orderby'        => 'date',
+//  'order'          => 'DESC',
+//) );
+//
+//if ( ! empty( $topic_posts ) ) {
+//  foreach ( $topic_posts as $t ) {
+//    $jpnap_topics_items[] = array(
+//      'date'  => get_the_date( 'c', $t->ID ),
+//      'title' => get_the_title( $t->ID ),
+//      'url'   => get_permalink( $t->ID ),
+//    );
+//  }
+//}
 ?>
 
 
@@ -353,7 +395,7 @@ if ( is_array( $data ) && ! empty( $data ) ) {
           </div>
 
           <h2 itemprop="name">
-            <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $post['url'] ); ?>" target="_blank" rel="noopener noreferrer">
+            <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $post['url'] ); ?>">
               <?php echo esc_html( $post['title'] ); ?>
             </a>
           </h2>
@@ -392,6 +434,471 @@ if ( is_array( $data ) && ! empty( $data ) ) {
         <div class="inner-hook">
           <h2 class="text-center topic-title mb-5">Topics</h2>
 
+          <!-- トピックスの DOM 構造は、Press Releases で利用している _partial/latest-news に寄せる -->
+          <div class="row py-3">
+            <div class="col">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2025年11月20日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          CEDEC+KYUSHU 2025の開催期間中に運用される会場Wi-FiネットワークとJPNAPを10Gで接続します。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2025年7月28日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JANOG56のネットワークサポーターとして、開催期間中に運用される会場ネットワークとJPNAPを10Gで接続します。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2025年6月11日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          Interop Tokyo 2025へのコントリビューションとして、開催期間中にShowNetとJPNAPを100Gで接続します。<br>
+                          <object>Interop Tokyo 2025 ShowNetについては<a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2025/shownet/" target="_blank">主催者の解説ページ</a>をご覧ください。</object>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2025年1月20日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JANOG55のネットワークサポーターとして、開催期間中に運用される会場ネットワークとJPNAPを10Gで接続します。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2024年11月20日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          CEDEC+KYUSHU 2024の開催期間中に運用される会場Wi-FiネットワークとJPNAPを10Gで接続します。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2024年7月3日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JANOG54のネットワークサポーターとして、開催期間中に運用される会場ネットワークとJPNAPを10Gで接続します。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2024年6月12日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          Interop Tokyo 2024へのコントリビューションとして、開催期間中にShowNetとJPNAPを100Gで接続します。<br>
+                          <object>Interop Tokyo 2024 ShowNetについては<a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2024/shownet/" target="_blank">主催者の解説ページ</a>をご覧ください。</object>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+               <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2024年3月29日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          西日本エリアで運用中の「JPNAP RPKI パブリックROAキャッシュサーバ」について、新たに東日本エリアでの運用を開始しました。<br>
+                          詳細については<a class="archive-article-title font-weight-normal" href="https://www.mfeed.ad.jp/rpki/tech.html" target="_blank">こちら</a><br>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2024年2月1日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JPNAPではこのたび、2014年より運用しているRPKI パブリックROAキャッシュサーバについて、RPKIを取り巻く昨今の状況の変化を取り入れつつ、<br>
+                          より使いやすいサービスを目指しリニューアルを実施しました。詳細については<a class="archive-article-title font-weight-normal" href="https://www.mfeed.ad.jp/rpki/tech.html" target="_blank">こちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2022年7月13日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          ■ 書籍「ピアリング戦記 日本のインターネットを繋ぐ技術者たち」出版への協賛について<br>
+                          当社は、2022年7月13日に発売される書籍「ピアリング戦記 日本のインターネットを繋ぐ技術者たち」に協賛します。<br>
+                          業界の有志が発起人となり、ピアリングを切り口として日本のインターネットがどの様に発展し、実社会に変化をもたらしてきたかを、実ビジネス目線で綴った書籍となっております。<br>
+                          当社は、本書籍への協賛を通じて、ピアリングコミュニティとインターネット環境のさらなる普及と発展に貢献します。<br>
+                          <br>
+                          <書籍概要><br>
+                          書名：ピアリング戦記 日本のインターネットを繋ぐ技術者たち<br>
+                          著者：小川晃通<br>
+                          発売日: 2022年7月13日<br>
+                          出版社: ラムダノート株式会社<br>
+                          定価: 2,200円（税込）<br>
+                          ISBN: 978-4-908686-14-6
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2022年7月12日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JANOG50 Meeting の ホットトピックとして、IX相互接続実証実験でのアジア初400G導入について掲載されました。<br>
+                          <a class="archive-article-title font-weight-normal" href="https://www.janog.gr.jp/meeting/janog50/ix%E7%9B%B8%E4%BA%92%E6%8E%A5%E7%B6%9A%E5%AE%9F%E8%A8%BC%E5%AE%9F%E9%A8%93%E3%82%92%E9%80%9A%E3%81%98%E3%81%A6%E8%A6%8B%E3%81%88%E3%81%A6%E3%81%8D%E3%81%9F400g%E5%B0%8E%E5%85%A5%E3%81%A7%E3%80%8C/">JANOG50 Meeting でのアジア初 400G 実証実験に関する掲載記事はこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2021年10月29日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JPNAPはPCCW Global Ltd.と協業を開始しました。PCCW Global Ltd.が提供するConsole Connect経由で、
+                          JPNAP東京へのリモートピアリングが可能になります。<br>
+                        <a class="archive-article-title font-weight-normal" href="https://www.consoleconnect.com/2021/07/pccw-global-launches-on-demand-access-to-leading-ix-platforms-through-console-connect/">PCCW Global Ltd.のニュースリリースはこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2021年10月1日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          ■当社の業務体制について<br>
+                          新型コロナウィルス感染症拡大防止に向けて、弊社では全社的にリモートワークによる業務体制とし、7月12日よりお問い合わせはメールでのご連絡をお願いさせて頂いておりましたが、緊急事態宣言の解除に伴い、当社へのお問合せについて、電話を含め従来通りのお問合せ窓口とさせて頂きます。ご不便をおかけし申し訳ございませんでした。<br>
+                          尚、今後の感染拡大の動向によっては、再度、お問合せ窓口等を変更させていただく場合がございます。その際は、改めてお知らせします。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2021年9月1日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          ■JANOG50をホスト会社としてサポートします<br>
+                          当社は、2022年7月13日〜15日に北海道函館市で開催予定のJANOG50ミーティングをホストとしてサポートさせて頂きます。<br>
+                          JANOG50は、JANOGミーティング開始以来25周年となるミーティングです。<br>
+                          社員一同、JANOGミーティングのサポートを通じ、インターネットの課題解決・更なる発展 及び JANOGコミュニティの発展に貢献していきたいと思っております。<br>
+                          多くのインターネット関係者にJANOGミーティングにご参加いただけることを楽しみにしております。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2021年3月24日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JPNAPはNTT Ltd.と協業を開始しました。NTT Ltd.のバンコク2データセンターを介したBangkok Neutral Internet eXchange (BKNIX) とJPNAP東京との相互接続により、
+                          バンコク2データセンターのみならずBKNIXの各接続拠点からJPNAP東京へのリモートピアリングの提供が可能となりました。<br>
+                          <a class="archive-article-title font-weight-normal" href="https://hello.global.ntt/en-us/newsroom/ntt-establishes-its-bangkok-2-data-center-as-international-network-exchange-hub">NTT Ltd.のニュースリリースはこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2020年12月24日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JPNAP RouteFEEDサービスにおいて、全てのルートサーバーでRPKI (Resource Public Key Infrastructure) による経路の広報元検証 (ROV: Route Origin Validation) を導入しました。
+                          これによりルートサーバーを介したお客様間の経路交換がこれまで以上にセキュアになります。JPNAPは引き続きインターネットルーティングセキュリティの向上に努めてまいります。<br>
+                          <!--- <a> のネストができずに「ご覧ください」が <h2> で出力されてしまうため <object> で回避している。参考: https://blog.n-t.jp/tech/html-nested-anchor/ -->
+                          <object>RPKIについては <a class="archive-article-title font-weight-normal" href="https://www.nic.ad.jp/ja/rpki/">JPNIC様の解説ページ</a> をご覧ください。</object>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2020年6月9日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          NGN IPoE協議会が発展的に解散し、一般社団法人 IPoE協議会として新たに活動を開始しました。
+                          当社は継続して新法人に参画いたします。<br>
+                          <a class="archive-article-title font-weight-normal" href="https://ipoe-c.jp/__assets__/20200609_pressrelease.pdf">一般社団法人IPoE協議会のニュースリリースはこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2020年6月9日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JPNAP東京RouteFEEDサービスにおいて、RPKI対応ルートサーバートライアルを実施します。RPKIを実装したルートサーバーを試験的に運用し、
+                          ご協力いただけるお客様に対してRPKI ROVをご提供いたします。ご接続いただけるお客様はJPNAPカスタマサポートまでお問い合わせください。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2020年4月10日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          インターネットトラヒック流通効率化検討協議会に参加いたします。<br>
+                          <a class="archive-article-title font-weight-normal" href="https://www.soumu.go.jp/menu_news/s-news/01kiban04_02000165.html">協議会についてはこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2020年3月26日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          Megaport MarketplaceでのJPNAP東京サービスの申込受付を開始いたしました。MegaportのSDNサービス経由で、JPNAP東京でのリモートピアリングが可能になります。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2019年6月12日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          Interop Tokyo 2019へのコントリビューションとして、開催期間中にShowNetとJPNAPを100Gで接続します。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2019年4月24日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          NGN IPoE協議会がIPv6地理情報共有ワーキンググループを発足しました。当社もそのIPv6の普及促進という設立趣意に賛同し、ワーキンググループに参画します。<br>
+                          <a class="archive-article-title font-weight-normal" href="https://ipoe-c.jp/__assets__/20190424.pdf">NGN IPoE協議会のニュースリリースはこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2017年11月20日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          JPNAPはジャパンケーブルキャスト株式会社と協業し、ケーブルテレビ事業者向け多チャンネル映像配信サービスであるJC-HITSをJPNAP東京経由で受信できるオプションサービスを開始しました。JPNAP東京をご利用のケーブルテレビ事業者は、接続に利用している専用線の余剰帯域にJC-HITS信号を重畳して受信することで、コストダウンを図ることが可能です。<br>
+                          <a class="archive-article-title font-weight-normal" href="http://www.cablecast.co.jp/press/pdf/0254_20171120.pdf">ジャパンケーブルキャスト株式会社のニュースリリースはこちら</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- //corporatestyle -->
+
+<?php /*
+// Original: fetch from external JPNAP API
           <div class="row py-3">
             <div class="col">
               <ul class="list-group list-group-flush" id="topics-list">
@@ -403,14 +910,14 @@ if ( is_array( $data ) && ! empty( $data ) ) {
             <div class="d-flex align-items-end">
               <div class="article-datetime text-right">
                 <a class="archive-article-date" href="<?php echo esc_url( $item['url'] ); ?>">
-                  <time class="align-bottom">
+                  <time class="align-bottom" datetime="<?php echo esc_attr( $item['date'] ); ?>" itemprop="datePublished">
                     <?php echo esc_html( mfeed_format_ja_date( $item['date'] ) ); ?>
                   </time>
                 </a>
               </div>
             </div>
             <h2 itemprop="name">
-              <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $item['url'] ); ?>" target="_blank" rel="noopener noreferrer">
+              <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $item['url'] ); ?>">
                 <?php echo esc_html( $item['title'] ); ?>
               </a>
             </h2>
@@ -433,5 +940,6 @@ if ( is_array( $data ) && ! empty( $data ) ) {
     </div>
   </div>
 </section><!-- //corporatestyle -->
+*/ ?>
 
 <?php get_footer(); ?>
