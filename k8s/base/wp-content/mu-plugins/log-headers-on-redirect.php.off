@@ -1,0 +1,11 @@
+<?php
+/*
+Plugin Name: Log headers on redirect (local)
+*/
+add_action('shutdown', function () {
+   = http_response_code();
+  if ( >= 300 &&  < 400) {
+    error_log('STATUS '.);
+    error_log('HEADERS '.print_r(headers_list(), true));
+  }
+});

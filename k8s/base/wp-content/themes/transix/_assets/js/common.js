@@ -365,6 +365,7 @@ var scrollAnimeTargets = document.querySelectorAll(
 );
 window.addEventListener("scroll", function () {
   var scroll = window.scrollY;
+  var viewHeight = window.innerHeight; 
   for (let target of scrollAnimeTargets) {
     var targetPos = target.getBoundingClientRect().top + scroll + 100;
     if (scroll > targetPos - viewHeight) {
