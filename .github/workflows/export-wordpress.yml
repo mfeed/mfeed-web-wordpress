@@ -113,6 +113,7 @@ jobs:
         run: |
           set -euo pipefail
 
+          # 念のため既存の wp-export-pvc-reader Podを消す（前回失敗の残骸対策）
           kubectl -n "${NAMESPACE}" delete pod/wp-export-pvc-reader --ignore-not-found
 
           cat <<YAML | kubectl -n "${NAMESPACE}" apply -f -
@@ -137,8 +138,11 @@ jobs:
                     mountPath: /wp-content
           YAML
 
+          # 状態が詰まった時に理由が見えるように describe を出す
           kubectl -n "${NAMESPACE}" get pod wp-export-pvc-reader -o wide || true
           kubectl -n "${NAMESPACE}" describe pod wp-export-pvc-reader | sed -n '/Events:/,$p' || true
+
+          # 待機時間も少し伸ばす（Attach待ちの保険）
           kubectl -n "${NAMESPACE}" wait --for=condition=Ready pod/wp-export-pvc-reader --timeout=300s
 
       - name: Copy uploads from PVC to repo seed dir
@@ -149,8 +153,10 @@ jobs:
           rm -rf /tmp/wp-uploads
           mkdir -p /tmp/wp-uploads
 
+          # Copy uploads directory out of the pod
           kubectl -n "${NAMESPACE}" cp wp-export-pvc-reader:/wp-content/uploads /tmp/wp-uploads/uploads
 
+          # Sync into repo uploads dir
           rsync -a --delete /tmp/wp-uploads/uploads/ "${UPLOADS_SEED_DIR}/"
 
           echo "Sample exported files:"
