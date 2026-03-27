@@ -4,4 +4,4 @@ metadata:
   name: wordpress-backendconfig
 spec:
   securityPolicy:
-    name: allow-internal-only
+    name: mfeed-web-policy

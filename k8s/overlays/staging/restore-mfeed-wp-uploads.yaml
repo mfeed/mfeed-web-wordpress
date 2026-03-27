@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restore-mfeed-wp-uploads
+  namespace: web-staging
+  labels:
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/part-of: mfeed-web
+    app.kubernetes.io/environment: staging
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wordpress
+        app.kubernetes.io/part-of: mfeed-web
+        app.kubernetes.io/environment: staging
+        job-name: restore-mfeed-wp-uploads
+    spec:
+      restartPolicy: Never
+      serviceAccountName: wordpress-sa
+      securityContext:
+        fsGroup: 33
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+        - name: restore
+          image: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress:stable
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-lc"]
+          args:
+            - |
+              set -eu
+
+              SRC="/seed/wp-content/uploads"
+              DST="/var/www/html/wp-content/uploads"
+
+              echo "== check source =="
+              if [ ! -d "$SRC" ]; then
+                echo "source uploads directory not found: $SRC"
+                exit 1
+              fi
+
+              echo "== prepare destination =="
+              mkdir -p "$DST"
+
+              echo "== restore uploads (no delete) =="
+              tar -C "$SRC" -cf - . | tar -C "$DST" -xpf -
+
+              echo "== fix ownership =="
+              chown -R www-data:www-data "$DST" || true
+
+              echo "== sample listing =="
+              find "$DST" -maxdepth 3 -type d | sort | head -50 || true
+
+              echo "restore complete"
+          volumeMounts:
+            - name: wp-content
+              mountPath: /var/www/html/wp-content
+      volumes:
+        - name: wp-content
+          persistentVolumeClaim:
+            claimName: wp-content-pvc

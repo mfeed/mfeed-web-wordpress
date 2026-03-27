@@ -44,6 +44,7 @@ env:
   WORDPRESS_PVC: wp-content-pvc
 
   OUT_DIR: wordpress-export
+  UPLOADS_SEED_DIR: k8s/base/wp-content/uploads
 
 jobs:
   export:
@@ -76,7 +77,7 @@ jobs:
       - name: Prepare output dirs
         run: |
           set -eu
-          mkdir -p "${OUT_DIR}/db" "${OUT_DIR}/uploads"
+          mkdir -p "${OUT_DIR}/db" "${UPLOADS_SEED_DIR}"
 
       # -----------------------------
       # DB export (Cloud SQL -> GCS -> repo)
@@ -88,7 +89,6 @@ jobs:
           TS="$(date -u +%Y%m%dT%H%M%SZ)"
           echo "TS=$TS" >> "$GITHUB_ENV"
 
-          # Export destination in GCS
           EXPORT_URI="${{ inputs.gcs_bucket }}/${{ inputs.cloudsql_instance }}/${TS}.sql.gz"
           echo "EXPORT_URI=$EXPORT_URI" >> "$GITHUB_ENV"
 
@@ -106,7 +106,7 @@ jobs:
           gsutil cp "$EXPORT_URI" "${OUT_DIR}/db/cloudsql-${TS}.sql.gz"
 
       # -----------------------------
-      # uploads export (PVC -> temp pod -> kubectl cp -> repo)
+      # uploads export (PVC -> temp pod -> kubectl cp -> repo build source)
       # -----------------------------
       - name: Create temp pod for PVC access
         if: ${{ inputs.export_target == 'uploads' || inputs.export_target == 'both' }}
@@ -145,21 +145,25 @@ jobs:
           # 待機時間も少し伸ばす（Attach待ちの保険）
           kubectl -n "${NAMESPACE}" wait --for=condition=Ready pod/wp-export-pvc-reader --timeout=300s
 
-      - name: Copy uploads from PVC to runner
+      - name: Copy uploads from PVC to repo seed dir
         if: ${{ inputs.export_target == 'uploads' || inputs.export_target == 'both' }}
         run: |
           set -eu
+
           rm -rf /tmp/wp-uploads
           mkdir -p /tmp/wp-uploads
 
           # Copy uploads directory out of the pod
           kubectl -n "${NAMESPACE}" cp wp-export-pvc-reader:/wp-content/uploads /tmp/wp-uploads/uploads
 
-          # Sync into repo output dir
-          rsync -a --delete /tmp/wp-uploads/uploads/ "${OUT_DIR}/uploads/"
+          # Sync into repo uploads dir
+          rsync -a --delete /tmp/wp-uploads/uploads/ "${UPLOADS_SEED_DIR}/"
+
+          echo "Sample exported files:"
+          find "${UPLOADS_SEED_DIR}" -maxdepth 3 -type f | head -50 || true
 
       - name: Cleanup temp pod
-        if: ${{ always() }}
+        if: always()
         run: |
           kubectl -n "${NAMESPACE}" delete pod/wp-export-pvc-reader --ignore-not-found
 
@@ -169,8 +173,9 @@ jobs:
       - name: Commit & push changes
         run: |
           set -eu
+
           git config user.email "actions@github.com"
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
 
           git add -A
 
