@@ -160,22 +160,22 @@ jobs:
                         DST="/var/www/html/wp-content/uploads"
 
                         echo "== check source =="
-                        if [ ! -d "$SRC" ]; then
-                          echo "source uploads directory not found: $SRC"
+                        if [ ! -d "\$SRC" ]; then
+                          echo "source uploads directory not found: \$SRC"
                           exit 1
                         fi
 
                         echo "== prepare destination =="
-                        mkdir -p "$DST"
+                        mkdir -p "\$DST"
 
                         echo "== restore uploads (no delete) =="
-                        tar -C "$SRC" -cf - . | tar -C "$DST" -xpf -
+                        tar -C "\$SRC" -cf - . | tar -C "\$DST" -xpf -
 
                         echo "== fix ownership =="
-                        chown -R www-data:www-data "$DST" || true
+                        chown -R www-data:www-data "\$DST" || true
 
                         echo "== sample listing =="
-                        find "$DST" -maxdepth 3 -type d | sort | head -50 || true
+                        find "\$DST" -maxdepth 3 -type d | sort | head -50 || true
 
                         echo "restore complete"
                     volumeMounts:
