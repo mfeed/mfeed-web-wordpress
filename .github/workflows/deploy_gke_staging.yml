@@ -69,7 +69,8 @@ jobs:
             -t "$DST_IMAGE" \
             -t "$DST_IMAGE_LATEST" \
             -t "$DST_IMAGE_STABLE" \
-            k8s/base
+            k8s/base \
+            --no-cache
 
       - name: Push image to GAR
         run: |
