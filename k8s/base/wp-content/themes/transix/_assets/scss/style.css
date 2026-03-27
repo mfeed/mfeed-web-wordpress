@@ -1176,6 +1176,9 @@ body.is-loaded .c-drawerBtn {
 .l-main__section:not(:last-child):has(.c-pickUp) {
   padding-bottom: 46px;
 }
+.l-main__section:first-of-type {
+  padding-top: 40px;
+}
 .l-main__section.--lightgray {
   background: #F1F4F5;
 }

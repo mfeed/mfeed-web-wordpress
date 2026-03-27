@@ -28,6 +28,9 @@
     &:not(:last-child):has(.c-pickUp) {
       padding-bottom: 46px;
     }
+    &:first-of-type {
+    padding-top: calc($marginPC / 2);
+    }
     &.--lightgray {
       background: $color-lightgray;
       &.--column {
