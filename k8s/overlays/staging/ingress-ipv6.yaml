@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: gce
+    kubernetes.io/ingress.global-static-ip-name: wp-gclb-ipv6
+  labels:
+    app.kubernetes.io/environment: staging
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/part-of: mfeed-web
+  name: wordpress-ingress-ipv6
+  namespace: web-staging
+spec:
+  rules:
+  - host: www.wp-stg.mfeed.ad.jp
+    http:
+      paths:
+      - backend:
+          service:
+            name: wordpress-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

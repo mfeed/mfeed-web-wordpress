@@ -1,0 +1,76 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: ingress-nginx
+  name: web-v6-2
+  annotations:
+    kubernetes.io/ingress.class: gce
+    kubernetes.io/ingress.global-static-ip-name: web-v6-2
+    kubernetes.io/ingress.allow-http: "true"
+    networking.gke.io/v1beta1.FrontendConfig: web
+spec:
+  #ingressClassName: gce
+  rules:
+  - host: www.mfeed.ad.jp
+    http: &mfeed-web-policy 
+      paths:
+      - backend:
+          service:
+            name: ingress-nginx-2-mfeed-web-policy 
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  - host: mfeed.ad.jp
+    http: *mfeed-web-policy 
+  - host: www.mfeed.co.jp
+    http: *mfeed-web-policy 
+  - host: www.mfeed.ne.jp
+    http: *mfeed-web-policy 
+  - host: www.mfeed.jp
+    http: *mfeed-web-policy 
+  - host: www.jst.mfeed.ad.jp
+    http: *mfeed-web-policy 
+
+  - host: www.jpnap.net
+    http: &public
+      paths:
+      - backend:
+          service:
+            name: ingress-nginx-2-public
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  - host: jpnap.net
+    http: *public
+  - host: www.jpnap.com
+    http: *public
+  - host: www.jpnap.ne.jp
+    http: *public
+  - host: www.jpnap.jp
+    http: *public
+
+  - host: www.exp.mfeed.ad.jp
+    http: &restricted
+      paths:
+      - backend:
+          service:
+            name: ingress-nginx-2-restricted
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  - host: www.lab.jpnap.net
+    http: *restricted
+  - host: www.stg.mfeed.ad.jp
+    http: *restricted
+  - host: www.stg.jpnap.net
+    http: *restricted
+
+  tls:
+  - secretName: cert-mfeed-production-1
+  - secretName: cert-mfeed-production-2
+  - secretName: cert-jpnap-production-2
+  - secretName: cert-jpnap-production-1
+  - secretName: cert-mfeed-staging-1
+  - secretName: cert-jpnap-staging-1
+  - secretName: cert-mfeed-lab-1
+  - secretName: cert-jpnap-lab-1

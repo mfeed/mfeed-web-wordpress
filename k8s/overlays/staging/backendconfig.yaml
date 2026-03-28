@@ -1,0 +1,16 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  labels:
+    app.kubernetes.io/environment: staging
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/part-of: mfeed-web
+  name: wordpress-backendconfig
+  namespace: web-staging
+spec:
+  healthCheck:
+    port: 80
+    requestPath: /healthz
+    type: HTTP
+  securityPolicy:
+    name: allow-internal-only

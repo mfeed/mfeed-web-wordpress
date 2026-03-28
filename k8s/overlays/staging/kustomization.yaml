@@ -4,7 +4,11 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - ../../base
+  - service.yaml
   - secretproviderclass.yaml
+  - ingress.yaml
+  - ingress-ipv6.yaml
+  - backendconfig.yaml
 
 namespace: web-staging
 
@@ -16,9 +20,9 @@ images:
 patches:
   - path: patch-deployment.yaml
   - path: patch-serviceaccount.yaml
-  - path: patch-backendconfig.yaml
-  - path: patch-ingress.yaml
-  - path: patch-ingress-ipv6.yaml
+#  - path: patch-backendconfig.yaml
+#  - path: patch-ingress.yaml
+#  - path: patch-ingress-ipv6.yaml
 
 commonLabels:
   app.kubernetes.io/environment: staging

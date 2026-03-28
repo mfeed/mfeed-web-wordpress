@@ -5,10 +5,10 @@ resources:
   - pvc.yaml
   - serviceaccount.yaml
   - deployment.yaml
-  - service.yaml
-  - backendconfig.yaml
-  - ingress.yaml
-  - ingress-ipv6.yaml
+#  - service.yaml
+#  - backendconfig.yaml
+#  - ingress.yaml
+#  - ingress-ipv6.yaml
 
 configMapGenerator:
   - name: wordpress-config
