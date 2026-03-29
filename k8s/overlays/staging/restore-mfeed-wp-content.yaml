@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: restore-mfeed-wp-uploads
-  namespace: web-production
+  name: restore-mfeed-wp-content
+  namespace: web-staging
   labels:
     app.kubernetes.io/name: wordpress
     app.kubernetes.io/part-of: mfeed-web
-    app.kubernetes.io/environment: production
+    app.kubernetes.io/environment: staging
 spec:
   backoffLimit: 0
   template:
@@ -14,8 +14,8 @@ spec:
       labels:
         app.kubernetes.io/name: wordpress
         app.kubernetes.io/part-of: mfeed-web
-        app.kubernetes.io/environment: production
-        job-name: restore-mfeed-wp-uploads
+        app.kubernetes.io/environment: staging
+        job-name: restore-mfeed-wp-content
     spec:
       restartPolicy: Never
       serviceAccountName: wordpress-sa
@@ -25,26 +25,26 @@ spec:
         iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
         - name: restore
-          image: asia-northeast1-docker.pkg.dev/mfeed-web-1/mfeed-web-production-repo/wordpress:stable
+          image: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress:stable
           imagePullPolicy: Always
           command: ["sh", "-lc"]
           args:
             - |
               set -eu
 
-              SRC="/seed/wp-content/uploads"
-              DST="/var/www/html/wp-content/uploads"
+              SRC="/seed/wp-content"
+              DST="/var/www/html/wp-content"
 
               echo "== check source =="
               if [ ! -d "$SRC" ]; then
-                echo "source uploads directory not found: $SRC"
+                echo "source wp-content directory not found: $SRC"
                 exit 1
               fi
 
               echo "== prepare destination =="
               mkdir -p "$DST"
 
-              echo "== restore uploads (no delete) =="
+              echo "== restore wp-content (no delete) =="
               tar -C "$SRC" -cf - . | tar -C "$DST" -xpf -
 
               echo "== fix ownership =="

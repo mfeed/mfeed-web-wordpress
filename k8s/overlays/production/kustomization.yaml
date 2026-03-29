@@ -1,10 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+labels:
+  - pairs:
+      app.kubernetes.io/environment: production
+      app.kubernetes.io/name: wordpress
+      app.kubernetes.io/part-of: mfeed-web
+
 resources:
   - namespace.yaml
   - ../../base
+  - service.yaml
   - secretproviderclass.yaml
+  - ingress-www-mfeed-ad-jp.yaml
+  - ingress-www-mfeed-ad-jp-assets.yaml
+  - ingress-www-mfeed-ad-jp-domain-redirection.yaml
 
 namespace: web-production
 
@@ -16,9 +26,9 @@ images:
 patches:
   - path: patch-deployment.yaml
   - path: patch-serviceaccount.yaml
-  - path: patch-backendconfig.yaml
-  - path: patch-ingress.yaml
-  - path: patch-ingress-ipv6.yaml
+#  - path: patch-backendconfig.yaml
+#  - path: patch-ingress.yaml
+#  - path: patch-ingress-ipv6.yaml
 
 commonLabels:
   app.kubernetes.io/environment: production

@@ -151,7 +151,7 @@ jobs:
                 containers:
                   - name: restore
                     image: ${DST_IMAGE_STABLE}
-                    imagePullPolicy: IfNotPresent
+                    imagePullPolicy: Always
                     command: ["sh", "-lc"]
                     args:
                       - |
