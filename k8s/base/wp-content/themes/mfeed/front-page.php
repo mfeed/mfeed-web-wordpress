@@ -1,6 +1,7 @@
 <?php get_header(); ?>
 <?php
 
+/*
 if ( ! function_exists( 'jpnap_log' ) ) {
   function jpnap_log( $msg ) {
     $file = WP_CONTENT_DIR . '/jpnap-api-debug.log';
@@ -8,6 +9,7 @@ if ( ! function_exists( 'jpnap_log' ) ) {
     error_log( $line, 3, $file );
   }
 }
+*/
 
 // 日付フォーマット
 if ( ! function_exists( 'mfeed_format_ja_date' ) ) {
@@ -167,8 +169,7 @@ if ( is_wp_error( $response ) ) {
 }
 */
 
-$press_cat_id  = 3;
-$topics_cat_id = 6;
+$press_cat_id  = 2;
 $max_press     = 6;
 
 $press_items = array();
@@ -371,44 +372,36 @@ if ( ! empty( $press_posts ) ) {
         <div class="row py-3">
           <div class="col">
 <ul class="list-group list-group-flush" id="latestnews-list">
-<?php if ( ! empty( $press_items ) ) : ?>
-
-  <?php foreach ( $press_items as $post ) : ?>
-    <li class="list-group-item">
-      <article class="archive-article archive-article-for-top archive-type-post">
-        <header class="archive-article-header">
-          <div class="d-flex align-items-end">
-            <div class="article-datetime text-right">
-              <a href="<?php echo esc_url( $post['url'] ); ?>" class="archive-article-date">
-                <time datetime="<?php echo esc_attr( $post['date'] ); ?>" itemprop="datePublished" class="align-bottom">
-                  <?php echo esc_html( mfeed_format_ja_date( $post['date'] ) ); ?>
-                </time>
-              </a>
-            </div>
-
-            <div class="category ml-2">
-              <i class="fas fa-newspaper"></i>
-              <div class="article-category d-inline">
-                PRESS
-              </div>
-            </div>
+<?php foreach ( $press_items as $post ) : ?>
+  <li class="list-group-item">
+    <article class="archive-article archive-article-for-top archive-type-post">
+      <header class="archive-article-header">
+        <div class="d-flex align-items-end">
+          <div class="article-datetime text-right">
+            <a href="<?php echo esc_url( $post['url'] ); ?>" class="archive-article-date">
+              <time datetime="<?php echo esc_attr( $post['date'] ); ?>" itemprop="datePublished" class="align-bottom">
+                <?php echo esc_html( mfeed_format_ja_date( $post['date'] ) ); ?>
+              </time>
+            </a>
           </div>
 
-          <h2 itemprop="name">
-            <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $post['url'] ); ?>">
-              <?php echo esc_html( $post['title'] ); ?>
-            </a>
-          </h2>
-        </header>
-      </article>
-    </li>
-  <?php endforeach; ?>
+          <div class="category ml-2">
+            <i class="fas fa-newspaper"></i>
+            <div class="article-category d-inline">
+              PRESS
+            </div>
+          </div>
+        </div>
 
-<?php else : ?>
-  <li class="list-group-item">
-    現在、プレスリリースはありません。
+        <h2 itemprop="name">
+          <a class="archive-article-title font-weight-normal" href="<?php echo esc_url( $post['url'] ); ?>">
+            <?php echo esc_html( $post['title'] ); ?>
+          </a>
+        </h2>
+      </header>
+    </article>
   </li>
-<?php endif; ?>
+<?php endforeach; ?>
 </ul>
 
           </div>
