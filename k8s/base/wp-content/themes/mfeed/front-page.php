@@ -437,6 +437,25 @@ if ( ! empty( $press_posts ) ) {
                       <div class="d-flex align-items-end">
                         <div class="article-datetime text-right">
                           <a class="archive-article-date"><time class="align-bottom">
+                            2026年3月30日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          transix公式Webサイトをリニューアルしました。サービスの特長をより分かりやすくご紹介しているほか、資料ダウンロードページ、コラムなどのコンテンツを追加しています。ぜひご覧ください。<br>
+                          transix公式Webサイトは<a class="archive-article-title font-weight-normal" href="https://www.mfeed.ad.jp/transix/" target="_blank">こちら</a><br>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
                             2025年11月20日
                           </time></a>
                         </div>
