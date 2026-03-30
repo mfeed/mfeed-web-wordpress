@@ -19,7 +19,7 @@ on:
       gcs_bucket:
         description: "GCS bucket for Cloud SQL export (gs://...)"
         required: true
-        default: "gs://storage-for-dump"
+        default: "gs://storage-for-dump-1"
       cloudsql_instance:
         description: "Cloud SQL instance name"
         required: true
