@@ -16,7 +16,7 @@ env:
   PROJECT_ID: mfeed-web-1
   GKE_CLUSTER: cluster-1
   GKE_REGION: asia-northeast1
-  WORKLOAD_ID_PROVIDER: projects/396254140546/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
+  WORKLOAD_ID_PROVIDER: projects/1058079281039/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
   SERVICE_ACCOUNT_EMAIL: gh-gke-deployer@mfeed-web-1.iam.gserviceaccount.com
 
   GAR_LOCATION: asia-northeast1
