@@ -97,101 +97,101 @@ jobs:
           # sha ではなく stable を参照させる
           kustomize edit set image wordpress="$DST_IMAGE_STABLE"
 
-#      - name: Deploy to GKE
-#        run: |
-#          kubectl -n "${NAMESPACE}" apply -k "${KUSTOMIZE_DIR}"
-#
-#      - name: Trigger wp-content sync by seed version (GITHUB_SHA)
-#        run: |
-#          # initContainer がこの値を見て同期する
-#          kubectl -n "${NAMESPACE}" set env deploy/${DEPLOYMENT_NAME} WP_CONTENT_SEED_VERSION="${GITHUB_SHA}"
-#
-#      - name: Wait for rollout
-#        run: |
-#          kubectl -n "${NAMESPACE}" rollout status deploy/${DEPLOYMENT_NAME} --timeout=20m
-#          kubectl -n "${NAMESPACE}" get pod -o wide
-#          kubectl -n "${NAMESPACE}" get svc -o wide
-#
-#      - name: Restore uploads to PVC
-#        run: |
-#          set -euo pipefail
-#
-#          JOB_NAME="restore-mfeed-wp-uploads"
-#
-#          # 既存Job削除
-#          kubectl -n "${NAMESPACE}" delete job "${JOB_NAME}" --ignore-not-found=true
-#
-#          cat <<EOF | kubectl apply -f -
-#          apiVersion: batch/v1
-#          kind: Job
-#          metadata:
-#            name: ${JOB_NAME}
-#            namespace: ${NAMESPACE}
-#            labels:
-#              app.kubernetes.io/name: wordpress
-#              app.kubernetes.io/part-of: mfeed-web
-#              app.kubernetes.io/environment: production
-#          spec:
-#            backoffLimit: 0
-#            template:
-#              metadata:
-#                labels:
-#                  app.kubernetes.io/name: wordpress
-#                  app.kubernetes.io/part-of: mfeed-web
-#                  app.kubernetes.io/environment: production
-#                  job-name: ${JOB_NAME}
-#              spec:
-#                restartPolicy: Never
-#                serviceAccountName: wordpress-sa
-#                securityContext:
-#                  fsGroup: 33
-#                nodeSelector:
-#                  iam.gke.io/gke-metadata-server-enabled: "true"
-#                containers:
-#                  - name: restore
-#                    image: ${DST_IMAGE_STABLE}
-#                    imagePullPolicy: Always
-#                    command: ["sh", "-lc"]
-#                    args:
-#                      - |
-#                        set -eu
-#
-#                        SRC="/seed/wp-content/uploads"
-#                        DST="/var/www/html/wp-content/uploads"
-#
-#                        echo "== check source =="
-#                        if [ ! -d "\$SRC" ]; then
-#                          echo "source uploads directory not found: \$SRC"
-#                          exit 1
-#                        fi
-#
-#                        echo "== prepare destination =="
-#                        mkdir -p "\$DST"
-#
-#                        echo "== restore uploads (no delete) =="
-#                        tar -C "\$SRC" -cf - . | tar -C "\$DST" -xpf -
-#
-#                        echo "== fix ownership =="
-#                        chown -R www-data:www-data "\$DST" || true
-#
-#                        echo "== sample listing =="
-#                        find "\$DST" -maxdepth 3 -type d | sort | head -50 || true
-#
-#                        echo "restore complete"
-#                    volumeMounts:
-#                      - name: wp-content
-#                        mountPath: /var/www/html/wp-content
-#                volumes:
-#                  - name: wp-content
-#                    persistentVolumeClaim:
-#                      claimName: wp-content-pvc
-#          EOF
-#
-#          kubectl -n "${NAMESPACE}" wait --for=condition=complete job/${JOB_NAME} --timeout=20m
-#          kubectl -n "${NAMESPACE}" logs job/${JOB_NAME}
-#
-#      - name: Cleanup restore job
-#        if: always()
-#        run: |
-#          kubectl -n "${NAMESPACE}" delete job restore-mfeed-wp-uploads --ignore-not-found=true
+      - name: Deploy to GKE
+        run: |
+          kubectl -n "${NAMESPACE}" apply -k "${KUSTOMIZE_DIR}"
+
+      - name: Trigger wp-content sync by seed version (GITHUB_SHA)
+        run: |
+          # initContainer がこの値を見て同期する
+          kubectl -n "${NAMESPACE}" set env deploy/${DEPLOYMENT_NAME} WP_CONTENT_SEED_VERSION="${GITHUB_SHA}"
+
+      - name: Wait for rollout
+        run: |
+          kubectl -n "${NAMESPACE}" rollout status deploy/${DEPLOYMENT_NAME} --timeout=20m
+          kubectl -n "${NAMESPACE}" get pod -o wide
+          kubectl -n "${NAMESPACE}" get svc -o wide
+
+      - name: Restore uploads to PVC
+        run: |
+          set -euo pipefail
+
+          JOB_NAME="restore-mfeed-wp-uploads"
+
+          # 既存Job削除
+          kubectl -n "${NAMESPACE}" delete job "${JOB_NAME}" --ignore-not-found=true
+
+          cat <<EOF | kubectl apply -f -
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: ${JOB_NAME}
+            namespace: ${NAMESPACE}
+            labels:
+              app.kubernetes.io/name: wordpress
+              app.kubernetes.io/part-of: mfeed-web
+              app.kubernetes.io/environment: production
+          spec:
+            backoffLimit: 0
+            template:
+              metadata:
+                labels:
+                  app.kubernetes.io/name: wordpress
+                  app.kubernetes.io/part-of: mfeed-web
+                  app.kubernetes.io/environment: production
+                  job-name: ${JOB_NAME}
+              spec:
+                restartPolicy: Never
+                serviceAccountName: wordpress-sa
+                securityContext:
+                  fsGroup: 33
+                nodeSelector:
+                  iam.gke.io/gke-metadata-server-enabled: "true"
+                containers:
+                  - name: restore
+                    image: ${DST_IMAGE_STABLE}
+                    imagePullPolicy: Always
+                    command: ["sh", "-lc"]
+                    args:
+                      - |
+                        set -eu
+
+                        SRC="/seed/wp-content/uploads"
+                        DST="/var/www/html/wp-content/uploads"
+
+                        echo "== check source =="
+                        if [ ! -d "\$SRC" ]; then
+                          echo "source uploads directory not found: \$SRC"
+                          exit 1
+                        fi
+
+                        echo "== prepare destination =="
+                        mkdir -p "\$DST"
+
+                        echo "== restore uploads (no delete) =="
+                        tar -C "\$SRC" -cf - . | tar -C "\$DST" -xpf -
+
+                        echo "== fix ownership =="
+                        chown -R www-data:www-data "\$DST" || true
+
+                        echo "== sample listing =="
+                        find "\$DST" -maxdepth 3 -type d | sort | head -50 || true
+
+                        echo "restore complete"
+                    volumeMounts:
+                      - name: wp-content
+                        mountPath: /var/www/html/wp-content
+                volumes:
+                  - name: wp-content
+                    persistentVolumeClaim:
+                      claimName: wp-content-pvc
+          EOF
+
+          kubectl -n "${NAMESPACE}" wait --for=condition=complete job/${JOB_NAME} --timeout=20m
+          kubectl -n "${NAMESPACE}" logs job/${JOB_NAME}
+
+      - name: Cleanup restore job
+        if: always()
+        run: |
+          kubectl -n "${NAMESPACE}" delete job restore-mfeed-wp-uploads --ignore-not-found=true
           
