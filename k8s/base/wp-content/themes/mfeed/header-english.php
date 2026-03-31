@@ -150,7 +150,7 @@ function OptanonWrapper() { }
       <a class="nav-item nav-link position-relative px-3 text-white" href="/en/about/">
         About
       </a>
-      <a class="nav-item nav-link position-relative px-3 text-white" href="/en/recruitment/">
+      <a class="nav-item nav-link position-relative px-3 text-white" href="/recruitment/">
         Recruitment
       </a>
      <!-- /.言語切替 -->
