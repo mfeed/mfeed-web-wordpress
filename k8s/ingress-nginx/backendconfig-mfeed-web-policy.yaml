@@ -8,11 +8,11 @@ spec:
     port: 10254
     type: HTTP
     requestPath: /healthz
-  cdn:
-    enabled: true
-    cachePolicy:
-      includeHost: true
-      includeProtocol: true
-      includeQueryString: false
+#  cdn:
+#    enabled: true
+#    cachePolicy:
+#      includeHost: true
+#      includeProtocol: true
+#      includeQueryString: false
   securityPolicy:
     name: mfeed-web-policy
