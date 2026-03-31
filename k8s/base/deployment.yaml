@@ -5,7 +5,7 @@ metadata:
   labels:
     app: www-mfeed-ad-jp-wordpress
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: www-mfeed-ad-jp-wordpress
