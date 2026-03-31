@@ -437,7 +437,7 @@ if ( ! empty( $press_posts ) ) {
                       <div class="d-flex align-items-end">
                         <div class="article-datetime text-right">
                           <a class="archive-article-date"><time class="align-bottom">
-                            2026年3月30日
+                            2026年3月31日
                           </time></a>
                         </div>
                       </div>
