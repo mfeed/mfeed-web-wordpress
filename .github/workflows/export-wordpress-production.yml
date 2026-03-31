@@ -19,7 +19,7 @@ on:
       gcs_bucket:
         description: "GCS bucket for Cloud SQL export (gs://...)"
         required: true
-        default: "gs://storage-for-dump"
+        default: "gs://storage-for-dump-1"
       cloudsql_instance:
         description: "Cloud SQL instance name"
         required: true
@@ -35,7 +35,7 @@ permissions:
 
 env:
   PROJECT_ID: mfeed-web-1
-  WORKLOAD_ID_PROVIDER: projects/396254140546/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
+  WORKLOAD_ID_PROVIDER: projects/1058079281039/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
   SERVICE_ACCOUNT_EMAIL: gh-gke-deployer@mfeed-web-1.iam.gserviceaccount.com
 
   GKE_CLUSTER: cluster-1
