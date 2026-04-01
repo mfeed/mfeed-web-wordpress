@@ -1,0 +1,60 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-mfeed-ad-jp-domain-redirection
+  namespace: web-staging
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://www.mfeed.ad.jp
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: mfeed.ad.jp
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress-svc
+            port:
+              number: 80
+  - host: www.mfeed.co.jp
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress-svc
+            port:
+              number: 80
+  - host: www.mfeed.ne.jp
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress-svc
+            port:
+              number: 80
+  - host: www.mfeed.jp
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress-svc
+            port:
+              number: 80
+  - host: www.jst.mfeed.ad.jp
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress-svc
+            port:
+              number: 80

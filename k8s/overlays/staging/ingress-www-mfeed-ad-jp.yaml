@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-mfeed-ad-jp
+  namespace: web-staging
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Cache-Control: public, max-age=300";
+  labels:
+    app.kubernetes.io/environment: staging
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/part-of: mfeed-web
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.mfeed.ad.jp
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wordpress-svc
+                port:
+                  number: 80

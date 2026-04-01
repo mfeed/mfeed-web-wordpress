@@ -1,14 +1,23 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+labels:
+  - pairs:
+      app.kubernetes.io/environment: staging
+      app.kubernetes.io/name: wordpress
+      app.kubernetes.io/part-of: mfeed-web
+
 resources:
   - namespace.yaml
   - ../../base
   - service.yaml
   - secretproviderclass.yaml
-  - ingress.yaml
-  - ingress-ipv6.yaml
-  - backendconfig.yaml
+#  - ingress.yaml
+#  - ingress-ipv6.yaml
+#  - backendconfig.yaml
+  - ingress-www-mfeed-ad-jp.yaml
+  - ingress-www-mfeed-ad-jp-assets.yaml
+  - ingress-www-mfeed-ad-jp-domain-redirection.yaml
 
 namespace: web-staging
 

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: web-staging
+  name: www-mfeed-ad-jp-assets
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /mfeed-public-web-assets-a98f768c-420f-47a6-8355-64d586e939bb/$1
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/upstream-vhost: storage.googleapis.com
+    nginx.ingress.kubernetes.io/custom-http-errors: 404,403
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Cache-Control: public, max-age=300";
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.mfeed.ad.jp
+    http:
+      paths:
+      - path: /assets/(.*)
+        backend:
+          service:
+            name: google-storage-buckets
+            port:
+              number: 443
+        pathType: ImplementationSpecific
