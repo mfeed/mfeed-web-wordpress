@@ -1,4 +1,4 @@
-name: Export WordPress content (manual)
+name: Export WordPress content Staging (manual)
 
 on:
   workflow_dispatch:
