@@ -1,3 +1,6 @@
 mfeed-transix-docker/
 k8s/base/test-rwx.yaml
 .github/temp/
+# GHA generated creds
+gha-creds-*.json
+gha-kubeconfig-*
