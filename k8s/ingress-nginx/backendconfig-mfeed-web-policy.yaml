@@ -8,7 +8,8 @@ spec:
     port: 10254
     type: HTTP
     requestPath: /healthz
-#  cdn:
+  cdn:
+    enabled: false
 #    enabled: true
 #    cachePolicy:
 #      includeHost: true
