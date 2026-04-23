@@ -18,4 +18,4 @@ RewriteRule . index.php [L]
 # END WordPress
 
 # /transix/overview.htmlから/transix/へのリダイレクト
-RewriteRule ^transix/overview.html$ /transix/$1 [R=301,L]
+RewriteRule ^transix/overview\.html$ /transix/ [R=301,L]
