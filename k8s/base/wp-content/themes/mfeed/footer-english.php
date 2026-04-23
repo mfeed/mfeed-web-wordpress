@@ -97,7 +97,7 @@
             <p><a href="/en/">Top Page</a></p>
             <p><a href="/en/archives/">Press Releases</a></p>
             <p><a href="/en/about/">About</a></p>
-            <p><a href="/en/recruitment/">Recruitment</a></p>
+            <p><a href="/recruitment/">Recruitment</a></p>
           </div>
         </div>
 
