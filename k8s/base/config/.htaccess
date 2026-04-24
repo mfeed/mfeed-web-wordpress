@@ -1,3 +1,6 @@
+# /transix/overview.htmlから/transix/へのリダイレクト
+RewriteRule ^transix/overview\.html$ /transix/ [R=301,L]
+
 # BEGIN WordPress
 RewriteEngine On
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
