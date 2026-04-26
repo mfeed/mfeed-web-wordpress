@@ -16,7 +16,7 @@ spec:
   - host: www.mfeed.ad.jp
     http:
       paths:
-      - path: /assets/(.*)
+      - path: /wp-content/themes/mfeed/assets/(.*)
         backend:
           service:
             name: google-storage-buckets
