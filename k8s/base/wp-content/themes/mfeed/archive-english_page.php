@@ -157,285 +157,53 @@
       <div class="col-12 my-5">
         <h2 class="topic-title mb-5 text-center">Press <span class="mf-red">Releases</span></h2>
         
+<?php
 
+  $args = array(
+    'post_type' => 'english_press',
+    'posts_per_page' => 3,
+    'category_name' => 'press',
+  );
+  $the_query = new WP_Query( $args );
+  if ( $the_query->have_posts() ) :
+?>
 <div class="row py-3">
   <div class="col">
     <ul class="list-group list-group-flush">
-    
+    <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
       <li class="list-group-item">
         <article class="archive-article archive-article-for-top archive-type-post">
-  <header class="archive-article-header">
-    <div class="d-flex align-items-end">
-      <div class="article-datetime text-right">
-  <a href="/en/2025/2025-10-01/" class="archive-article-date">
-    <time datetime="2025-10-01T06:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      October 1, 2025
-    </time></a>
-</div>
+          <header class="archive-article-header">
+            <div class="d-flex align-items-end">
+              <div class="article-datetime text-right">
+                  <?php $timestamp = get_post_time('U', true); ?>
+                <a href="<?php the_permalink(); ?>" class="archive-article-date">
+                  <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" itemprop="datePublished" class="align-bottom"> <?php  echo date('F j, Y', $timestamp);  ?></time>
+                </a>
+              </div>
 
-      <div class="category ml-2">
-        
-
-  
-
-  <i class="fas fa-newspaper"></i>
-
-
-
-        
-  <div class="article-category d-inline">
-    
-
-    PRESS
-  </div>
+              <div class="category ml-2">
+                <i class="fas fa-newspaper"></i>      
+                <div class="article-category d-inline">PRESS</div>
+              </div>
+            </div>
+            
+          
+            <h2 itemprop="name">
+              <a class="archive-article-title font-weight-normal" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+            </h2>
+          
 
 
-      </div>
-    </div>
-    
-  
-    <h2 itemprop="name">
-      <a class="archive-article-title font-weight-normal" href="/en/2025/2025-10-01/">Peering Asia 8.0 to be Hosted in Osaka by Optage, Internet Multifeed and NTT Smart Connect</a>
-    </h2>
-  
-
-
-  </header>
-</article>
-
-<!-- リリース判定の結果、 .news-card は使わないことになった -- 2019.03.29 Yuki Takei
-<div class="news-card">
-  <div class="d-flex align-items-end mb-3">
-    <span class="news-date text-center pr-2">
-      <div class="article-datetime text-right">
-  <a href="/en/2025/2025-10-01/" class="news-date-day">
-    <time datetime="2025-10-01T06:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      1st
-    </time></a>
-</div>
-
-      <span class="month"><div class="article-datetime text-right">
-  <a href="/en/2025/2025-10-01/" class="news-date-month">
-    <time datetime="2025-10-01T06:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      Oct
-    </time></a>
-</div>
-</span>
-    </span>
-    <span class="news-icon mx-2">
-
-  
-
-  <i class="fas fa-newspaper"></i>
-
-
-</span>
-    <span class="news-category">
-  <div class="article-category d-inline">
-    
-
-    PRESS
-  </div>
-
-</span>
-  </div>
-  
-  
-    <h2 itemprop="name">
-      <a class="archive-article-title" href="/en/2025/2025-10-01/">Peering Asia 8.0 to be Hosted in Osaka by Optage, Internet Multifeed and NTT Smart Connect</a>
-    </h2>
-  
-
-
-</div>
--->
+          </header>
+        </article>
 
       </li>
-    
-      <li class="list-group-item">
-        <article class="archive-article archive-article-for-top archive-type-post">
-  <header class="archive-article-header">
-    <div class="d-flex align-items-end">
-      <div class="article-datetime text-right">
-  <a href="/en/2025/2025-05-21/" class="archive-article-date">
-    <time datetime="2025-05-21T02:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      May 21, 2025
-    </time></a>
-</div>
-
-      <div class="category ml-2">
-        
-
-  
-
-  <i class="fas fa-newspaper"></i>
-
-
-
-        
-  <div class="article-category d-inline">
-    
-
-    PRESS
-  </div>
-
-
-      </div>
-    </div>
-    
-  
-    <h2 itemprop="name">
-      <a class="archive-article-title font-weight-normal" href="/en/2025/2025-05-21/">JPNAP has officially announced RETN as a reseller of its remote IX service through our strategic partnership.</a>
-    </h2>
-  
-
-
-  </header>
-</article>
-
-<!-- リリース判定の結果、 .news-card は使わないことになった -- 2019.03.29 Yuki Takei
-<div class="news-card">
-  <div class="d-flex align-items-end mb-3">
-    <span class="news-date text-center pr-2">
-      <div class="article-datetime text-right">
-  <a href="/en/2025/2025-05-21/" class="news-date-day">
-    <time datetime="2025-05-21T02:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      21st
-    </time></a>
-</div>
-
-      <span class="month"><div class="article-datetime text-right">
-  <a href="/en/2025/2025-05-21/" class="news-date-month">
-    <time datetime="2025-05-21T02:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      May
-    </time></a>
-</div>
-</span>
-    </span>
-    <span class="news-icon mx-2">
-
-  
-
-  <i class="fas fa-newspaper"></i>
-
-
-</span>
-    <span class="news-category">
-  <div class="article-category d-inline">
-    
-
-    PRESS
-  </div>
-
-</span>
-  </div>
-  
-  
-    <h2 itemprop="name">
-      <a class="archive-article-title" href="/en/2025/2025-05-21/">JPNAP has officially announced RETN as a reseller of its remote IX service through our strategic partnership.</a>
-    </h2>
-  
-
-
-</div>
--->
-
-      </li>
-    
-      <li class="list-group-item">
-        <article class="archive-article archive-article-for-top archive-type-post">
-  <header class="archive-article-header">
-    <div class="d-flex align-items-end">
-      <div class="article-datetime text-right">
-  <a href="/en/2025/2025-01-15/" class="archive-article-date">
-    <time datetime="2025-01-15T02:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      January 15, 2025
-    </time></a>
-</div>
-
-      <div class="category ml-2">
-        
-
-  
-
-  <i class="fas fa-newspaper"></i>
-
-
-
-        
-  <div class="article-category d-inline">
-    
-
-    PRESS
-  </div>
-
-
-      </div>
-    </div>
-    
-  
-    <h2 itemprop="name">
-      <a class="archive-article-title font-weight-normal" href="/en/2025/2025-01-15/">JPNAP, JPIX, and BBIX to Establish Internet Exchange Points at OPTAGE Sonezaki Data Center (OC1) - Optimal network points for connecting with various domestic and international operators will be launched starting from January 2026. -</a>
-    </h2>
-  
-
-
-  </header>
-</article>
-
-<!-- リリース判定の結果、 .news-card は使わないことになった -- 2019.03.29 Yuki Takei
-<div class="news-card">
-  <div class="d-flex align-items-end mb-3">
-    <span class="news-date text-center pr-2">
-      <div class="article-datetime text-right">
-  <a href="/en/2025/2025-01-15/" class="news-date-day">
-    <time datetime="2025-01-15T02:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      15th
-    </time></a>
-</div>
-
-      <span class="month"><div class="article-datetime text-right">
-  <a href="/en/2025/2025-01-15/" class="news-date-month">
-    <time datetime="2025-01-15T02:00:00.000Z" itemprop="datePublished" class="align-bottom">
-      Jan
-    </time></a>
-</div>
-</span>
-    </span>
-    <span class="news-icon mx-2">
-
-  
-
-  <i class="fas fa-newspaper"></i>
-
-
-</span>
-    <span class="news-category">
-  <div class="article-category d-inline">
-    
-
-    PRESS
-  </div>
-
-</span>
-  </div>
-  
-  
-    <h2 itemprop="name">
-      <a class="archive-article-title" href="/en/2025/2025-01-15/">JPNAP, JPIX, and BBIX to Establish Internet Exchange Points at OPTAGE Sonezaki Data Center (OC1) - Optimal network points for connecting with various domestic and international operators will be launched starting from January 2026. -</a>
-    </h2>
-  
-
-
-</div>
--->
-
-      </li>
-    
+      <?php endwhile; ?>
     </ul>
   </div>
 </div>
-
+<?php endif; wp_reset_postdata();?>
       </div>
     </div>
   </div>
@@ -452,25 +220,6 @@
           <div class="row py-3">
             <div class="col">
               <div class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <article class="archive-article archive-article-for-top archive-type-post">
-                    <header class="archive-article-header">
-                      <div class="d-flex align-items-end">
-                        <div class="article-datetime text-right">
-                          <a class="archive-article-date"><time class="align-bottom">
-                            2026.04.23
-                          </time></a>
-                        </div>
-                      </div>
-                      <h2 itemprop="name">
-                        <a class="archive-article-title font-weight-normal">
-                          JPNAP Partners with Epsilon to Enable Remote Peering for Latin American Networks.<br>
-                          For more information, please visit <a class="archive-article-title font-weight-normal" href="https://www.jpnap.net/en/news_detail.php?id=639"> here.</a>
-                        </a>
-                      </h2>
-                    </header>
-                  </article>
-                </li>
                 <li class="list-group-item">
                   <article class="archive-article archive-article-for-top archive-type-post">
                     <header class="archive-article-header">
