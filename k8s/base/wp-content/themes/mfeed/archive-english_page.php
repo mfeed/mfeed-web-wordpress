@@ -232,8 +232,8 @@
                       </div>
                       <h2 itemprop="name">
                         <a class="archive-article-title font-weight-normal">
-                          During Interop Tokyo 2026, as a contribution, JPNAP will connect to ShowNet with 400G. For more information about Interop Tokyo 2026 ShowNet, please visit 
-                          <a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2026/en/shownet/"> here.</a>
+                          During Interop Tokyo 2026, as a contribution, JPNAP will connect to ShowNet with 400G.<br>
+                          For more information about Interop Tokyo 2026 ShowNet, please visit<a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2026/en/shownet/"> here.</a>
                         </a>
                       </h2>
                     </header>

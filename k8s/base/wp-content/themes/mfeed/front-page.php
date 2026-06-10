@@ -444,7 +444,7 @@ if ( ! empty( $press_posts ) ) {
                       <h2 itemprop="name">
                         <a class="archive-article-title font-weight-normal">
                           Interop Tokyo 2026へのコントリビューションとして、開催期間中にShowNetとJPNAPを400Gで接続します。<br>
-                          Interop Tokyo 2026 ShowNetについては<a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2026/shownet/" target="_blank">主催者の解説ページ</a>をご覧ください。<br>
+                          <object>Interop Tokyo 2026 ShowNetについては<a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2026/shownet/" target="_blank">主催者の解説ページ</a>をご覧ください。</object>
                         </a>
                       </h2>
                     </header>
