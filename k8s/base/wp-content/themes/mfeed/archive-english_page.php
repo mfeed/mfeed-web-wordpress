@@ -219,6 +219,25 @@
           <!-- トピックスの DOM 構造は、Press Releases で利用している _partial/latest-news に寄せる -->
           <div class="row py-3">
             <div class="col">
+            <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2026.06.10
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          During Interop Tokyo 2026, as a contribution, JPNAP will connect to ShowNet with 400G. For more information about Interop Tokyo 2026 ShowNet, please visit 
+                          <a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2026/en/shownet/"> here.</a>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
               <div class="list-group list-group-flush">
                 <li class="list-group-item">
                   <article class="archive-article archive-article-for-top archive-type-post">

@@ -431,6 +431,25 @@ if ( ! empty( $press_posts ) ) {
           <div class="row py-3">
             <div class="col">
               <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
+                            2026年6月10日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          Interop Tokyo 2026へのコントリビューションとして、開催期間中にShowNetとJPNAPを400Gで接続します。<br>
+                          Interop Tokyo 2026 ShowNetについては<a class="archive-article-title font-weight-normal" href="https://www.interop.jp/2026/shownet/" target="_blank">主催者の解説ページ</a>をご覧ください。<br>
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
                 <li class="list-group-item">
                   <article class="archive-article archive-article-for-top archive-type-post">
                     <header class="archive-article-header">
