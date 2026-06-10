@@ -219,6 +219,7 @@
           <!-- トピックスの DOM 構造は、Press Releases で利用している _partial/latest-news に寄せる -->
           <div class="row py-3">
             <div class="col">
+            <div class="list-group list-group-flush">
             <li class="list-group-item">
                   <article class="archive-article archive-article-for-top archive-type-post">
                     <header class="archive-article-header">
@@ -238,7 +239,6 @@
                     </header>
                   </article>
                 </li>
-              <div class="list-group list-group-flush">
                 <li class="list-group-item">
                   <article class="archive-article archive-article-for-top archive-type-post">
                     <header class="archive-article-header">
