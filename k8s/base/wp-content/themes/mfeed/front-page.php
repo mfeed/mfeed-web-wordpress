@@ -431,7 +431,7 @@ if ( ! empty( $press_posts ) ) {
           <div class="row py-3">
             <div class="col">
               <ul class="list-group list-group-flush">
-              <li class="list-group-item">
+                <li class="list-group-item">
                   <article class="archive-article archive-article-for-top archive-type-post">
                     <header class="archive-article-header">
                       <div class="d-flex align-items-end">
