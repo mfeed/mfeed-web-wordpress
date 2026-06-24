@@ -2,7 +2,7 @@
 RewriteRule ^transix/overview\.html$ /transix/ [R=301,L]
 
 # /transix/dslite/dslite.htmlから/transix/dslite/へのリダイレクト
-RewriteRule ^transix/dslite\.html$ /transix/dslite/ [R=301,L]
+RewriteRule ^transix/dslite/dslite\.html$ /transix/dslite/ [R=301,L]
 
 # /transix/faq/enduser/index.htmlから/transix/faq/enduser/へのリダイレクト
 RewriteRule ^transix/faq/enduser/index\.html$ /transix/faq/#users [R=301,L,NE]
