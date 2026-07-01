@@ -1,5 +1,19 @@
+RewriteEngine On
+
 # /transix/overview.htmlから/transix/へのリダイレクト
 RewriteRule ^transix/overview\.html$ /transix/ [R=301,L]
+
+# /transix/dslite/dslite.htmlから/transix/dslite/へのリダイレクト
+RewriteRule ^transix/dslite/dslite\.html$ /transix/dslite/ [R=301,L]
+
+# /transix/faq/enduser/index.htmlから/transix/faq/#usersへのリダイレクト
+RewriteRule ^transix/faq/enduser/index\.html$ /transix/faq/#users [R=301,L,NE]
+
+# /transix/faq/glossary.htmlから/transix/faq/glossary/へのリダイレクト
+RewriteRule ^transix/faq/glossary\.html$ /transix/faq/glossary/ [R=301,L]
+
+# /transix/bandwidth/から/transix/features/#feature04へのリダイレクト
+RewriteRule ^transix/bandwidth/$ /transix/features/#feature04 [R=301,L,NE]
 
 # BEGIN WordPress
 RewriteEngine On
