@@ -15,6 +15,9 @@ RewriteRule ^transix/faq/glossary\.html$ /transix/faq/glossary/ [R=301,L]
 # /transix/bandwidth/から/transix/features/#feature04へのリダイレクト
 RewriteRule ^transix/bandwidth/$ /transix/features/#feature04 [R=301,L,NE]
 
+# /en/index.htmlから/en/へのリダイレクト
+RewriteRule ^en/index\.html$ /en/ [R=301,L]
+
 # BEGIN WordPress
 RewriteEngine On
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
