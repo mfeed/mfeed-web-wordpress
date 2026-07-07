@@ -226,6 +226,27 @@
                       <div class="d-flex align-items-end">
                         <div class="article-datetime text-right">
                           <a class="archive-article-date"><time class="align-bottom">
+                            2026.07.10
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          We will exhibit a booth as a Diamond Sponsor at JANOG58, which will be held in Matsuyama City, Ehime Prefecture, from July 15 to 17, 2026 (Booth No. D05).<br>
+                          At our booth, we will distribute exclusive novelties, including original towels and Tech Tile stickers.<br>
+                          In addition, as a Network Supporter, during the event, we will connect the venue network to JPNAP at 10Gbps, and transix will provide part of the internet transit.<br>
+                          We hope to see you at our booth.
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
                             2026.06.10
                           </time></a>
                         </div>
