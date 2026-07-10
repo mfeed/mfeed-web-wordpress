@@ -437,6 +437,27 @@ if ( ! empty( $press_posts ) ) {
                       <div class="d-flex align-items-end">
                         <div class="article-datetime text-right">
                           <a class="archive-article-date"><time class="align-bottom">
+                            2026年7月10日
+                          </time></a>
+                        </div>
+                      </div>
+                      <h2 itemprop="name">
+                        <a class="archive-article-title font-weight-normal">
+                          2026年7月15日(水)から17日(金)にかけて開催されるJANOG58（愛媛県松山市）にダイヤモンドスポンサーとしてブース出展いたします（ブース番号D05）。<br>
+                          会場では、オリジナルのタオルやテックタイルステッカーなど、ブース限定のノベルティを配布します。<br>
+                          さらに、ネットワークサポーターとして、イベント開催期間中に運用される会場ネットワークとJPNAPを10Gで接続し、transixがインターネットトランジットの一部を提供します。<br>
+                          ぜひ当社ブースにお越しください。
+                        </a>
+                      </h2>
+                    </header>
+                  </article>
+                </li>
+                <li class="list-group-item">
+                  <article class="archive-article archive-article-for-top archive-type-post">
+                    <header class="archive-article-header">
+                      <div class="d-flex align-items-end">
+                        <div class="article-datetime text-right">
+                          <a class="archive-article-date"><time class="align-bottom">
                             2026年6月10日
                           </time></a>
                         </div>
