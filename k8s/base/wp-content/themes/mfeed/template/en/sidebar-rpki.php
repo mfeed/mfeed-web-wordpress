@@ -60,14 +60,6 @@
       <ul class="sidebar-module-list pl-0 mb-5">
         
           
-          <a class="border-bottom m-0 d-flex justify-content-between sidebar-cell " href="/en/rpki/maintenance/">
-            <p class="mb-0 pl-4 text-color">
-              Maintenance / Outages
-            </p>
-            <i class="fas fa-chevron-right mr-3 text-color"></i>
-          </a>
-        
-          
           <a class="border-bottom m-0 d-flex justify-content-between sidebar-cell " href="/en/rpki/links/">
             <p class="mb-0 pl-4 text-color">
               Links
