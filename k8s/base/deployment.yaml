@@ -19,64 +19,18 @@ spec:
         fsGroup: 33
 
       initContainers:
+        # wp-content 全体（themes/plugins/languages/uploads …）をイメージの
+        # シードから共有 PVC へ反映する。
+        # 通常のデプロイでは先に restore-mfeed-wp-content Job が同じ
+        # WP_CONTENT_SEED_VERSION で同期済みなので、ここは即 exit する。
+        # PVC が空の場合や Job を通さず Pod だけ増えた場合の保険。
         - name: seed-wp-content
           image: wordpress:stable
           imagePullPolicy: Always
           env:
             - name: WP_CONTENT_SEED_VERSION
               value: "dev"
-          command: ["sh","-lc"]
-          args:
-            - |
-              set -eu
-
-              SEED_DIR="/seed/wp-content"
-              TARGET="/var/www/html/wp-content"
-              VERSION_FILE="${TARGET}/.seed-version"
-
-              if [ ! -d "${SEED_DIR}" ]; then
-                echo "seed directory not found: ${SEED_DIR}"
-                echo "You must build an image that includes k8s/base/wp-content into /seed/wp-content"
-                exit 1
-              fi
-
-              desired="${WP_CONTENT_SEED_VERSION:-}"
-              current=""
-              if [ -f "${VERSION_FILE}" ]; then
-                current="$(cat "${VERSION_FILE}" || true)"
-              fi
-
-              if [ -n "${desired}" ] && [ "${desired}" = "${current}" ]; then
-                echo "wp-content already up-to-date (version=${current})"
-                exit 0
-              fi
-
-              echo "sync wp-content from ${SEED_DIR} to ${TARGET}"
-              echo "  desired=${desired} current=${current}"
-
-              mkdir -p "${TARGET}"
-
-              for d in themes plugins mu-plugins languages; do
-                if [ -d "${SEED_DIR}/${d}" ]; then
-                  rm -rf "${TARGET:?}/${d}"
-                  mkdir -p "${TARGET}/${d}"
-                  tar -C "${SEED_DIR}/${d}" -cf - . | tar -C "${TARGET}/${d}" -xpf -
-                fi
-              done
-
-              find "${SEED_DIR}" -maxdepth 1 -type f \
-                ! -name ".seed-version" \
-                ! -name "debug.log" \
-                -print0 \
-                | while IFS= read -r -d '' f; do
-                    base="$(basename "$f")"
-                    cp -f "$f" "${TARGET}/${base}"
-                  done
-
-              chown -R www-data:www-data "${TARGET}" || true
-
-              echo -n "${desired}" > "${VERSION_FILE}"
-              echo "seed version updated: ${desired}"
+          command: ["/usr/local/bin/sync-wp-content.sh"]
           volumeMounts:
             - name: wp-content
               mountPath: /var/www/html/wp-content

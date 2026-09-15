@@ -1,17 +1,17 @@
-# wp-content を「完全ミラー」で PVC に反映する破壊的な Job。
-# uploads も含めてシード（= GitHub）に無いものは消える。
+# デプロイワークフローが生成する Job と同等のものを、手動実行できるように
+# 置いてある（kustomization.yaml の resources には入れていない）。
 #
-# 通常のデプロイでは restore-mfeed-wp-content（uploads はマージ）を使うこと。
-# こちらは PVC を GitHub の内容ちょうどに戻したいときだけ使う。
+#   kubectl -n web-production delete job restore-mfeed-wp-content --ignore-not-found
+#   kubectl apply -f k8s/overlays/production/restore-mfeed-wp-content.yaml
+#   kubectl -n web-production wait --for=condition=complete job/restore-mfeed-wp-content --timeout=30m
+#   kubectl -n web-production logs job/restore-mfeed-wp-content
 #
-#   kubectl -n web-production delete job sync-mfeed-wp-content --ignore-not-found
-#   kubectl apply -f k8s/overlays/production/sync-mfeed-wp-content.yaml
-#   kubectl -n web-production wait --for=condition=complete job/sync-mfeed-wp-content --timeout=30m
-#   kubectl -n web-production logs job/sync-mfeed-wp-content
+# themes/plugins/languages はイメージのシード（= GitHub）でミラーされ、
+# uploads は削除を伴わないマージになる。
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sync-mfeed-wp-content
+  name: restore-mfeed-wp-content
   namespace: web-production
   labels:
     app.kubernetes.io/name: wordpress
@@ -25,7 +25,7 @@ spec:
         app.kubernetes.io/name: wordpress
         app.kubernetes.io/part-of: mfeed-web
         app.kubernetes.io/environment: production
-        job-name: sync-mfeed-wp-content
+        job-name: restore-mfeed-wp-content
     spec:
       restartPolicy: Never
       serviceAccountName: wordpress-sa
@@ -34,19 +34,16 @@ spec:
       nodeSelector:
         iam.gke.io/gke-metadata-server-enabled: "true"
       containers:
-        - name: sync
+        - name: restore
           image: asia-northeast1-docker.pkg.dev/mfeed-web-1/mfeed-web-production-repo/wordpress:stable
           imagePullPolicy: Always
           command: ["/usr/local/bin/sync-wp-content.sh"]
           env:
-            # マージ扱いのディレクトリを無くす = uploads も含めて完全ミラー
-            - name: WP_CONTENT_MERGE_DIRS
-              value: ""
-            # シードに無いトップレベル項目も消す
-            - name: WP_CONTENT_PRUNE
-              value: "1"
+            # 手動実行なので、.seed-version に関係なく必ず同期させる。
             - name: WP_CONTENT_SEED_FORCE
               value: "1"
+            # Pod 側の initContainer に再同期させたくない場合は、
+            # Deployment の WP_CONTENT_SEED_VERSION と同じ値を入れる。
             - name: WP_CONTENT_SEED_VERSION
               value: "manual"
           volumeMounts:

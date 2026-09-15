@@ -9,9 +9,10 @@ on:
         required: true
         default: both
         options:
-          - both
+          - both          # db + wp-content
           - db
-          - uploads
+          - wp-content    # themes/plugins/languages/uploads をまとめて取り込む
+          - uploads       # uploads のみ（従来動作）
       commit_message:
         description: "Commit message (optional)"
         required: false
@@ -44,7 +45,7 @@ env:
   WORDPRESS_PVC: wp-content-pvc
 
   OUT_DIR: wordpress-export
-  UPLOADS_SEED_DIR: k8s/base/wp-content/uploads
+  WP_CONTENT_SEED_DIR: k8s/base/wp-content
 
 jobs:
   export:
@@ -77,7 +78,7 @@ jobs:
       - name: Prepare output dirs
         run: |
           set -eu
-          mkdir -p "${OUT_DIR}/db" "${UPLOADS_SEED_DIR}"
+          mkdir -p "${OUT_DIR}/db" "${WP_CONTENT_SEED_DIR}"
 
       # -----------------------------
       # DB export (Cloud SQL -> GCS -> repo)
@@ -106,10 +107,14 @@ jobs:
           gsutil cp "$EXPORT_URI" "${OUT_DIR}/db/cloudsql-${TS}.sql.gz"
 
       # -----------------------------
-      # uploads export (PVC -> temp pod -> kubectl cp -> repo build source)
+      # wp-content export (PVC -> temp pod -> repo build source)
+      #
+      # uploads だけでなく themes / plugins / languages も取り込む。
+      # GKE 上の WordPress から行った更新は PVC にしか無いため、これを
+      # GitHub に戻さないと次回デプロイのシードで上書きされて失われる。
       # -----------------------------
       - name: Create temp pod for PVC access
-        if: ${{ inputs.export_target == 'uploads' || inputs.export_target == 'both' }}
+        if: ${{ inputs.export_target != 'db' }}
         run: |
           set -euo pipefail
 
@@ -145,22 +150,68 @@ jobs:
           # 待機時間も少し伸ばす（Attach待ちの保険）
           kubectl -n "${NAMESPACE}" wait --for=condition=Ready pod/wp-export-pvc-reader --timeout=300s
 
-      - name: Copy uploads from PVC to repo seed dir
-        if: ${{ inputs.export_target == 'uploads' || inputs.export_target == 'both' }}
+      - name: Copy wp-content from PVC to repo seed dir
+        if: ${{ inputs.export_target != 'db' }}
         run: |
-          set -eu
+          set -euo pipefail
 
-          rm -rf /tmp/wp-uploads
-          mkdir -p /tmp/wp-uploads
+          WORK=/tmp/wp-content-export
+          rm -rf "$WORK"
+          mkdir -p "$WORK/wp-content"
 
-          # Copy uploads directory out of the pod
-          kubectl -n "${NAMESPACE}" cp wp-export-pvc-reader:/wp-content/uploads /tmp/wp-uploads/uploads
+          # kubectl cp よりも tar ストリームの方が、ファイル数の多いツリーで安定する
+          echo "== pulling wp-content out of the PVC =="
+          kubectl -n "${NAMESPACE}" exec wp-export-pvc-reader -- \
+            tar -C /wp-content -cf - . > "$WORK/wp-content.tar"
 
-          # Sync into repo uploads dir
-          rsync -a --delete /tmp/wp-uploads/uploads/ "${UPLOADS_SEED_DIR}/"
+          tar -C "$WORK/wp-content" -xf "$WORK/wp-content.tar"
+          rm -f "$WORK/wp-content.tar"
 
-          echo "Sample exported files:"
-          find "${UPLOADS_SEED_DIR}" -maxdepth 3 -type f | head -50 || true
+          # このあと rsync --delete をかけるので、取りこぼしで
+          # リポジトリ側を全消ししないように健全性を確認する
+          echo "== sanity check =="
+          for d in themes plugins; do
+            if [ ! -d "$WORK/wp-content/$d" ]; then
+              echo "aborting: exported tree has no ${d}/ - the PVC copy looks incomplete"
+              exit 1
+            fi
+          done
+
+          FILE_COUNT="$(find "$WORK/wp-content" -type f | wc -l)"
+          echo "exported files: ${FILE_COUNT}"
+          if [ "$FILE_COUNT" -lt 100 ]; then
+            echo "aborting: only ${FILE_COUNT} files exported - the PVC copy looks incomplete"
+            exit 1
+          fi
+
+          # PVC 上の運用ファイル・WordPress の一時物は Git に持ち込まない
+          EXCLUDES=(
+            --exclude=.seed-version
+            --exclude=.seed-lock/
+            --exclude=.seed-stage-*
+            --exclude=.seed-retired-*
+            --exclude=.DS_Store
+            --exclude=debug.log
+            --exclude=upgrade/
+            --exclude=upgrade-temp-backup/
+            --exclude=cache/
+            --exclude=*.tmp
+          )
+
+          if [ "${{ inputs.export_target }}" = "uploads" ]; then
+            SRC="$WORK/wp-content/uploads"
+            DST="${WP_CONTENT_SEED_DIR}/uploads"
+          else
+            SRC="$WORK/wp-content"
+            DST="${WP_CONTENT_SEED_DIR}"
+          fi
+
+          echo "== syncing ${SRC} -> ${DST} =="
+          mkdir -p "$DST"
+          rsync -a --delete "${EXCLUDES[@]}" "$SRC"/ "$DST"/
+
+          echo "== exported tree =="
+          du -sh "$DST"/* 2>/dev/null || true
 
       - name: Cleanup temp pod
         if: always()
@@ -183,6 +234,9 @@ jobs:
             echo "No changes to commit."
             exit 0
           fi
+
+          echo "== changes =="
+          git diff --cached --stat | tail -30
 
           MSG="${{ inputs.commit_message }}"
           git commit -m "$MSG"
