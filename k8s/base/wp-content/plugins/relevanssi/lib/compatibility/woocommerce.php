@@ -20,8 +20,7 @@ add_filter( 'relevanssi_post_ok', 'relevanssi_variation_post_ok', 10, 2 );
  * WooCommerce version 4.4.0.
  */
 add_action( 'woocommerce_before_shop_loop', 'relevanssi_wc_reset_loop' );
-
-RELEVANSSI_PREMIUM && add_filter( 'relevanssi_match', 'relevanssi_sku_boost' );
+function_exists( 'relevanssi_sku_boost' ) && add_filter( 'relevanssi_match', 'relevanssi_sku_boost' );
 
 /**
  * Resets the WC post loop in search queries.
@@ -107,30 +106,6 @@ function relevanssi_woocommerce_indexing_filter() {
 		$restriction            .= " AND post.ID NOT IN (SELECT object_id FROM $wpdb->term_relationships WHERE object_id = post.ID AND term_taxonomy_id IN ($term_taxonomy_id_string)) ";
 	}
 	return $restriction;
-}
-
-/**
- * SKU weight boost.
- *
- * Increases the weight for matches in the _sku custom field. The amount of
- * boost can be adjusted with the `relevanssi_sku_boost` filter hook. The
- * default is 2.
- *
- * @param object $match_object The match object.
- *
- * @return object The match object.
- */
-function relevanssi_sku_boost( $match_object ) {
-	$custom_field_detail = json_decode( $match_object->customfield_detail );
-	if ( null !== $custom_field_detail && isset( $custom_field_detail->_sku ) ) {
-		/**
-		 * Filters the SKU boost value.
-		 *
-		 * @param float The boost multiplier, default 2.
-		 */
-		$match_object->weight *= apply_filters( 'relevanssi_sku_boost', 2 );
-	}
-	return $match_object;
 }
 
 /**
@@ -290,7 +265,7 @@ function relevanssi_filtered_term_product_counts_query( $query ) {
  *
  * @return bool
  */
-function relevanssi_variation_post_ok( $ok, $post_id ) : bool {
+function relevanssi_variation_post_ok( $ok, $post_id ): bool {
 	$post_type = relevanssi_get_post_type( $post_id );
 	if ( 'product_variation' === $post_type ) {
 		$parent = get_post_parent( $post_id );

@@ -1568,3 +1568,9 @@ msgstr "Utiliser add_action (L’utilisation d’un plugin de cache peut empêch
 
 msgid "Use htaccess"
 msgstr "Utiliser htaccess"
+
+msgid "*This vulnerability may be a serious one that allows tampering without requiring special privileges."
+msgstr "*Cette vulnérabilité pourrait être une vulnérabilité dangereuse permettant une falsification sans nécessiter de privilèges particuliers."
+
+msgid "*This vulnerability may be a dangerous one that could allow data tampering."
+msgstr "*Cette vulnérabilité pourrait être une vulnérabilité dangereuse permettant une falsification des données."

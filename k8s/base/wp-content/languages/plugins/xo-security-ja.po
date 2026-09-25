@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - XO Security - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-04-11 06:12:18+0000\n"
+"PO-Revision-Date: 2026-07-19 10:44:21+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,23 @@ msgstr ""
 "X-Generator: GlotPress/4.0.3\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - XO Security - Stable (latest release)\n"
+
+#: inc/class-xo-security-two-factor.php:344
+#: inc/class-xo-security-two-factor.php:348
+msgid "Error:"
+msgstr "エラー:"
+
+#: inc/class-xo-security-two-factor.php:371
+msgid "<strong>Error:</strong> The login session is invalid. Please try again."
+msgstr "<strong>エラー:</strong> ログインセッションが無効です。もう一度やり直してください。"
+
+#: inc/class-xo-security-two-factor.php:344
+msgid "Too many authentication attempts. Please log in again."
+msgstr "認証の試行回数が多すぎます。再度ログインしてください。"
+
+#: inc/class-xo-security-two-factor.php:348
+msgid "The two-factor login session has expired. Please log in again."
+msgstr "2要素認証によるログインセッションの有効期限が切れました。再度ログインしてください。"
 
 #: inc/class-xo-security-admin.php:825
 msgid "If JavaScript is disabled, if the form responds within 3 seconds, if it is not checked, etc., it is considered a bot."
@@ -47,37 +64,33 @@ msgstr "投稿者ベースを編集できます。"
 msgid "Edit author base"
 msgstr "投稿者ベースの編集"
 
-#: inc/class-xo-security-two-factor.php:256
+#: inc/class-xo-security-two-factor.php:394
 msgid "<strong>Error:</strong> No authentication code entered."
 msgstr "<strong>エラー:</strong> 認証コードが入力されていません。"
 
-#: inc/class-xo-security-two-factor.php:206
-#: inc/class-xo-security-two-factor.php:258
+#: inc/class-xo-security-two-factor.php:216
+#: inc/class-xo-security-two-factor.php:420
 msgid "<strong>Error:</strong> Authentication code is incorrect."
 msgstr "<strong>エラー:</strong> 認証コードが間違っています。"
 
-#: inc/class-xo-security-two-factor.php:149
+#: inc/class-xo-security-two-factor.php:159
 msgid "Entering the correct verification code will enable two-factor authentication."
 msgstr "正しい認証コードを入力すると2要素認証が有効化されます。"
 
-#: inc/class-xo-security-two-factor.php:146
-#: inc/class-xo-security-two-factor.php:290
+#: inc/class-xo-security-two-factor.php:156
+#: inc/class-xo-security-two-factor.php:282
 msgid "Authentication Code"
 msgstr "認証コード"
 
-#: inc/class-xo-security-two-factor.php:142
-msgid "Scan the QR code with the Google Authenticator app or manually enter the secret key."
-msgstr "Google Authenticator アプリなどで QR コードをスキャンするか、手動で秘密鍵を入力してください。"
-
-#: inc/class-xo-security-two-factor.php:138
+#: inc/class-xo-security-two-factor.php:148
 msgid "Secret key"
 msgstr "秘密鍵"
 
-#: inc/class-xo-security-two-factor.php:133
+#: inc/class-xo-security-two-factor.php:143
 msgid "Turn it off if you want to reset it."
 msgstr "リセットする場合はオフにしてください。"
 
-#: inc/class-xo-security-two-factor.php:121
+#: inc/class-xo-security-two-factor.php:131
 msgid "Two-factor authentication settings"
 msgstr "2要素認証設定"
 
@@ -94,9 +107,13 @@ msgid "Add Time Based One-Time Password (TOTP) authentication."
 msgstr "時間ベースのワンタイムパスワード (TOTP) による認証を追加します。"
 
 #: inc/class-xo-security-admin.php:404 inc/class-xo-security-admin.php:511
-#: inc/class-xo-security-two-factor.php:127
+#: inc/class-xo-security-two-factor.php:137
 msgid "Two-factor authentication"
 msgstr "2要素認証"
+
+#: inc/class-xo-security-two-factor.php:152
+msgid "Scan the QR code with the Google Authenticator app or manually enter the secret key."
+msgstr "Google Authenticator アプリなどで QR コードをスキャンするか、手動で秘密鍵を入力してください。"
 
 #: inc/class-xo-security.php:1655
 msgid "Deleting readme.html&#8230;"
@@ -163,6 +180,10 @@ msgstr "月1回"
 msgid "Email addresses of comments saved as spam"
 msgstr "スパムとして保存されているコメントのメールアドレス"
 
+#: inc/class-xo-security-admin.php:469 inc/class-xo-security-admin.php:544
+msgid "Remove oEmbed username"
+msgstr "oEmbed ユーザー名の削除"
+
 #: inc/class-xo-security-admin.php:951
 msgid "Remove the username (author_name and author_url) from the oEmbed response data."
 msgstr "oEmbed レスポンスデータからユーザー名 (author_name および author_url) を削除します。"
@@ -170,10 +191,6 @@ msgstr "oEmbed レスポンスデータからユーザー名 (author_name およ
 #: inc/class-xo-security-admin.php:470
 msgid "Remove the username from the oEmbed response data."
 msgstr "oEmbed レスポンスデータからユーザー名を削除します。"
-
-#: inc/class-xo-security-admin.php:469 inc/class-xo-security-admin.php:544
-msgid "Remove oEmbed username"
-msgstr "oEmbed ユーザー名の削除"
 
 #: inc/class-xo-security-admin.php:1106
 msgid "Unable to connect to the filesystem."
@@ -187,14 +204,6 @@ msgstr "すべてのサイトで共通 (推奨)"
 msgid "Inherit main site settings"
 msgstr "メインサイトの設定を継承"
 
-#: inc/class-xo-security-admin.php:815
-msgid "Save to trash"
-msgstr "ゴミ箱へ入れる"
-
-#: inc/class-xo-security-admin.php:814
-msgid "Save as spam"
-msgstr "スパムとして保存する"
-
 #: inc/class-xo-security-admin.php:813
 msgid "Block"
 msgstr "ブロックする"
@@ -203,17 +212,21 @@ msgstr "ブロックする"
 msgid "Spam comment"
 msgstr "スパムコメント"
 
-#: inc/class-xo-security-admin.php:565
-msgid "Status to display by default"
-msgstr "デフォルトで表示する結果"
+#: inc/class-xo-security-admin.php:814
+msgid "Save as spam"
+msgstr "スパムとして保存する"
+
+#: inc/class-xo-security-admin.php:815
+msgid "Save to trash"
+msgstr "ゴミ箱へ入れる"
 
 #: inc/class-xo-security-admin.php:564
 msgid "Automatic removal"
 msgstr "自動削除"
 
-#: inc/class-xo-security.php:607
-msgid "<strong>Error:</strong> The session is unavailable. "
-msgstr "<strong>エラー:</strong> セッションが使用できません。"
+#: inc/class-xo-security-admin.php:565
+msgid "Status to display by default"
+msgstr "デフォルトで表示する結果"
 
 #: inc/class-xo-security.php:604
 msgid "<strong>Error:</strong> Please enter the CAPTCHA code."
@@ -222,6 +235,10 @@ msgstr "<strong>エラー:</strong> CAPTCHA コードを入力してください
 #: inc/class-xo-security.php:601
 msgid "<strong>Error:</strong> The CAPTCHA code is wrong."
 msgstr "<strong>エラー:</strong> CAPTCHA コードが間違っています。"
+
+#: inc/class-xo-security.php:607
+msgid "<strong>Error:</strong> The session is unavailable. "
+msgstr "<strong>エラー:</strong> セッションが使用できません。"
 
 #: inc/class-xo-security-admin.php:545
 msgid "RSS and Atom feeds"
@@ -247,14 +264,6 @@ msgstr "投稿者スラッグを編集できます。"
 msgid "Edit author slug"
 msgstr "投稿者スラッグの編集"
 
-#: inc/class-xo-security-admin.php:1566
-msgid "<strong>Error:</strong> The author slug with the same name already exists."
-msgstr "<strong>エラー:</strong> 投稿者スラッグが同じ名前のものがすでに存在しています。"
-
-#: inc/class-xo-security-admin.php:1561
-msgid "<strong>Error:</strong> The author slug may not be longer than 50 characters."
-msgstr "<strong>エラー:</strong> 投稿者スラッグは50文字以内にしてください。"
-
 #: inc/class-xo-security-admin.php:1525
 msgid "Used for things like the URL of an author archive page."
 msgstr "投稿者アーカイブページの URL などに使用されます。"
@@ -270,6 +279,14 @@ msgstr "投稿者スラッグ (Nicename)"
 #: inc/class-xo-security-admin.php:1517
 msgid "Slug"
 msgstr "スラッグ"
+
+#: inc/class-xo-security-admin.php:1566
+msgid "<strong>Error:</strong> The author slug with the same name already exists."
+msgstr "<strong>エラー:</strong> 投稿者スラッグが同じ名前のものがすでに存在しています。"
+
+#: inc/class-xo-security-admin.php:1561
+msgid "<strong>Error:</strong> The author slug may not be longer than 50 characters."
+msgstr "<strong>エラー:</strong> 投稿者スラッグは50文字以内にしてください。"
 
 #: inc/class-xo-security-admin.php:795
 msgid "Message to display under the comment field:"
@@ -336,6 +353,10 @@ msgstr "コメントをスパムから保護します。"
 msgid "Comment spam protection"
 msgstr "コメントスパム保護"
 
+#: inc/class-xo-security.php:1351
+msgid "I'm not a robot."
+msgstr "私はロボットではありません。"
+
 #: inc/class-xo-security.php:1455
 msgid "<strong>Error:</strong> Invalid Comment."
 msgstr "<strong>エラー:</strong> コメントが無効です。"
@@ -348,12 +369,8 @@ msgstr "<strong>エラー:</strong> ブラウザの JavaScript を有効にし�
 msgid "<strong>Error:</strong> Please check the anti-bot checkbox."
 msgstr "<strong>エラー:</strong> スパム対策チェックボックスをチェックしてください。"
 
-#: inc/class-xo-security.php:1351
-msgid "I'm not a robot."
-msgstr "私はロボットではありません。"
-
 #: inc/class-xo-security-admin.php:724 inc/class-xo-security-admin.php:756
-#: inc/class-xo-security-admin.php:767 inc/class-xo-security-two-factor.php:131
+#: inc/class-xo-security-admin.php:767 inc/class-xo-security-two-factor.php:141
 msgid "Enable"
 msgstr "有効"
 
@@ -402,15 +419,15 @@ msgstr "設定"
 msgid "The standard sitemap user provider is also removed."
 msgstr "標準サイトマップのユーザープロバイダーも削除されます。"
 
-#: inc/class-xo-login-log-list-table.php:106
+#: inc/class-xo-login-log-list-table.php:110
 msgid "Type"
 msgstr "タイプ"
 
-#: inc/class-xo-login-log-list-table.php:88
+#: inc/class-xo-login-log-list-table.php:92
 msgid "XMLRPC"
 msgstr "XMLRPC"
 
-#: inc/class-xo-login-log-list-table.php:86
+#: inc/class-xo-login-log-list-table.php:90
 msgid "Login page"
 msgstr "ログインページ"
 
@@ -418,13 +435,13 @@ msgstr "ログインページ"
 msgid "Select the method of acquiring the IP address. Normally select \"Auto\"."
 msgstr "IP アドレスの取得方法を選択します。通常は「自動」を選択してください。"
 
-#: inc/class-xo-security-admin.php:215
-msgid "Disabling author archives the author archive page does not appear."
-msgstr "投稿者アーカイブの無効化は、投稿者アーカイブページを表示しないようにします。"
-
 #: inc/class-xo-security.php:868
 msgid "Incorrect username or password."
 msgstr "ユーザー名またはパスワードが正しくありません。"
+
+#: inc/class-xo-security-admin.php:215
+msgid "Disabling author archives the author archive page does not appear."
+msgstr "投稿者アーカイブの無効化は、投稿者アーカイブページを表示しないようにします。"
 
 #: inc/class-xo-security-admin.php:1027
 msgid "HTTP_CLIENT_IP"
@@ -495,10 +512,6 @@ msgstr "ログイン ID をユーザー名またはメールアドレスのど�
 msgid "Login ID type"
 msgstr "ログイン ID の種類"
 
-#: inc/class-xo-security.php:622
-msgid "<strong>Error:</strong> There is no account with that email address."
-msgstr "<strong>エラー:</strong> そのメールアドレスのアカウントは存在しません。"
-
 #: inc/class-xo-security.php:485
 msgid "Email"
 msgstr "メールアドレス"
@@ -507,6 +520,10 @@ msgstr "メールアドレス"
 #: xo-security.php
 msgid "Xakuro"
 msgstr "Xakuro"
+
+#: inc/class-xo-security.php:622
+msgid "<strong>Error:</strong> There is no account with that email address."
+msgstr "<strong>エラー:</strong> そのメールアドレスのアカウントは存在しません。"
 
 #: inc/class-xo-security-admin.php:460
 msgid "Disable authors archive page."
@@ -529,10 +546,6 @@ msgstr "<strong>エラー:</strong> ただいまログインを制限してお�
 msgid "Error"
 msgstr "エラー"
 
-#: inc/class-xo-security.php:1339
-msgid "<strong>Error:</strong> Invalid CAPTCHA code."
-msgstr "<strong>エラー:</strong> CAPTCHA コードが無効です。"
-
 #: inc/class-xo-security-admin.php:420
 msgid "Add CAPTCHA to the comment form."
 msgstr "コメントフォームに CAPTCHA を追加します。"
@@ -544,6 +557,10 @@ msgstr "コメント CAPTCHA"
 #: inc/class-xo-security-admin.php:282 inc/class-xo-security-admin.php:520
 msgid "Comment"
 msgstr "コメント"
+
+#: inc/class-xo-security.php:1339
+msgid "<strong>Error:</strong> Invalid CAPTCHA code."
+msgstr "<strong>エラー:</strong> CAPTCHA コードが無効です。"
 
 #: inc/class-xo-security.php:1272 inc/class-xo-security.php:1299
 msgid "CAPTCHA Code"
@@ -593,6 +610,14 @@ msgstr "ログイン言語制限"
 msgid "https://xakuro.com/wordpress/xo-security/"
 msgstr "https://xakuro.com/wordpress/xo-security/"
 
+#: inc/class-xo-security-admin.php:369
+msgid "Setting status"
+msgstr "設定ステータス"
+
+#: inc/class-xo-security-admin.php:278
+msgid "Status"
+msgstr "ステータス"
+
 #: inc/class-xo-security-admin.php:445
 msgid "Disable the REST API."
 msgstr "REST API を無効にします。"
@@ -629,17 +654,13 @@ msgstr "ログインログを記録します。"
 msgid "Record login"
 msgstr "ログインログ記録"
 
-#: inc/class-xo-security-admin.php:369
-msgid "Setting status"
-msgstr "設定ステータス"
-
-#: inc/class-xo-security-admin.php:278
-msgid "Status"
-msgstr "ステータス"
-
 #: inc/class-xo-security-admin.php:213 inc/class-xo-security-admin.php:288
 msgid "Secret"
 msgstr "秘匿"
+
+#: inc/class-xo-security-admin.php:1373
+msgid "Login information"
+msgstr "ログイン情報"
 
 #. translators: %s Days
 #: inc/class-xo-security-admin.php:1403 inc/class-xo-security-admin.php:1499
@@ -665,10 +686,6 @@ msgstr "不明"
 msgid "Current login date"
 msgstr "現在のログイン日時"
 
-#: inc/class-xo-security-admin.php:1373
-msgid "Login information"
-msgstr "ログイン情報"
-
 #: inc/class-xo-security-admin.php:616
 msgid "Administrators only"
 msgstr "管理者のみ"
@@ -685,10 +702,6 @@ msgstr "本文:"
 msgid "%USERNAME% logged in at %DATE% %TIME%."
 msgstr "%USERNAME% が %DATE% %TIME% にログインしました。"
 
-#: inc/class-xo-security-admin.php:613
-msgid "Subject:"
-msgstr "件名:"
-
 #: inc/class-xo-security-admin.php:609
 msgid "Login at %SITENAME% site"
 msgstr "%SITENAME% サイトにログイン"
@@ -697,6 +710,10 @@ msgstr "%SITENAME% サイトにログイン"
 #: inc/class-xo-security-admin.php:517
 msgid "Login Alert"
 msgstr "ログインアラート"
+
+#: inc/class-xo-security-admin.php:613
+msgid "Subject:"
+msgstr "件名:"
 
 #: inc/class-xo-security-admin.php:899
 msgid "Characters can be used in the prefix is only lowercase letters, numbers, hyphens and underscores."
@@ -714,63 +731,138 @@ msgstr "REST API URL の変更"
 msgid "Disable REST API"
 msgstr "REST API の無効化"
 
-#: inc/class-xo-security-admin.php:286 inc/class-xo-security-admin.php:532
-msgid "REST API"
-msgstr "REST API"
-
 #: inc/class-xo-security-admin.php:284 inc/class-xo-security-admin.php:527
 msgid "XML-RPC"
 msgstr "XML-RPC"
 
-#. Author URI of the plugin
-#: xo-security.php
-msgid "https://xakuro.com/"
-msgstr "https://xakuro.com/"
+#: inc/class-xo-security-admin.php:286 inc/class-xo-security-admin.php:532
+msgid "REST API"
+msgstr "REST API"
 
-#. Plugin Name of the plugin
-#: xo-security.php
-msgid "XO Security"
-msgstr "XO Security"
+#: inc/class-xo-login-log-list-table.php:61
+#: inc/class-xo-login-log-list-table.php:158
+#: inc/class-xo-security-admin.php:714
+msgid "Success"
+msgstr "成功"
 
-#: inc/class-xo-security.php:554
-msgid "We restrict the login right now."
-msgstr "ただいまログインを制限しております。"
+#: inc/class-xo-login-log-list-table.php:111
+msgid "Language"
+msgstr "言語"
 
-#: inc/class-xo-security-admin.php:1134
-msgid "It is not possible to omit the login file."
-msgstr "ログインファイルを省略することはできません。"
+#: inc/class-xo-login-log-list-table.php:112
+msgid "User Agent"
+msgstr "ユーザーエージェント"
 
-#: inc/class-xo-security-admin.php:1128
-msgid "Failed to create a login file."
-msgstr "ログインファイルを作成できませんでした。"
+#: inc/class-xo-login-log-list-table.php:154
+msgid "Filter by results"
+msgstr "結果で絞り込み"
 
-#: inc/class-xo-security-admin.php:1122
-msgid "The file specified in the login file already exists. Please enter a different name."
-msgstr "ログインファイルで指定したファイルは既に存在します。別の名前を入力してください。"
+#: inc/class-xo-login-log-list-table.php:156
+#: inc/class-xo-security-admin.php:712
+msgid "All results"
+msgstr "すべての結果"
 
-#: inc/class-xo-security-admin.php:1108
-msgid "Unable to write."
-msgstr "書き込みできません。"
+#: inc/class-xo-login-log-list-table.php:174
+#: inc/class-xo-login-log-list-table.php:182
+msgid "Filter by user"
+msgstr "ユーザーで絞り込み"
 
-#: inc/class-xo-security-admin.php:1094
-msgid "Failure response delay enter in the numbers from 0 to 10."
-msgstr "失敗時の応答遅延は 0 から 10 までの数字で入力してください。"
+#: inc/class-xo-login-log-list-table.php:176
+msgid "All users"
+msgstr "すべてのユーザー"
 
-#: inc/class-xo-security-admin.php:1089
-msgid "In the numbers from 0 to 120 block when the response delay."
-msgstr "ブロック時の応答遅延は 0 から 120 までの数字で入力してください。"
+#: inc/class-xo-security-admin.php:137 inc/class-xo-security-admin.php:255
+#: inc/class-xo-security-admin.php:563
+msgid "Login log"
+msgstr "ログインログ"
 
-#: inc/class-xo-security-admin.php:1083
-msgid "Attempts to limit the number of times enter numbers from 1 to 100."
-msgstr "試行回数制限の回数は 1 から 100 までの数字で入力してください。"
+#: inc/class-xo-security-admin.php:169
+msgid "Number of items per page:"
+msgstr "ページごとに表示する項目数:"
 
-#: inc/class-xo-security-admin.php:743
-msgid "Characters can be used in the login file is only lowercase letters, numbers, hyphens and underscores."
-msgstr "ログインファイルで使用できる文字は、英小文字、数字、ハイフンおよびアンダーバーのみです。"
+#: inc/class-xo-security-admin.php:180
+msgid "View the log of login."
+msgstr "ログインのログを表示します。"
 
-#: inc/class-xo-security-admin.php:741
-msgid "Login file:"
-msgstr "ログインファイル:"
+#: inc/class-xo-security-admin.php:199
+msgid "XO Security setup."
+msgstr "XO Security の設定を行います。"
+
+#: inc/class-xo-security-admin.php:207
+msgid "Number of trials restriction limits the number of times that you can try from the same IP address during a specified time. From was over a specified number of IP address you will not be able to log in."
+msgstr "試行回数制限は、指定の時間の間に同じ IP アドレスから試行できる回数を制限します。指定の回数をオーバーした IP アドレスからはログインできなくなります。"
+
+#: inc/class-xo-security-admin.php:225
+msgid "Automatic deletion of login log automatically deletes the old log in the log of the previous period specified."
+msgstr "ログインログの自動削除は指定の期間以前の古いログインログを自動的に削除します。"
+
+#: inc/class-xo-security-admin.php:275
+msgid "XO Security Settings"
+msgstr "XO Security 設定"
+
+#: inc/class-xo-security-admin.php:504
+msgid "Infinite attempts"
+msgstr "試行回数制限"
+
+#: inc/class-xo-security-admin.php:505
+msgid "Block time delay"
+msgstr "ブロック時の応答遅延"
+
+#: inc/class-xo-security-admin.php:506
+msgid "Failure time delay"
+msgstr "失敗時の応答遅延"
+
+#: inc/class-xo-security-admin.php:384 inc/class-xo-security-admin.php:507
+msgid "Modify login page"
+msgstr "ログインページの変更"
+
+#: inc/class-xo-security-admin.php:434 inc/class-xo-security-admin.php:528
+msgid "Disable XML-RPC"
+msgstr "XML-RPC の無効化"
+
+#: inc/class-xo-security-admin.php:439 inc/class-xo-security-admin.php:529
+msgid "Disable XML-RPC Pinback"
+msgstr "XML-RPC ピンバックの無効化"
+
+#: inc/class-xo-security-admin.php:578
+msgid "No limit"
+msgstr "試行回数の制限なし"
+
+#: inc/class-xo-security-admin.php:579
+msgid "During the one-hour"
+msgstr "1時間の間に"
+
+#: inc/class-xo-security-admin.php:580
+msgid "During the 12-hour"
+msgstr "12時間の間に"
+
+#: inc/class-xo-security-admin.php:581
+msgid "During the 24-hour"
+msgstr "24時間の間に"
+
+#: inc/class-xo-security-admin.php:582
+msgid "During the 48-hour"
+msgstr "48時間の間に"
+
+#: inc/class-xo-security-admin.php:584
+msgid "times permission"
+msgstr "回までリトライを許可する"
+
+#: inc/class-xo-security-admin.php:592
+msgid "sec (0-120)"
+msgstr "秒（0 から 120）"
+
+#: inc/class-xo-security-admin.php:600
+msgid "sec (0-10)"
+msgstr "秒（0 から 10）"
+
+#: inc/class-xo-security-admin.php:700
+msgid "Not automatic deletion"
+msgstr "自動削除しない"
+
+#: inc/class-xo-security-admin.php:701
+msgid "Older than 30 days"
+msgstr "30日以前"
 
 #: inc/class-xo-security-admin.php:612 inc/class-xo-security-admin.php:637
 #: inc/class-xo-security-admin.php:739 inc/class-xo-security-admin.php:824
@@ -784,176 +876,101 @@ msgstr "ログインファイル:"
 msgid "ON"
 msgstr "オン"
 
-#: inc/class-xo-security-admin.php:702
-msgid "Older than 365 days"
-msgstr "365日以前"
+#: inc/class-xo-security-admin.php:741
+msgid "Login file:"
+msgstr "ログインファイル:"
 
-#: inc/class-xo-security-admin.php:701
-msgid "Older than 30 days"
-msgstr "30日以前"
+#: inc/class-xo-security-admin.php:743
+msgid "Characters can be used in the login file is only lowercase letters, numbers, hyphens and underscores."
+msgstr "ログインファイルで使用できる文字は、英小文字、数字、ハイフンおよびアンダーバーのみです。"
 
-#: inc/class-xo-security-admin.php:700
-msgid "Not automatic deletion"
-msgstr "自動削除しない"
+#: inc/class-xo-security-admin.php:1083
+msgid "Attempts to limit the number of times enter numbers from 1 to 100."
+msgstr "試行回数制限の回数は 1 から 100 までの数字で入力してください。"
 
-#: inc/class-xo-security-admin.php:600
-msgid "sec (0-10)"
-msgstr "秒（0 から 10）"
+#: inc/class-xo-security-admin.php:1089
+msgid "In the numbers from 0 to 120 block when the response delay."
+msgstr "ブロック時の応答遅延は 0 から 120 までの数字で入力してください。"
 
-#: inc/class-xo-security-admin.php:592
-msgid "sec (0-120)"
-msgstr "秒（0 から 120）"
+#: inc/class-xo-security-admin.php:1094
+msgid "Failure response delay enter in the numbers from 0 to 10."
+msgstr "失敗時の応答遅延は 0 から 10 までの数字で入力してください。"
 
-#: inc/class-xo-security-admin.php:584
-msgid "times permission"
-msgstr "回までリトライを許可する"
+#: inc/class-xo-security-admin.php:1108
+msgid "Unable to write."
+msgstr "書き込みできません。"
 
-#: inc/class-xo-security-admin.php:582
-msgid "During the 48-hour"
-msgstr "48時間の間に"
+#: inc/class-xo-security-admin.php:1122
+msgid "The file specified in the login file already exists. Please enter a different name."
+msgstr "ログインファイルで指定したファイルは既に存在します。別の名前を入力してください。"
 
-#: inc/class-xo-security-admin.php:581
-msgid "During the 24-hour"
-msgstr "24時間の間に"
+#: inc/class-xo-security-admin.php:1128
+msgid "Failed to create a login file."
+msgstr "ログインファイルを作成できませんでした。"
 
-#: inc/class-xo-security-admin.php:580
-msgid "During the 12-hour"
-msgstr "12時間の間に"
+#: inc/class-xo-security-admin.php:1134
+msgid "It is not possible to omit the login file."
+msgstr "ログインファイルを省略することはできません。"
 
-#: inc/class-xo-security-admin.php:579
-msgid "During the one-hour"
-msgstr "1時間の間に"
+#: inc/class-xo-security.php:554
+msgid "We restrict the login right now."
+msgstr "ただいまログインを制限しております。"
 
-#: inc/class-xo-security-admin.php:578
-msgid "No limit"
-msgstr "試行回数の制限なし"
+#: inc/class-xo-login-log-list-table.php:199
+msgid "Filter"
+msgstr "検索条件"
 
-#: inc/class-xo-security-admin.php:439 inc/class-xo-security-admin.php:529
-msgid "Disable XML-RPC Pinback"
-msgstr "XML-RPC ピンバックの無効化"
+#: inc/class-xo-login-log-list-table.php:115
+#: inc/class-xo-security-admin.php:539 inc/class-xo-security.php:455
+#: inc/class-xo-security.php:469
+msgid "Username"
+msgstr "ユーザー名"
 
-#: inc/class-xo-security-admin.php:434 inc/class-xo-security-admin.php:528
-msgid "Disable XML-RPC"
-msgstr "XML-RPC の無効化"
+#: inc/class-xo-security-admin.php:179 inc/class-xo-security-admin.php:197
+msgid "Overview"
+msgstr "概要"
 
-#: inc/class-xo-security-admin.php:459 inc/class-xo-security-admin.php:542
-msgid "Disable author archives"
-msgstr "投稿者アーカイブの無効化"
+#. Plugin Name of the plugin
+#: xo-security.php
+msgid "XO Security"
+msgstr "XO Security"
 
-#: inc/class-xo-security-admin.php:384 inc/class-xo-security-admin.php:507
-msgid "Modify login page"
-msgstr "ログインページの変更"
-
-#: inc/class-xo-security-admin.php:506
-msgid "Failure time delay"
-msgstr "失敗時の応答遅延"
-
-#: inc/class-xo-security-admin.php:505
-msgid "Block time delay"
-msgstr "ブロック時の応答遅延"
-
-#: inc/class-xo-security-admin.php:504
-msgid "Infinite attempts"
-msgstr "試行回数制限"
-
-#: inc/class-xo-security-admin.php:275
-msgid "XO Security Settings"
-msgstr "XO Security 設定"
-
-#: inc/class-xo-security-admin.php:225
-msgid "Automatic deletion of login log automatically deletes the old log in the log of the previous period specified."
-msgstr "ログインログの自動削除は指定の期間以前の古いログインログを自動的に削除します。"
-
-#: inc/class-xo-security-admin.php:207
-msgid "Number of trials restriction limits the number of times that you can try from the same IP address during a specified time. From was over a specified number of IP address you will not be able to log in."
-msgstr "試行回数制限は、指定の時間の間に同じ IP アドレスから試行できる回数を制限します。指定の回数をオーバーした IP アドレスからはログインできなくなります。"
+#. Author URI of the plugin
+#: xo-security.php
+msgid "https://xakuro.com/"
+msgstr "https://xakuro.com/"
 
 #: inc/class-xo-security-admin.php:205 inc/class-xo-security-admin.php:280
 #: inc/class-xo-security-admin.php:503
 msgid "Login"
 msgstr "ログイン"
 
-#: inc/class-xo-security-admin.php:199
-msgid "XO Security setup."
-msgstr "XO Security の設定を行います。"
-
-#: inc/class-xo-security-admin.php:180
-msgid "View the log of login."
-msgstr "ログインのログを表示します。"
-
-#: inc/class-xo-security-admin.php:179 inc/class-xo-security-admin.php:197
-msgid "Overview"
-msgstr "概要"
-
-#: inc/class-xo-security-admin.php:169
-msgid "Number of items per page:"
-msgstr "ページごとに表示する項目数:"
-
-#: inc/class-xo-security-admin.php:137 inc/class-xo-security-admin.php:255
-#: inc/class-xo-security-admin.php:563
-msgid "Login log"
-msgstr "ログインログ"
-
-#: inc/class-xo-login-log-list-table.php:195
-msgid "Filter"
-msgstr "検索条件"
-
-#: inc/class-xo-login-log-list-table.php:172
-msgid "All users"
-msgstr "すべてのユーザー"
-
-#: inc/class-xo-login-log-list-table.php:170
-#: inc/class-xo-login-log-list-table.php:178
-msgid "Filter by user"
-msgstr "ユーザーで絞り込み"
-
-#: inc/class-xo-login-log-list-table.php:152
-#: inc/class-xo-security-admin.php:712
-msgid "All results"
-msgstr "すべての結果"
-
-#: inc/class-xo-login-log-list-table.php:150
-msgid "Filter by results"
-msgstr "結果で絞り込み"
-
-#: inc/class-xo-login-log-list-table.php:139
-msgid "Delete"
-msgstr "削除"
-
-#: inc/class-xo-login-log-list-table.php:111
-#: inc/class-xo-security-admin.php:539 inc/class-xo-security.php:455
-#: inc/class-xo-security.php:469
-msgid "Username"
-msgstr "ユーザー名"
-
-#: inc/class-xo-login-log-list-table.php:108
-msgid "User Agent"
-msgstr "ユーザーエージェント"
-
-#: inc/class-xo-login-log-list-table.php:107
-msgid "Language"
-msgstr "言語"
-
-#: inc/class-xo-login-log-list-table.php:105
+#: inc/class-xo-login-log-list-table.php:109
 msgid "IP address"
 msgstr "IP アドレス"
 
-#: inc/class-xo-login-log-list-table.php:104
-msgid "Result"
-msgstr "結果"
-
-#: inc/class-xo-login-log-list-table.php:103
+#: inc/class-xo-login-log-list-table.php:107
 msgid "Date"
 msgstr "日時"
 
-#: inc/class-xo-login-log-list-table.php:57
-#: inc/class-xo-login-log-list-table.php:153
+#: inc/class-xo-login-log-list-table.php:61
+#: inc/class-xo-login-log-list-table.php:157
 #: inc/class-xo-security-admin.php:713
 msgid "Failure"
 msgstr "失敗"
 
-#: inc/class-xo-login-log-list-table.php:57
-#: inc/class-xo-login-log-list-table.php:154
-#: inc/class-xo-security-admin.php:714
-msgid "Success"
-msgstr "成功"
+#: inc/class-xo-login-log-list-table.php:108
+msgid "Result"
+msgstr "結果"
+
+#: inc/class-xo-login-log-list-table.php:143
+msgid "Delete"
+msgstr "削除"
+
+#: inc/class-xo-security-admin.php:702
+msgid "Older than 365 days"
+msgstr "365日以前"
+
+#: inc/class-xo-security-admin.php:459 inc/class-xo-security-admin.php:542
+msgid "Disable author archives"
+msgstr "投稿者アーカイブの無効化"

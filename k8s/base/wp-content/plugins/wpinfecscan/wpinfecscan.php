@@ -3,7 +3,7 @@
 Plugin Name:WPDoctor Malware Scanner & Security Pro 
 Plugin URI: https://website-malware-removal.com/
 description: WP doctor Malware scan and Security plugin
-Version: 2.8.6
+Version: 2.9
 Author: WP-Doctor
 Author URI: https://wp-doctor.jp/
 Text Domain: wpinfecscan
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $wpinfecscanversion;
-$wpinfecscanversion = "2.8.6";
+$wpinfecscanversion = "2.9";
 
 
 require_once('scannerdata/wpinfectsecurity.php');

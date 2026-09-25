@@ -13,32 +13,6 @@
 add_filter( 'relevanssi_post_content', 'relevanssi_gutenberg_block_rendering', 10, 2 );
 
 /**
- * Registers rest_after_insert_{post_type} actions for all indexed post types.
- *
- * Runs on `admin_init` action hook and registers the function
- * `relevanssi_save_gutenberg_postdata` for all indexed post types.
- *
- * @see relevanssi_save_gutenberg_postdata
- */
-function relevanssi_register_gutenberg_actions() {
-	if ( ! RELEVANSSI_PREMIUM ) {
-		return;
-	}
-	$index_post_types = get_option( 'relevanssi_index_post_types', array() );
-	array_walk(
-		$index_post_types,
-		function ( $post_type ) {
-			if ( 'bogus' !== $post_type ) {
-				add_action(
-					'rest_after_insert_' . $post_type,
-					'relevanssi_save_gutenberg_postdata'
-				);
-			}
-		}
-	);
-}
-
-/**
  * Renders Gutenberg blocks.
  *
  * Renders all sorts of Gutenberg blocks, including reusable blocks and ACF
@@ -87,11 +61,14 @@ function relevanssi_gutenberg_block_rendering( $content, $post_object ) {
 			continue;
 		}
 
-		if (isset( $block['attrs']['ref'] ) ) {
+		if ( isset( $block['attrs']['ref'] ) ) {
 			// Synced pattern, process the pattern content.
-			$pattern_post    = get_post( $block['attrs']['ref'] );
+			$pattern_post = get_post( $block['attrs']['ref'] );
+			if ( ! $pattern_post ) {
+				continue;
+			}
 			$pattern_content = $pattern_post->post_content;
-			$output         .= relevanssi_gutenberg_block_rendering( $pattern_content, $post_object ); 
+			$output         .= relevanssi_gutenberg_block_rendering( $pattern_content, $post_object );
 			continue;
 		}
 

@@ -1,10 +1,10 @@
 === XO Security ===
 Contributors: ishitaka
 Tags: security, login, two factor, brute force, maintenance
-Requires at least: 4.9
-Tested up to: 6.9
-Requires PHP: 5.6
-Stable tag: 3.10.8
+Requires at least: 6.0
+Tested up to: 7.0
+Requires PHP: 7.2
+Stable tag: 3.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,16 @@ Please install mbstring and GD module.
 
 == Changelog ==
 
+= 3.11.0 =
+
+* Fixed a vulnerability that allowed two-factor authentication to be bypass.
+* Update minimum WordPress version to 6.0.
+* Update minimum PHP version to 7.2.
+
+= 3.10.9 =
+
+* Supported WordPress 7.0.
+
 = 3.10.8 =
 
 * Fixed a bug that sometimes prevented access to the login page.
@@ -110,27 +120,6 @@ Please install mbstring and GD module.
 * Added option to change author base.
 * Added option to select CAPTCHA type.
 * Enhanced the judgment of comment bots.
-
-= 3.9.1 =
-
-* Fixed a bug where an error message was displayed on the admin screen in PHP 8.2 or higher.
-
-= 3.9.0 =
-
-* Added two-factor authentication function.
-* Fixed a bug where the login page file created by changing the login page may not be deleted during uninstallation.
-* The REST API URL change feature has been deprecated. If it is currently in use, you can continue to use it, but you cannot use it newly.
-
-= 3.8.1 =
-
-* Supported WordPress 6.5.
-* Added ability to delete readme.html file.
-* Tweaked wording on the admin page.
-* Tweaked CSS on the admin page.
-
-= 3.8.0 =
-
-* Added maintenance mode.
 
 --------
 

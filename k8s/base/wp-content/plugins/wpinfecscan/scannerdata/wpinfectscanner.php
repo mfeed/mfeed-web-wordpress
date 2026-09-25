@@ -2848,7 +2848,7 @@ $cvetxt = "\x2d";
 $abcdefg=123456;/*x*/ goto/*y          This file has been obfuscated to prevent analysis.                         
 */ gkan3SXal8cV;
 JOQHXegZ0bTG:
-$lines[] = $thisname . "\40\x56\x65\162\x73\x69\157\156\72" . $version . "\40" . $valn;
+$lines[] = $thisname . "\40\x56\x65\162\x73\x69\157\156\72" . $version . "\40";
 $abcdefg=123456;/*x*/ goto/*y          This file has been obfuscated to prevent analysis.                         
 */ MB3bf1yEbGE2;
 MB3bf1yEbGE2:

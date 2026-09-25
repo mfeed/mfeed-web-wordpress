@@ -1,4 +1,38 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {exit;}?>
+<?php if ( ! defined( 'ABSPATH' ) ) {exit;}
+
+function describeCvssRisk(string $vector): string
+{
+    $vector = preg_replace('/^CVSS:[\d.]+\//', '', trim($vector));
+ 
+    $metrics = [];
+    foreach (explode('/', $vector) as $pair) {
+        if (strpos($pair, ':') === false) {
+            continue;
+        }
+        [$key, $value] = explode(':', $pair, 2);
+        $metrics[strtoupper($key)] = strtoupper($value);
+    }
+ 
+    if (!isset($metrics['PR']) || !isset($metrics['I'])) {
+        return '';
+    }
+ 
+    $loginRequired = $metrics['PR'] !== 'N';
+    $tamperable    = $metrics['I'] !== 'N';
+ 
+
+    if($loginRequired && $tamperable){
+        return "<p style='color:red'>".__('*This vulnerability may be a serious one that allows tampering without requiring special privileges.', "wpinfecscan")."</p>";
+    }else{
+        if($tamperable){
+            return "<p style='color:orange'>".__('*This vulnerability may be a dangerous one that could allow data tampering.', "wpinfecscan")."</p>";
+        }else{
+            return "";
+        }
+    }
+}
+
+?>
 <div class="tab-pane" id="ContentH">
 
     <div class="col-lg-12">
@@ -160,6 +194,14 @@
             echo "<h4 id='valntitle'>".__("Vulnerability to check","wpinfecscan")."</h4>";
         }
         ?>
+        <style>
+        .valntb{
+            border:0;
+        }
+        .valntb td,.valntb th{
+            padding-right:5px;
+        }
+        </style>
         <table class="table">
             <thead>
                 <tr>
@@ -244,12 +286,43 @@
                         if($valn!="0"){
                             $valntxt= __("Vulnerability found","wpinfecscan");
                             $cvetxt = "";
-                            $valnar=explode(",",$valn);
-                            for($vi=0;$vi<count($valnar);$vi++){
-                                $cve=trim($valnar[$vi]);
-                                if(! empty($cve)){
-                                    $cvetxt .= "<a href='https://nvd.nist.gov/vuln/detail/".$cve."' target='_blank'>".$cve."</a><br>";
+                            //olddata
+                            if(is_string($valn)){
+                                $valnar=explode(",",$valn);
+                                for($vi=0;$vi<count($valnar);$vi++){
+                                    $cve=trim($valnar[$vi]);
+                                    if(! empty($cve)){
+                                        $cvetxt .= "<a href='https://nvd.nist.gov/vuln/detail/".$cve."' target='_blank'>".$cve."</a><br>";
+                                    }
                                 }
+                            }else{
+                                $valnar = $valn;
+                                $cvetxt .= '<table class="valntb"><tr><th>CVE ID</th><th>Score</th><th>Vector</th></tr>';
+                                for ($vi = 0; $vi < count($valnar); $vi++) {
+                                    $row = $valnar[$vi];
+                                    $cveid      = $row[0];
+                                    $cve3score  = $row[1];
+                                    $cve3vector = $row[2];
+                                    $cve2score  = $row[3];
+                                    $cve2vector = $row[4];
+
+                                    if (!empty($cveid)) {
+                                        $link = "<a href='https://nvd.nist.gov/vuln/detail/" . htmlspecialchars($cveid) . "' target='_blank'>" . htmlspecialchars($cveid) . "</a>";
+
+                                        // cve3scoreが数値かつ0以上ならcve3系を優先表示、そうでなければcve2系を表示
+                                        if (is_numeric($cve3score) && $cve3score >= 0) {
+                                            $score  = htmlspecialchars($cve3score);
+                                            $vector = htmlspecialchars($cve3vector);
+                                        } else {
+                                            $score  = htmlspecialchars($cve2score);
+                                            $vector = htmlspecialchars($cve2vector);
+                                        }
+                                        $score  = $score / 10;
+                                        $dtx = describeCvssRisk($vector);
+                                        $cvetxt .= "<tr><td>{$link}</td><td>{$score}</td><td>{$vector} {$dtx}</td></tr>";
+                                    }
+                                }
+                                $cvetxt .= '</table>';
                             }
                             $icon="<span class='dashicons dashicons-no' style='color:red'></span>";
                         }
@@ -329,6 +402,37 @@
         </script>
         <?php if($valncheckok){ ?>
         <script>
+            function describeCvssRisk(vector) {
+                vector = vector.trim().replace(/^CVSS:[\d.]+\//, '');
+
+                const metrics = {};
+                for (const pair of vector.split('/')) {
+                    if (!pair.includes(':')) {
+                        continue;
+                    }
+                    const idx = pair.indexOf(':');
+                    const key = pair.slice(0, idx);
+                    const value = pair.slice(idx + 1);
+                    metrics[key.toUpperCase()] = value.toUpperCase();
+                }
+
+                if (!('PR' in metrics) || !('I' in metrics)) {
+                    return '';
+                }
+
+                const loginRequired = metrics['PR'] !== 'N';
+                const tamperable = metrics['I'] !== 'N';
+
+                if (loginRequired && tamperable) {
+                    return "<p style='color:red'><?php _e("*This vulnerability may be a serious one that allows tampering without requiring special privileges.","wpinfecscan");?></p>";
+                } else {
+                    if (tamperable) {
+                        return "<p style='color:orange'><?php _e("*This vulnerability may be a dangerous one that could allow data tampering.","wpinfecscan");?></p>";
+                    } else {
+                        return "";
+                    }
+                }
+            }
             var senddata = '<?php echo str_rot13(bin2hex(json_encode($sitevdata))) ;?>';
             jQuery('#valtestbutton').click(function() {
                 jQuery('#valtestbutton').hide();
@@ -355,10 +459,39 @@
                                          cvetxt = "";
                                          valntxt = "<?php _e('Vulnerability found', "wpinfecscan") ?>";
                                          var cvetext = onedata[3];
-                                         var cvear = cvetext.split(',');
-                                         for (var ii = 0, tlen = cvear.length; ii < tlen-1; ++ii) {
-                                             cvetxt = cvetxt + "<a href='https://nvd.nist.gov/vuln/detail/"+cvear[ii]+"' target='_blank'>"+cvear[ii]+"</a><br>";
-                                         }
+                                         var valnar = cvetext;
+                                        
+                                        if (typeof valnar === 'string') {
+                                            valnar = JSON.parse(valnar);
+                                        }
+
+                                        cvetxt = cvetxt + '<table class="valntb"><tr><th>CVE ID</th><th>Score</th><th>Vector</th></tr>';
+                                        for (var vi = 0, tlen = valnar.length; vi < tlen; ++vi) {
+                                            var row = valnar[vi];
+                                            var cveid      = row[0];
+                                            var cve3score  = row[1];
+                                            var cve3vector = row[2];
+                                            var cve2score  = row[3];
+                                            var cve2vector = row[4];
+
+                                            if (cveid !== '' && cveid !== null && cveid !== undefined) {
+                                                var link = "<a href='https://nvd.nist.gov/vuln/detail/" + cveid + "' target='_blank'>" + cveid + "</a>";
+
+                                                var score, vector;
+                                               
+                                                if (cve3score !== '' && cve3score !== null && !isNaN(cve3score) && Number(cve3score) >= 0) {
+                                                    score  = cve3score;
+                                                    vector = cve3vector;
+                                                } else {
+                                                    score  = cve2score;
+                                                    vector = cve2vector;
+                                                }
+                                                score  = score / 10;
+                                                var dtx = describeCvssRisk(vector);
+                                                cvetxt = cvetxt + "<tr><td>" + link + "</td><td>" + score + "</td><td>" + vector + dtx + "</td></tr>";
+                                            }
+                                        }
+                                        cvetxt = cvetxt + '</table>';
                                          var icon="<span class='dashicons dashicons-no' style='color:red'></span>";
                                      }
                                      jQuery("#tbodychecked").append("<tr class='valnonedata'><td>"+icon+" <b>"+onedata[4]+"</b></td><td>"+onedata[1]+"</td><td>"+onedata[2]+"</td><td>"+valntxt+"</td><td>"+cvetxt+"</td></tr>");
