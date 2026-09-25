@@ -186,8 +186,10 @@ if(! isset($_POST['csppost'])){
 						<br>
 						<div id="set-script-src-setter">
 						<br>&xdtri; <?php echo __("Check the domains to allow",'wpinfecscan'); ?>
+                        
 						<br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://www.google.com/" <?php if (isset($set_script_src_d) && in_array('https://www.google.com/', $set_script_src_d)) echo 'checked'; ?> />https://www.google.com/ (Google)
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://www.googletagmanager.com" <?php if (isset($set_script_src_d) && in_array('https://www.googletagmanager.com', $set_script_src_d)) echo 'checked'; ?> />https://www.googletagmanager.com (Google Tag Manager)
+                        
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://www.googleadservices.com" <?php if (isset($set_script_src_d) && in_array('https://www.googleadservices.com', $set_script_src_d)) echo 'checked'; ?> />https://www.googleadservices.com (Google Ads)
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://pagead2.googlesyndication.com" <?php if (isset($set_script_src_d) && in_array('https://pagead2.googlesyndication.com', $set_script_src_d)) echo 'checked'; ?> />https://pagead2.googlesyndication.com (Google Ads)
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://securepubads.g.doubleclick.net" <?php if (isset($set_script_src_d) && in_array('https://securepubads.g.doubleclick.net', $set_script_src_d)) echo 'checked'; ?> />https://securepubads.g.doubleclick.net (Google Ads)
@@ -201,6 +203,9 @@ if(! isset($_POST['csppost'])){
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://*.fastly.net" <?php if (isset($set_script_src_d) && in_array('https://*.fastly.net', $set_script_src_d)) echo 'checked'; ?> />https://*.fastly.net (CDN Fastly)
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://*.wordpress.com" <?php if (isset($set_script_src_d) && in_array('https://*.wordpress.com', $set_script_src_d)) echo 'checked'; ?> />https://*.wordpress.com (Jetpack)
                         <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://jetpack.wordpress.com" <?php if (isset($set_script_src_d) && in_array('https://jetpack.wordpress.com', $set_script_src_d)) echo 'checked'; ?> />https://jetpack.wordpress.com (Jetpack)
+                        <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://stats.wp.com" <?php if (isset($set_script_src_d) && in_array('https://stats.wp.com', $set_script_src_d)) echo 'checked'; ?> />https://stats.wp.com (Jetpack Stats)
+                        <br><input type="checkbox" id="set-script-src-d" name="set-script-src-d[]" value="https://*.wp.com" <?php if (isset($set_script_src_d) && in_array('https://*.wp.com', $set_script_src_d)) echo 'checked'; ?> />https://*.wp.com (Jetpack Stats)
+                            
                         <br><br> <?php echo __("✓To add more allowed domains, please add one per line in the text area",'wpinfecscan'); ?>
                         <textarea style="width:100%;height:70px;" name="set-script-src-o" placeholder="https://*.allowdomain.com"><?php
 						echo htmlspecialchars($set_script_src_o, ENT_QUOTES, 'UTF-8');

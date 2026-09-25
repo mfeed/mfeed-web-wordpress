@@ -2,14 +2,49 @@
 # This file is distributed under the same license as the Plugins - Intuitive Custom Post Order - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-02-09 13:46:44+0000\n"
+"PO-Revision-Date: 2026-08-05 11:21:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: GlotPress/4.0.3\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Intuitive Custom Post Order - Stable (latest release)\n"
+
+#: intuitive-custom-post-order.php:295
+msgid "Failed to save the order."
+msgstr "順序の保存に失敗しました。"
+
+#: intuitive-custom-post-order.php:434 intuitive-custom-post-order.php:538
+#: intuitive-custom-post-order.php:652
+msgid "Invalid order payload."
+msgstr "無効な順序ペイロードです。"
+
+#: intuitive-custom-post-order.php:428 intuitive-custom-post-order.php:532
+#: intuitive-custom-post-order.php:646
+msgid "Missing order payload."
+msgstr "順序ペイロードがありません。"
+
+#: intuitive-custom-post-order.php:294
+msgid "Order saved."
+msgstr "順序が保存されました。"
+
+#: intuitive-custom-post-order.php:522 intuitive-custom-post-order.php:586
+#: intuitive-custom-post-order.php:637 intuitive-custom-post-order.php:675
+msgid "Order updated."
+msgstr "順序が更新されました。"
+
+#: intuitive-custom-post-order.php:425
+msgid "You are not allowed to reorder posts."
+msgstr "投稿の順序を変更する権限がありません。"
+
+#: intuitive-custom-post-order.php:643
+msgid "You are not allowed to reorder sites."
+msgstr "サイトの順序を変更する権限がありません。"
+
+#: intuitive-custom-post-order.php:529
+msgid "You are not allowed to reorder terms."
+msgstr "タームの順序を変更する権限がありません。"
 
 #: admin/settings-network.php:32
 msgid "Sites"

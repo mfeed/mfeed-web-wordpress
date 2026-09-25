@@ -1393,7 +1393,7 @@ msgid "Malware Detection Power Score"
 msgstr "マルウェア検出力スコア"
 
 msgid "The free version of the plugin does not provide access to the latest malware detection patterns from the time of installation or the expiration of your paid subscription. <br>For this reason, the malware detection power of the free version will gradually decrease. <br>The malware detection power score is a calculated score based on the ratio of malware currently detected by the latest malware detection patterns that are not installed on your site. <br>If the score is 80, this means that 20% of malware is currently being detected by malware detection patterns that are not installed on your site, so we recommend that you subscribe to the paid version to maintain the plugin&#39;s strong detection power."
-msgstr "プラグインの無料バージョンでは、インストールいただいた時点(または有料契約の期限が切れた時点)以降の最新のマルウェア検出パターンがご利用いただけません。この為無料バージョンのマルウェア検出力は徐々に低下いたします。<br>マルウェア検出力スコアは御社サイトにインストールされていない最新のマルウェア検出パターンでどれぐらいマルウェアが現在検出されているかの比率をスコア化したものです。<br>スコアが８０の場合、統計的に２割のマルウェアが御社サイトにインストールされていないマルウェア検出パターンで、その他様々なサイトで現在検出されているという事になります。"
+msgstr "プラグインの無料バージョンでは、インストールいただいた時点(または有料契約の期限が切れた時点)以降の最新のマルウェア検出パターンがご利用いただけません。この為無料バージョンではマルウェアの検出力は徐々に低下いたします。<br>マルウェア検出力スコアは御社サイトにインストールされている時点の検出パターンでどれぐらい最新のマルウェアが検出できるかを当社システムが統計的に算出し目安としてスコア化したものです。"
 
 msgid "Automatic blocking of detected malicious cookie attack IPs (paid)"
 msgstr "COOKIE経由のハッキングを自動ブロックする(有料)"
@@ -1568,3 +1568,9 @@ msgstr "add_actionを使用(キャッシュプラグインによって正しくC
 
 msgid "Use htaccess"
 msgstr "htaccessを使用"
+
+msgid "*This vulnerability may be a serious one that allows tampering without requiring special privileges."
+msgstr "※この脆弱性は特別な権限不要で改ざんも可能な危険な脆弱性である可能性があります"
+
+msgid "*This vulnerability may be a dangerous one that could allow data tampering."
+msgstr "※この脆弱性は改ざんも可能な危険な脆弱性である可能性があります"

@@ -133,16 +133,20 @@ class Indexable_Post_Builder {
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->meta->get_value( 'focuskw', $post_id ),
-			(int) $this->meta->get_value( 'linkdex', $post_id )
+			(int) $this->meta->get_value( 'linkdex', $post_id ),
 		);
 
 		$indexable->readability_score = (int) $this->meta->get_value( 'content_score', $post_id );
 
 		$indexable->inclusive_language_score = (int) $this->meta->get_value( 'inclusive_language_score', $post_id );
 
+		$indexable->seo_title_score = (int) $this->meta->get_value( 'seo_title_score', $post_id );
+
+		$indexable->meta_description_score = (int) $this->meta->get_value( 'meta_description_score', $post_id );
+
 		$indexable->is_cornerstone    = ( $this->meta->get_value( 'is_cornerstone', $post_id ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
-			(int) $this->meta->get_value( 'meta-robots-noindex', $post_id )
+			(int) $this->meta->get_value( 'meta-robots-noindex', $post_id ),
 		);
 
 		// Set additional meta-robots values.

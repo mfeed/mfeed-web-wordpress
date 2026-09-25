@@ -33,7 +33,7 @@ class Source_Route extends Api\Route {
 	/**
 	 * Search API endpoint constructor
 	 *
-	 * @param string $route_namespace Namespace.
+	 * @param non-falsy-string $route_namespace Namespace.
 	 */
 	public function __construct( $route_namespace ) {
 		register_rest_route(
@@ -212,6 +212,15 @@ class Source_Route extends Api\Route {
 		$results = $search->get_row( $params['rowId'], $action );
 		if ( $results instanceof WP_Error ) {
 			return $results;
+		}
+
+		// The replacement may have removed the last occurrence of the search phrase, in which
+		// case the row no longer matches the original search conditions. There's nothing more
+		// to return for it - the row itself was still saved successfully above.
+		if ( count( $results ) === 0 || $results[0] === false ) {
+			return [
+				'result' => null,
+			];
 		}
 
 		return [

@@ -16,11 +16,11 @@
 function relevanssi_options() {
 	global $relevanssi_variables;
 	$options_txt = __( 'Relevanssi Search Options', 'relevanssi' );
-	if ( RELEVANSSI_PREMIUM ) {
+	if ( relevanssi_is_premium() ) {
 		$options_txt = __( 'Relevanssi Premium Search Options', 'relevanssi' );
 	}
 
-	printf( "<div class='wrap'><h2>%s</h2>", esc_html( $options_txt ) );
+	printf( "<div class='wrap'><h1 class='wp-heading-inline'>%s</h1>", esc_html( $options_txt ) );
 	if ( ! empty( $_REQUEST ) ) {
 		if ( isset( $_REQUEST['submit'] ) ) {
 			check_admin_referer( plugin_basename( $relevanssi_variables['file'] ), 'relevanssi_options' );
@@ -45,7 +45,7 @@ function relevanssi_options() {
 					check_admin_referer( plugin_basename( $relevanssi_variables['file'] ), 'relevanssi_options' );
 					relevanssi_add_stopword( $_REQUEST['term'] );
 				}
-				if ( isset( $_REQUEST['body_term'] ) ) {
+				if ( function_exists( 'relevanssi_add_body_stopword' ) && isset( $_REQUEST['body_term'] ) ) {
 					check_admin_referer( plugin_basename( $relevanssi_variables['file'] ), 'relevanssi_options' );
 					relevanssi_add_body_stopword( $_REQUEST['body_term'] );
 				}
@@ -73,17 +73,17 @@ function relevanssi_options() {
 			relevanssi_populate_stopwords( $verbose );
 		}
 
-		if ( isset( $_REQUEST['addbodystopword'] ) ) {
+		if ( function_exists( 'relevanssi_add_body_stopword' ) && isset( $_REQUEST['addbodystopword'] ) ) {
 			check_admin_referer( plugin_basename( $relevanssi_variables['file'] ), 'relevanssi_options' );
 			relevanssi_add_body_stopword( $_REQUEST['addbodystopword'] );
 		}
 
-		if ( isset( $_REQUEST['removebodystopword'] ) ) {
+		if ( function_exists( 'relevanssi_remove_body_stopword' ) && isset( $_REQUEST['removebodystopword'] ) ) {
 			check_admin_referer( plugin_basename( $relevanssi_variables['file'] ), 'relevanssi_options' );
 			relevanssi_remove_body_stopword( $_REQUEST['removebodystopword'] );
 		}
 
-		if ( isset( $_REQUEST['removeallbodystopwords'] ) ) {
+		if ( function_exists( 'relevanssi_remove_all_body_stopwords' ) && isset( $_REQUEST['removeallbodystopwords'] ) ) {
 			check_admin_referer( plugin_basename( $relevanssi_variables['file'] ), 'relevanssi_options' );
 			relevanssi_remove_all_body_stopwords();
 		}
@@ -191,7 +191,7 @@ function relevanssi_options_form() {
 			'name'     => __( 'Attachments', 'relevanssi' ),
 			'require'  => 'tabs/attachments-tab.php',
 			'callback' => 'relevanssi_attachments_tab',
-			'save'     => false,
+			'save'     => 'premium',
 		),
 		array(
 			'slug'     => 'searching',
@@ -201,39 +201,18 @@ function relevanssi_options_form() {
 			'save'     => true,
 		),
 		array(
-			'slug'     => 'logging',
-			'name'     => __( 'Logging', 'relevanssi' ),
-			'require'  => 'tabs/logging-tab.php',
-			'callback' => 'relevanssi_logging_tab',
+			'slug'     => 'display-ui',
+			'name'     => __( 'Display & UI', 'relevanssi' ),
+			'require'  => 'tabs/display-ui-tab.php',
+			'callback' => 'relevanssi_display_ui_tab',
 			'save'     => true,
 		),
 		array(
-			'slug'     => 'excerpts',
-			'name'     => __( 'Excerpts and highlights', 'relevanssi' ),
-			'require'  => 'tabs/excerpts-tab.php',
-			'callback' => 'relevanssi_excerpts_tab',
+			'slug'     => 'admin-dev',
+			'name'     => __( 'Admin & Dev', 'relevanssi' ),
+			'require'  => 'tabs/admin-dev-tab.php',
+			'callback' => 'relevanssi_admin_dev_tab',
 			'save'     => true,
-		),
-		array(
-			'slug'     => 'synonyms',
-			'name'     => __( 'Synonyms', 'relevanssi' ),
-			'require'  => 'tabs/synonyms-tab.php',
-			'callback' => 'relevanssi_synonyms_tab',
-			'save'     => true,
-		),
-		array(
-			'slug'     => 'stopwords',
-			'name'     => __( 'Stopwords', 'relevanssi' ),
-			'require'  => 'tabs/stopwords-tab.php',
-			'callback' => 'relevanssi_stopwords_tab',
-			'save'     => true,
-		),
-		array(
-			'slug'     => 'redirects',
-			'name'     => __( 'Redirects', 'relevanssi' ),
-			'require'  => 'tabs/redirects-tab.php',
-			'callback' => 'relevanssi_redirects_tab',
-			'save'     => false,
 		),
 		array(
 			'slug'     => 'debugging',
@@ -241,6 +220,13 @@ function relevanssi_options_form() {
 			'require'  => 'tabs/debugging-tab.php',
 			'callback' => 'relevanssi_debugging_tab',
 			'save'     => true,
+		),
+		array(
+			'slug'     => 'help',
+			'name'     => __( 'Help', 'relevanssi' ),
+			'require'  => 'tabs/help-tab.php',
+			'callback' => 'relevanssi_help_tab',
+			'save'     => false,
 		),
 	);
 
@@ -273,7 +259,7 @@ function relevanssi_options_form() {
 
 	<?php
 	$current_tab = $tabs[ array_search( $active_tab, wp_list_pluck( $tabs, 'slug' ), true ) ];
-	if ( ! $current_tab['save'] || ( ! RELEVANSSI_PREMIUM && 'premium' === $current_tab['save'] ) ) {
+	if ( ! $current_tab['save'] || ( ! relevanssi_is_premium() && 'premium' === $current_tab['save'] ) ) {
 		$display_save_button = false;
 	}
 	if ( $current_tab['require'] ) {
@@ -284,7 +270,9 @@ function relevanssi_options_form() {
 	if ( $display_save_button ) :
 		?>
 
-	<input type='submit' name='submit' value='<?php esc_attr_e( 'Save the options', 'relevanssi' ); ?>' class='button button-primary' />
+	<div class="relevanssi-floating-save">
+		<input type='submit' name='submit' value='<?php esc_attr_e( 'Save the options', 'relevanssi' ); ?>' class='button button-primary button-hero' />
+	</div>
 
 	<?php endif; ?>
 
@@ -310,11 +298,15 @@ function relevanssi_add_admin_scripts( $hook ) {
 
 	// Only enqueue on Relevanssi pages.
 	$acceptable_hooks = array(
-		'toplevel_page_relevanssi-premium/relevanssi',
-		'settings_page_relevanssi-premium/relevanssi',
-		'dashboard_page_relevanssi-premium/relevanssi',
+		'toplevel_page_relevanssi',
 		'toplevel_page_relevanssi/relevanssi',
+		'toplevel_page_relevanssi-premium/relevanssi',
+		'relevanssi_page_relevanssi_admin_search',
+		'relevanssi_page_relevanssi_user_searches',
+		// Legacy hooks preserved for backward compatibility.
+		'settings_page_relevanssi-premium/relevanssi',
 		'settings_page_relevanssi/relevanssi',
+		'dashboard_page_relevanssi-premium/relevanssi',
 		'dashboard_page_relevanssi/relevanssi',
 		'dashboard_page_relevanssi_admin_search',
 		'dashboard_page_relevanssi_user_searches',
@@ -327,8 +319,8 @@ function relevanssi_add_admin_scripts( $hook ) {
 	 * move things around, this means the javascript bits won't work. You can
 	 * introduce new hooks with this filter hook.
 	 *
-	 * @param array An array of page hook strings where Relevanssi scripts are
-	 * added.
+	 * @param array $hooks An array of page hook strings where Relevanssi
+	 * scripts are added to.
 	 */
 	if ( ! in_array( $hook, apply_filters( 'relevanssi_acceptable_hooks', $acceptable_hooks ), true ) ) {
 		return;
@@ -336,15 +328,18 @@ function relevanssi_add_admin_scripts( $hook ) {
 
 	wp_enqueue_style( 'wp-color-picker' );
 	wp_enqueue_script( 'relevanssi_admin_js', $plugin_dir_url . 'lib/admin_scripts.js', array( 'wp-color-picker' ), $relevanssi_variables['plugin_version'], true );
-	if ( ! RELEVANSSI_PREMIUM ) {
+	if ( ! relevanssi_is_premium() ) {
 		wp_enqueue_script( 'relevanssi_admin_js_free', $plugin_dir_url . 'lib/admin_scripts_free.js', array( 'relevanssi_admin_js' ), $relevanssi_variables['plugin_version'], true );
 	}
-	if ( RELEVANSSI_PREMIUM ) {
+	if ( relevanssi_is_premium() ) {
 		wp_enqueue_script( 'relevanssi_admin_js_premium', $plugin_dir_url . 'premium/admin_scripts_premium.js', array( 'relevanssi_admin_js' ), $relevanssi_variables['plugin_version'], true );
 	}
 	wp_enqueue_style( 'relevanssi_admin_css', $plugin_dir_url . 'lib/admin_styles.css', array(), $relevanssi_variables['plugin_version'] );
 
-	if ( 'dashboard_page_relevanssi' === substr( $hook, 0, strlen( 'dashboard_page_relevanssi' ) ) ) {
+	if (
+		strpos( $hook, 'relevanssi_user_searches' ) !== false ||
+		strpos( $hook, 'dashboard_page_relevanssi' ) === 0
+	) {
 		wp_enqueue_script( 'chartjs', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js', array(), '3.3.2', false );
 	}
 
@@ -354,9 +349,11 @@ function relevanssi_add_admin_scripts( $hook ) {
 		'confirm_delete_query' => __( 'Are you sure you want to delete the query?', 'relevanssi' ),
 		'truncating_index'     => __( 'Wiping out the index...', 'relevanssi' ),
 		'done'                 => __( 'Done.', 'relevanssi' ),
+		'indexing'             => __( 'Indexing', 'relevanssi' ),
 		'indexing_users'       => __( 'Indexing users...', 'relevanssi' ),
 		'indexing_taxonomies'  => __( 'Indexing the following taxonomies:', 'relevanssi' ),
 		'indexing_attachments' => __( 'Indexing attachments...', 'relevanssi' ),
+		'indexing_pt_archives' => __( 'Indexing post type archives...', 'relevanssi' ),
 		'counting_posts'       => __( 'Counting posts...', 'relevanssi' ),
 		'counting_terms'       => __( 'Counting taxonomy terms...', 'relevanssi' ),
 		'counting_users'       => __( 'Counting users...', 'relevanssi' ),
@@ -394,7 +391,7 @@ function relevanssi_add_admin_scripts( $hook ) {
 		'searching_nonce' => wp_create_nonce( 'relevanssi_admin_search_nonce' ),
 	);
 
-	if ( ! RELEVANSSI_PREMIUM ) {
+	if ( ! relevanssi_is_premium() ) {
 		wp_localize_script( 'relevanssi_admin_js', 'nonce', $nonce );
 	}
 
@@ -407,7 +404,7 @@ function relevanssi_add_admin_scripts( $hook ) {
 	 * use the relevanssi_indexing_adjust filter hook to disable that
 	 * adjustment.
 	 *
-	 * @param int The indexing limit, default 10.
+	 * @param int $limit The indexing limit, default 10.
 	 */
 	$indexing_limit = apply_filters( 'relevanssi_indexing_limit', 10 );
 
@@ -420,7 +417,7 @@ function relevanssi_add_admin_scripts( $hook ) {
 	 * Relevanssi index posts at constant pace. That's generally slower, but
 	 * more reliable.
 	 *
-	 * @param boolean Should the limit be adjusted, default true.
+	 * @param boolean $adjust_limit Should the limit be adjusted, default true.
 	 */
 	$indexing_adjust = apply_filters( 'relevanssi_indexing_adjust', true );
 
@@ -438,33 +435,31 @@ function relevanssi_add_admin_scripts( $hook ) {
  * Prints out the form fields for tag and category weights.
  */
 function relevanssi_form_tag_weight() {
-	$taxonomy_weights = get_option( 'relevanssi_post_type_weights' );
+	$taxonomy_weights = get_option( 'relevanssi_post_type_weights', array() );
 
-	$tag_value = 1;
-	if ( isset( $taxonomy_weights['post_tag'] ) ) {
-		$tag_value = $taxonomy_weights['post_tag'];
-	}
-	$category_value = 1;
-	if ( isset( $taxonomy_weights['category'] ) ) {
-		$category_value = $taxonomy_weights['category'];
-	}
+	$tag_value      = isset( $taxonomy_weights['post_tag'] ) ? $taxonomy_weights['post_tag'] : 1;
+	$category_value = isset( $taxonomy_weights['category'] ) ? $taxonomy_weights['category'] : 1;
 	?>
-<tr>
-	<td>
-		<?php esc_html_e( 'Tag weight', 'relevanssi' ); ?>
-	</td>
-	<td class="col-2">
-		<input type='text' id='relevanssi_weight_post_tag' name='relevanssi_weight_post_tag' size='4' value='<?php echo esc_attr( $tag_value ); ?>' />
-	</td>
-</tr>
-<tr>
-	<td>
-		<?php esc_html_e( 'Category weight', 'relevanssi' ); ?>
-	</td>
-	<td class="col-2">
-		<input type='text' id='relevanssi_weight_category' name='relevanssi_weight_category' size='4' value='<?php echo esc_attr( $category_value ); ?>' />
-	</td>
-</tr>
+	<tr>
+		<td style="padding: 8px 12px; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+			<label for="relevanssi_weight_post_tag">
+				<strong><?php esc_html_e( 'Post Tags', 'relevanssi' ); ?></strong>
+			</label>
+		</td>
+		<td style="text-align: center; vertical-align: middle; padding: 8px 12px;">
+			<input type='text' name='relevanssi_weight_post_tag' id='relevanssi_weight_post_tag' size='4' value='<?php echo esc_attr( $tag_value ); ?>' style="text-align: center;" />
+		</td>
+	</tr>
+	<tr>
+		<td style="padding: 8px 12px; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+			<label for="relevanssi_weight_category">
+				<strong><?php esc_html_e( 'Post Categories', 'relevanssi' ); ?></strong>
+			</label>
+		</td>
+		<td style="text-align: center; vertical-align: middle; padding: 8px 12px;">
+			<input type='text' name='relevanssi_weight_category' id='relevanssi_weight_category' size='4' value='<?php echo esc_attr( $category_value ); ?>' style="text-align: center;" />
+		</td>
+	</tr>
 	<?php
 }
 
@@ -490,7 +485,7 @@ function relevanssi_create_line_chart( array $labels, array $datasets ) {
 		$values           = implode( ', ', $values );
 		$bg_color         = array_shift( $bg_colors );
 		$border_color     = array_shift( $border_colors );
-		$datasets_array[] = <<< EOJSON
+		$datasets_array[] = <<<EOJSON
 	{
 		label: "$label",
 		data: [ $values ],
