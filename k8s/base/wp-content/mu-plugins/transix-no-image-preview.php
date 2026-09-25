@@ -1,12 +1,13 @@
 <?php
 /**
- * Plugin Name: mfeed: 検索結果のサムネイル抑止
- * Description: robots メタタグに max-image-preview:none を出力し、Bing をはじめとする検索エンジンの検索結果にサムネイル画像が表示されないようにする。
+ * Plugin Name: transix: 検索結果のサムネイル抑止
+ * Description: /transix/ 配下のページに限り robots メタタグへ max-image-preview:none を出力し、Bing をはじめとする検索エンジンの検索結果にサムネイル画像が表示されないようにする。
  * Author: INTERNET MULTIFEED CO.
  * Version: 1.0.0
  *
- * mu-plugins に置いているのは、マルチサイト（www.mfeed.ad.jp と /transix/）の
- * 両方に、テーマの切り替えとは無関係に効かせるため。
+ * mu-plugins に置いているのは、テーマの切り替えとは無関係に効かせるため。
+ * 対象はマルチサイトのうちパスが /transix/ のサイト（www.mfeed.ad.jp/transix/）
+ * だけで、ルートの www.mfeed.ad.jp/ 側は今までどおりサムネイルが出る。
  *
  * Yoast SEO が robots メタタグを組み立てており、既定では
  * max-image-preview:large を出力する。Yoast は wp_robots に
@@ -19,6 +20,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * 表示中のサイトが /transix/ かどうか。
+ *
+ * @return bool
+ */
+function mfeed_is_transix_site() {
+	if ( ! is_multisite() ) {
+		return false;
+	}
+
+	$site = get_site();
+
+	return ( $site instanceof WP_Site ) && '/transix/' === $site->path;
+}
+
 add_filter(
 	'wp_robots',
 	/**
@@ -28,7 +44,7 @@ add_filter(
 	 * @return array 変更後の配列。
 	 */
 	static function ( $robots ) {
-		if ( ! is_array( $robots ) ) {
+		if ( ! is_array( $robots ) || ! mfeed_is_transix_site() ) {
 			return $robots;
 		}
 
