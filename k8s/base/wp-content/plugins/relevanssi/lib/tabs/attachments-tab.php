@@ -20,7 +20,7 @@
 function relevanssi_attachments_tab() {
 	global $wpdb;
 
-	$is_premium = relevanssi_is_premium();
+	$is_premium = defined( 'RELEVANSSI_PREMIUM' ) && RELEVANSSI_PREMIUM;
 
 	if ( ! $is_premium ) {
 		// --- Free Tier: Premium Upgrade Overview ---
