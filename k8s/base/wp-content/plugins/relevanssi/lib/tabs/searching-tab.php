@@ -20,7 +20,7 @@
 function relevanssi_searching_tab() {
 	global $wpdb, $relevanssi_variables;
 
-	$is_premium = relevanssi_is_premium();
+	$is_premium = defined( 'RELEVANSSI_PREMIUM' ) && RELEVANSSI_PREMIUM;
 
 	// Get saved search settings.
 	$implicit               = get_option( 'relevanssi_implicit_operator' );
@@ -566,3 +566,4 @@ function relevanssi_searching_tab() {
 	</script>
 		<?php
 }
+

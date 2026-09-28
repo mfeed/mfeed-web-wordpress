@@ -426,6 +426,20 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
+	// Show the filters on the "Admin search" page.
+	$(document).on("click", "#show_filters", function (e) {
+		$("#relevanssi_filter_list").toggle();
+		$("#show_filters").toggle();
+		$("#hide_filters").toggle();
+	});
+
+	// Hide the filters on the "Admin search" page.
+	$(document).on("click", "#hide_filters", function (e) {
+		$("#relevanssi_filter_list").toggle();
+		$("#show_filters").toggle();
+		$("#hide_filters").toggle();
+	});
+
 	$(document).on("click", "#next_page", function (e) {
 		e.preventDefault();
 		var offset = parseInt(document.getElementById("offset").innerHTML);

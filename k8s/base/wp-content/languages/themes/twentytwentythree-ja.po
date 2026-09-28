@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: GlotPress/4.1.0\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Themes - Twenty Twenty-Three\n"
 
@@ -23,7 +23,7 @@ msgstr "Twenty Twenty-Three は、WordPress 6.1 で導入された新しいデ�
 msgid "Twenty Twenty-Three"
 msgstr "Twenty Twenty-Three"
 
-#: patterns/hidden-heading.php:9
+#: patterns/hidden-heading.php:15
 msgctxt "Main heading for homepage"
 msgid "Mindblown: a blog about philosophy."
 msgstr "Mindblown: a blog about philosophy."
@@ -53,25 +53,15 @@ msgctxt "Template part name"
 msgid "Comments Template Part"
 msgstr "コメントテンプレートパーツ"
 
-#: theme.json
-msgctxt "Template part name"
-msgid "Post Meta"
-msgstr "投稿メタ"
+#. Translators: WordPress link.
+#: patterns/footer-default.php:26
+msgid "Proudly powered by %s"
+msgstr "Proudly powered by %s"
 
-#: theme.json
-msgctxt "Template part name"
-msgid "Footer"
-msgstr "フッター"
-
-#: theme.json
-msgctxt "Template part name"
-msgid "Header"
-msgstr "ヘッダー"
-
-#: theme.json
-msgctxt "Font family name"
-msgid "Source Serif Pro"
-msgstr "Source Serif Pro"
+#: patterns/hidden-404.php:19
+msgctxt "Error code for a webpage that is not found."
+msgid "404"
+msgstr "404"
 
 #: theme.json
 msgctxt "Font family name"
@@ -80,8 +70,61 @@ msgstr "System Font"
 
 #: theme.json
 msgctxt "Font family name"
-msgid "Inter"
-msgstr "インター"
+msgid "Source Serif Pro"
+msgstr "Source Serif Pro"
+
+#: theme.json styles/aubergine.json styles/block-out.json styles/canary.json
+#: styles/electric.json styles/grapes.json styles/marigold.json
+#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
+#: styles/whisper.json
+msgctxt "Color name"
+msgid "Primary"
+msgstr "メイン"
+
+#: theme.json styles/aubergine.json styles/block-out.json styles/canary.json
+#: styles/electric.json styles/grapes.json styles/marigold.json
+#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
+#: styles/whisper.json
+msgctxt "Color name"
+msgid "Secondary"
+msgstr "サブ"
+
+#: theme.json styles/aubergine.json styles/block-out.json styles/canary.json
+#: styles/electric.json styles/grapes.json styles/marigold.json
+#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
+#: styles/whisper.json
+msgctxt "Color name"
+msgid "Tertiary"
+msgstr "サブ2"
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Blank"
+msgstr "空白"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header"
+msgstr "ヘッダー"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Footer"
+msgstr "フッター"
+
+#: patterns/hidden-404.php:28 patterns/hidden-no-results.php:20
+msgctxt "label"
+msgid "Search"
+msgstr "検索"
+
+#: patterns/hidden-404.php:28 patterns/hidden-no-results.php:20
+msgid "Search"
+msgstr "検索"
+
+#: theme.json
+msgctxt "Font family name"
+msgid "DM Sans"
+msgstr "DM Sans"
 
 #: theme.json
 msgctxt "Font family name"
@@ -90,23 +133,24 @@ msgstr "IBM Plex Mono"
 
 #: theme.json
 msgctxt "Font family name"
-msgid "DM Sans"
-msgstr "DM Sans"
+msgid "Inter"
+msgstr "インター"
+
+#: styles/block-out.json styles/canary.json styles/pilgrimage.json
+#: styles/sherbet.json
+msgctxt "Duotone name"
+msgid "Default filter"
+msgstr "デフォルトフィルター"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Post Meta"
+msgstr "投稿メタ"
 
 #: theme.json
 msgctxt "Custom template name"
 msgid "404"
 msgstr "404"
-
-#: theme.json
-msgctxt "Custom template name"
-msgid "Blog (Alternative)"
-msgstr "ブログ (代替)"
-
-#: theme.json
-msgctxt "Custom template name"
-msgid "Blank"
-msgstr "空白"
 
 #: styles/whisper.json
 msgctxt "Style variation name"
@@ -114,29 +158,9 @@ msgid "Whisper"
 msgstr "ウィスパー"
 
 #: styles/sherbet.json
-msgctxt "Gradient name"
-msgid "Tertiary to Secondary to Primary Fixed"
-msgstr "サブ2からサブ、サブからメイン固定"
-
-#: styles/sherbet.json
-msgctxt "Gradient name"
-msgid "Primary to Secondary to Tertiary Fixed"
-msgstr "メインからサブ、サブからサブ2固定"
-
-#: styles/sherbet.json
-msgctxt "Gradient name"
-msgid "Primary to Secondary to Tertiary"
-msgstr "メインからサブ、サブからサブ2"
-
-#: styles/sherbet.json
 msgctxt "Style variation name"
 msgid "Sherbet"
 msgstr "シャーベット"
-
-#: styles/pitch.json
-msgctxt "Font size name"
-msgid "2X Large"
-msgstr "2倍大"
 
 #: styles/pitch.json
 msgctxt "Font size name"
@@ -163,87 +187,32 @@ msgctxt "Space size name"
 msgid "7"
 msgstr "7"
 
-#: styles/pitch.json
-msgctxt "Style variation name"
-msgid "Pitch"
-msgstr "ピッチ"
-
-#: styles/pilgrimage.json
-msgctxt "Gradient name"
-msgid "Dots"
-msgstr "ドット"
-
-#: styles/pilgrimage.json
-msgctxt "Gradient name"
-msgid "Base to Primary"
-msgstr "ベースからプライマリー"
-
-#: styles/pilgrimage.json
-msgctxt "Gradient name"
-msgid "Tertiary to Secondary"
-msgstr "サブ2からサブ"
-
-#: styles/pilgrimage.json
-msgctxt "Gradient name"
-msgid "Secondary to Primary"
-msgstr "サブからメイン"
-
-#: styles/pilgrimage.json
-msgctxt "Gradient name"
-msgid "Primary to Secondary"
-msgstr "メインからサブ"
-
-#: styles/pilgrimage.json
-msgctxt "Style variation name"
-msgid "Pilgrimage"
-msgstr "巡礼"
-
-#: styles/marigold.json
-msgctxt "Font size name"
-msgid "Gigantic"
-msgstr "巨大"
-
-#: styles/marigold.json
-msgctxt "Font size name"
-msgid "Huge"
-msgstr "超特大"
-
-#: styles/marigold.json
-msgctxt "Font size name"
-msgid "Normal"
-msgstr "標準"
-
-#: styles/marigold.json
-msgctxt "Font size name"
-msgid "Tiny"
-msgstr "特小"
-
-#: styles/marigold.json styles/pitch.json theme.json
+#: theme.json styles/marigold.json styles/pitch.json
 msgctxt "Space size name"
 msgid "6"
 msgstr "6"
 
-#: styles/marigold.json styles/pitch.json theme.json
+#: theme.json styles/marigold.json styles/pitch.json
 msgctxt "Space size name"
 msgid "5"
 msgstr "5"
 
-#: styles/marigold.json styles/pitch.json theme.json
+#: theme.json styles/marigold.json styles/pitch.json
 msgctxt "Space size name"
 msgid "4"
 msgstr "4"
 
-#: styles/marigold.json styles/pitch.json theme.json
+#: theme.json styles/marigold.json styles/pitch.json
 msgctxt "Space size name"
 msgid "3"
 msgstr "3"
 
-#: styles/marigold.json styles/pitch.json theme.json
+#: theme.json styles/marigold.json styles/pitch.json
 msgctxt "Space size name"
 msgid "2"
 msgstr "2"
 
-#: styles/marigold.json styles/pitch.json theme.json
+#: theme.json styles/marigold.json styles/pitch.json
 msgctxt "Space size name"
 msgid "1"
 msgstr "1"
@@ -258,108 +227,158 @@ msgctxt "Style variation name"
 msgid "Grapes"
 msgstr "ぶどう"
 
-#: styles/electric.json
+#: styles/block-out.json
 msgctxt "Style variation name"
-msgid "Electric"
-msgstr "エレクトリック"
+msgid "Block out"
+msgstr "ブロックアウト"
+
+#: theme.json styles/aubergine.json styles/block-out.json styles/canary.json
+#: styles/electric.json styles/grapes.json styles/marigold.json
+#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
+#: styles/whisper.json
+msgctxt "Color name"
+msgid "Contrast"
+msgstr "コントラスト"
+
+#: theme.json styles/aubergine.json styles/block-out.json styles/canary.json
+#: styles/electric.json styles/grapes.json styles/marigold.json
+#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
+#: styles/whisper.json
+msgctxt "Color name"
+msgid "Base"
+msgstr "ベース"
+
+#: patterns/footer-default.php
+msgctxt "Pattern title"
+msgid "Default Footer"
+msgstr "デフォルトフッター"
+
+#: patterns/call-to-action.php:31
+msgctxt "sample content for call to action button"
+msgid "Get In Touch"
+msgstr "お問い合わせ"
+
+#: styles/pitch.json
+msgctxt "Style variation name"
+msgid "Pitch"
+msgstr "ピッチ"
+
+#: styles/pilgrimage.json
+msgctxt "Gradient name"
+msgid "Dots"
+msgstr "ドット"
+
+#: styles/pilgrimage.json
+msgctxt "Style variation name"
+msgid "Pilgrimage"
+msgstr "巡礼"
+
+#: styles/marigold.json
+msgctxt "Font size name"
+msgid "Normal"
+msgstr "標準"
+
+#: patterns/hidden-404.php:28 patterns/hidden-no-results.php:20
+msgctxt "placeholder for search field"
+msgid "Search..."
+msgstr "検索..."
+
+#: patterns/hidden-comments.php
+msgctxt "Pattern title"
+msgid "Hidden Comments"
+msgstr "非表示コメント"
+
+#: patterns/hidden-404.php
+msgctxt "Pattern title"
+msgid "Hidden 404"
+msgstr "非表示404"
 
 #: styles/canary.json
 msgctxt "Style variation name"
 msgid "Canary"
 msgstr "カナリア"
 
-#: styles/block-out.json styles/canary.json styles/pilgrimage.json
-#: styles/sherbet.json
-msgctxt "Duotone name"
-msgid "Default filter"
-msgstr "デフォルトフィルター"
+#: patterns/hidden-comments.php:19
+msgctxt "Title of comments section"
+msgid "Comments"
+msgstr "コメント"
 
-#: styles/block-out.json
-msgctxt "Style variation name"
-msgid "Block out"
-msgstr "ブロックアウト"
-
-#: styles/aubergine.json styles/block-out.json styles/canary.json
-#: styles/electric.json styles/grapes.json styles/marigold.json
-#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
-#: styles/whisper.json theme.json
-msgctxt "Color name"
-msgid "Tertiary"
-msgstr "サブ2"
-
-#: styles/aubergine.json styles/block-out.json styles/canary.json
-#: styles/electric.json styles/grapes.json styles/marigold.json
-#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
-#: styles/whisper.json theme.json
-msgctxt "Color name"
-msgid "Secondary"
-msgstr "サブ"
-
-#: styles/aubergine.json styles/block-out.json styles/canary.json
-#: styles/electric.json styles/grapes.json styles/marigold.json
-#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
-#: styles/whisper.json theme.json
-msgctxt "Color name"
-msgid "Primary"
-msgstr "メイン"
-
-#: styles/aubergine.json styles/block-out.json styles/canary.json
-#: styles/electric.json styles/grapes.json styles/marigold.json
-#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
-#: styles/whisper.json theme.json
-msgctxt "Color name"
-msgid "Contrast"
-msgstr "コントラスト"
-
-#: styles/aubergine.json styles/block-out.json styles/canary.json
-#: styles/electric.json styles/grapes.json styles/marigold.json
-#: styles/pilgrimage.json styles/pitch.json styles/sherbet.json
-#: styles/whisper.json theme.json
-msgctxt "Color name"
-msgid "Base"
-msgstr "ベース"
-
-#: styles/aubergine.json
-msgctxt "Gradient name"
-msgid "Primary to Tertiary"
-msgstr "メインからサブ2"
-
-#: styles/aubergine.json styles/pilgrimage.json
-msgctxt "Gradient name"
-msgid "Tertiary to Primary"
-msgstr "サブ2からメイン"
-
-#: styles/aubergine.json
-msgctxt "Gradient name"
-msgid "Base to Secondary to Base"
-msgstr "ベースからサブ、サブからベース"
-
-#: styles/aubergine.json
-msgctxt "Gradient name"
-msgid "Secondary to Base"
-msgstr "サブからベース"
+#: styles/marigold.json
+msgctxt "Font size name"
+msgid "Gigantic"
+msgstr "巨大"
 
 #: styles/aubergine.json
 msgctxt "Style variation name"
 msgid "Aubergine"
 msgstr "ナス"
 
-#: patterns/post-meta.php:65
+#: patterns/post-meta.php:71
 msgctxt "Label for a list of post tags"
 msgid "Tags:"
 msgstr "タグ:"
 
-#: patterns/post-meta.php:49
-msgctxt "Preposition to show the relationship between the post and its author"
-msgid "by"
-msgstr "投稿者:"
+#: styles/aubergine.json
+msgctxt "Gradient name"
+msgid "Primary to Tertiary"
+msgstr "メインからサブ2"
 
-#: patterns/post-meta.php:37
-msgctxt "Preposition to show the relationship between the post and its categories"
-msgid "in"
-msgstr "カテゴリー:"
+#: styles/pilgrimage.json
+msgctxt "Gradient name"
+msgid "Secondary to Primary"
+msgstr "サブからメイン"
 
-#: patterns/post-meta.php:29
+#: styles/aubergine.json styles/pilgrimage.json
+msgctxt "Gradient name"
+msgid "Tertiary to Primary"
+msgstr "サブ2からメイン"
+
+#: styles/pilgrimage.json
+msgctxt "Gradient name"
+msgid "Base to Primary"
+msgstr "ベースからプライマリー"
+
+#: styles/pilgrimage.json
+msgctxt "Gradient name"
+msgid "Primary to Secondary"
+msgstr "メインからサブ"
+
+#: styles/aubergine.json
+msgctxt "Gradient name"
+msgid "Secondary to Base"
+msgstr "サブからベース"
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Blog (Alternative)"
+msgstr "ブログ (代替)"
+
+#: styles/sherbet.json
+msgctxt "Gradient name"
+msgid "Tertiary to Secondary to Primary Fixed"
+msgstr "サブ2からサブ、サブからメイン固定"
+
+#: styles/sherbet.json
+msgctxt "Gradient name"
+msgid "Primary to Secondary to Tertiary Fixed"
+msgstr "メインからサブ、サブからサブ2固定"
+
+#: styles/sherbet.json
+msgctxt "Gradient name"
+msgid "Primary to Secondary to Tertiary"
+msgstr "メインからサブ、サブからサブ2"
+
+#: styles/pilgrimage.json
+msgctxt "Gradient name"
+msgid "Tertiary to Secondary"
+msgstr "サブ2からサブ"
+
+#: styles/aubergine.json
+msgctxt "Gradient name"
+msgid "Base to Secondary to Base"
+msgstr "ベースからサブ、サブからベース"
+
+#: patterns/post-meta.php:35
 msgctxt "Verb to explain the publication status of a post"
 msgid "Posted"
 msgstr "投稿日"
@@ -369,91 +388,72 @@ msgctxt "Pattern title"
 msgid "Post Meta"
 msgstr "投稿メタ"
 
-#: patterns/hidden-no-results.php:10
+#: patterns/hidden-no-results.php:16
 msgctxt "Message explaining that there are no results returned from a search"
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
 msgstr "検索キーワードに一致するものが見つかりませんでした。別のキーワードでもう一度お試しください。"
 
-#: patterns/hidden-no-results.php
-msgctxt "Pattern title"
-msgid "Hidden No Results Content"
-msgstr "非表示の「検索結果なし」コンテンツ"
+#: styles/marigold.json
+msgctxt "Font size name"
+msgid "Tiny"
+msgstr "特小"
 
-#: patterns/hidden-comments.php:13
-msgctxt "Title of comments section"
-msgid "Comments"
-msgstr "コメント"
+#: styles/marigold.json
+msgctxt "Font size name"
+msgid "Huge"
+msgstr "超特大"
 
-#: patterns/hidden-comments.php
-msgctxt "Pattern title"
-msgid "Hidden Comments"
-msgstr "非表示コメント"
-
-#: patterns/hidden-404.php:22 patterns/hidden-no-results.php:14
-msgid "Search"
-msgstr "検索"
-
-#: patterns/hidden-404.php:22 patterns/hidden-no-results.php:14
-msgctxt "placeholder for search field"
-msgid "Search..."
-msgstr "検索..."
-
-#: patterns/hidden-404.php:22 patterns/hidden-no-results.php:14
-msgctxt "label"
-msgid "Search"
-msgstr "検索"
-
-#: patterns/hidden-404.php:19
-msgctxt "Message to convey that a webpage could not be found"
-msgid "This page could not be found."
-msgstr "このページは見つかりませんでした。"
-
-#: patterns/hidden-404.php:13
-msgctxt "Error code for a webpage that is not found."
-msgid "404"
-msgstr "404"
-
-#: patterns/hidden-404.php
-msgctxt "Pattern title"
-msgid "Hidden 404"
-msgstr "非表示404"
-
-#. Translators: WordPress link.
-#: patterns/footer-default.php:20
-msgid "Proudly powered by %s"
-msgstr "Proudly powered by %s"
-
-#: patterns/footer-default.php
-msgctxt "Pattern title"
-msgid "Default Footer"
-msgstr "デフォルトフッター"
-
-#: patterns/call-to-action.php:25
-msgctxt "sample content for call to action button"
-msgid "Get In Touch"
-msgstr "お問い合わせ"
-
-#: patterns/call-to-action.php:16
-msgctxt "sample content for call to action"
-msgid "Got any book recommendations?"
-msgstr "何かおすすめの本はありますか ?"
+#: styles/electric.json
+msgctxt "Style variation name"
+msgid "Electric"
+msgstr "エレクトリック"
 
 #: patterns/call-to-action.php
 msgctxt "Pattern title"
 msgid "Call to action"
 msgstr "CTA (行動喚起)"
 
-#. Author URI of the theme
-#: style.css patterns/footer-default.php:21
-#, gp-priority: low
-msgid "https://wordpress.org"
-msgstr "https://ja.wordpress.org"
+#: styles/pitch.json
+msgctxt "Font size name"
+msgid "2X Large"
+msgstr "2倍大"
+
+#: patterns/hidden-404.php:25
+msgctxt "Message to convey that a webpage could not be found"
+msgid "This page could not be found."
+msgstr "このページは見つかりませんでした。"
+
+#: patterns/call-to-action.php:22
+msgctxt "sample content for call to action"
+msgid "Got any book recommendations?"
+msgstr "何かおすすめの本はありますか ?"
+
+#: patterns/post-meta.php:43
+msgctxt "Preposition to show the relationship between the post and its categories"
+msgid "in"
+msgstr "カテゴリー:"
+
+#: patterns/post-meta.php:55
+msgctxt "Preposition to show the relationship between the post and its author"
+msgid "by"
+msgstr "投稿者:"
+
+#: patterns/hidden-no-results.php
+msgctxt "Pattern title"
+msgid "Hidden No Results Content"
+msgstr "非表示の「検索結果なし」コンテンツ"
 
 #. Author of the theme
 #: style.css
 #, gp-priority: low
 msgid "the WordPress team"
 msgstr "WordPress チーム"
+
+#. Author URI of the theme
+#: style.css patterns/footer-default.php:27
+#, gp-priority: low
+msgid "https://wordpress.org"
+msgstr "https://ja.wordpress.org"
 
 #. Theme URI of the theme
 #: style.css

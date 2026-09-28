@@ -13,9 +13,9 @@ Author URI: http://ma.tt/
 Text Domain: hello-dolly
 */
 
-// Don't load directly.
+// Do not load directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	die();
 }
 
 function hello_dolly_get_lyric() {

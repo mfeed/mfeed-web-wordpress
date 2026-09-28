@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.1.0\n"
+"X-Generator: GlotPress/4.0.3\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Relevanssi &#8211; A Better Search - Stable (latest release)\n"
 
@@ -23,11 +23,11 @@ msgstr "SEOフレームワークのローカル検索除外を使用"
 msgid "If checked, Relevanssi will not index posts marked as \"Exclude this page from all search queries on this site\" in SEO Framework settings."
 msgstr "チェックすると、Relevanssi は SEO フレームワーク設定で「このサイトのすべての検索クエリからこのページを除外する」とマークされた投稿をインデックスに登録しません。"
 
-#: lib/interface.php:375
+#: lib/interface.php:373
 msgid "There were problems wiping the Relevanssi attachment server errors."
 msgstr "Relevanssi の添付ファイルのサーバーのエラー消去に問題がありました。"
 
-#: lib/interface.php:374
+#: lib/interface.php:372
 msgid "Relevanssi attachment server errors wiped."
 msgstr "Relevanssi の添付ファイルのサーバーエラーは消去されました。"
 
@@ -202,11 +202,11 @@ msgstr "クリックトラッキング"
 msgid "Are you sure you want to delete the query?"
 msgstr "本当にクエリーから削除してもよいですか ?"
 
-#: lib/common.php:1582
+#: lib/common.php:1563
 msgid "The content"
 msgstr "コンテンツ"
 
-#: lib/common.php:1578
+#: lib/common.php:1559
 msgid "The title"
 msgstr "タイトル"
 
@@ -214,7 +214,7 @@ msgstr "タイトル"
 msgid "If you want to use synonyms in AND searches, enable synonym indexing on the Indexing tab. Also, any changes to the synonyms won't take effect until you rebuild the index."
 msgstr "AND 検索で同義語を使用したい場合は、「インデックス」タブで同義語インデックスを有効にしてください。また、同義語の変更はインデックスを再構築するまで有効になりません。"
 
-#: lib/tabs/indexing-tab.php:647 lib/tabs/stopwords-tab.php:151
+#: lib/tabs/indexing-tab.php:645 lib/tabs/stopwords-tab.php:151
 msgid "You are using Polylang and are in \"Show all languages\" mode. Please select a language before adjusting the stopword settings."
 msgstr "Polylang を使用していて、「すべての言語を表示する」モードになっています。ストップワード設定を調整する前に、言語を選択してください。"
 
@@ -222,7 +222,7 @@ msgstr "Polylang を使用していて、「すべての言語を表示する」
 msgid "You are using Polylang and are in \"Show all languages\" mode. Please select a language before adjusting the synonym settings."
 msgstr "Polylang を使用しており、「すべての言語を表示する」モードになっています。同義語の設定を調整する前に、言語を選択してください。"
 
-#: lib/common.php:162
+#: lib/common.php:149
 msgid "Missing"
 msgstr "不明"
 
@@ -264,44 +264,44 @@ msgstr "検索キーワードがログにありません。"
 
 #. Translators: %1$s opens the link, %2$s is the anchor text, %3$s closes the
 #. link.
-#: lib/interface.php:219 lib/tabs/overview-tab.php:400
+#: lib/interface.php:219 lib/tabs/overview-tab.php:394
 msgid "Debugging"
 msgstr "デバッグ"
 
-#: lib/common.php:1618
+#: lib/common.php:1599
 msgid "MySQL content"
 msgstr "MySQL コンテンツ"
 
-#: lib/common.php:1610
+#: lib/common.php:1591
 msgid "Excerpt"
 msgstr "抜粋"
 
-#: lib/common.php:1606
+#: lib/common.php:1587
 msgid "Authors"
 msgstr "投稿者"
 
-#: lib/common.php:1602
+#: lib/common.php:1583
 msgid "Links"
 msgstr "リンク"
 
-#: lib/common.php:1598
+#: lib/common.php:1579
 msgid "Other taxonomies"
 msgstr "その他のタクソノミー"
 
-#: lib/common.php:1594
+#: lib/common.php:1575
 msgid "Categories"
 msgstr "カテゴリー"
 
-#: lib/common.php:1590
+#: lib/common.php:1571
 msgid "Tags"
 msgstr "タグ"
 
-#: lib/common.php:1574
+#: lib/common.php:1555
 msgid "Possible reasons this post is not indexed"
 msgstr "この投稿がインデックスされない理由として考えられること"
 
 #. Translators: %d is the post ID.
-#: lib/common.php:1567
+#: lib/common.php:1548
 msgid "Nothing found for ID %d."
 msgstr "ID %d に対応するものは見つかりませんでした。"
 
@@ -366,7 +366,7 @@ msgstr "リセット"
 msgid "Post types to index"
 msgstr "インデックスを作成する投稿タイプ"
 
-#: lib/tabs/indexing-tab.php:87
+#: lib/tabs/indexing-tab.php:67
 msgid "Index image files"
 msgstr "画像ファイルのインデックス化"
 
@@ -375,7 +375,7 @@ msgstr "画像ファイルのインデックス化"
 msgid "To reset the logs, type \"reset\" into the box here and click the Reset button"
 msgstr "ログをリセットするには、ここのボックスに \"reset\" と入力し、Reset ボタンをクリックしてください"
 
-#: lib/interface.php:373
+#: lib/interface.php:371
 msgid "There were problems wiping the Relevanssi attachment data clean."
 msgstr "Relevanssi の添付ファイルデータをきれいに消去するのに問題がありました。"
 
@@ -393,7 +393,7 @@ msgstr "なんでも"
 
 #. Translators: %1$d is the total number of posts found, %2$d is the current
 #. search result count, %3$d is the offset.
-#: lib/admin-ajax.php:425
+#: lib/admin-ajax.php:259
 msgid "Found a total of %1$d posts, showing posts %2$d–%3$s."
 msgstr "合計%1$d件の投稿が見つかり、投稿 %2$d - %3$s が表示されています。"
 
@@ -406,7 +406,7 @@ msgstr "抜粋の長さのタイプ"
 msgid "You can use the %1$s parameter to add a taxonomy dropdown to the search form. Just use the name of the taxonomy, like %2$s. This works best with hierarchical taxonomies like categories with relatively few options available."
 msgstr "%1$sパラメータを使用して、検索フォームにタクソノミードロップダウンを追加することができます。%2$sのようにタクソノミーの名前を使うだけです。これは、カテゴリーのような階層的なタクソノミーで、利用可能なオプションが比較的少ない場合に最適です。"
 
-#: lib/shortcodes.php:193
+#: lib/shortcodes.php:164
 msgid "None"
 msgstr "なし"
 
@@ -418,15 +418,15 @@ msgstr "大きなログデータベーステーブルは最終的に検索を遅
 msgid "Content stopwords are a premium feature where you can set stopwords that only apply to the post content. Those stopwords will still be indexed if they appear in post titles, tags, categories, custom fields or other parts of the post. To use content stopwords, you need Relevanssi Premium."
 msgstr "コンテンツストップワードは、投稿コンテンツにのみ適用されるストップワードを設定できるプレミアム機能です。これらのストップワードは投稿のタイトル、タグ、カテゴリ、カスタムフィールド、その他の部分に表示されてもインデックスされます。コンテンツストップワードを使用するには、Relevanssi Premium が必要です。"
 
-#: lib/admin-ajax.php:467
+#: lib/admin-ajax.php:301
 msgid "Edit"
 msgstr "編集"
 
-#: lib/admin-ajax.php:434
+#: lib/admin-ajax.php:268
 msgid "Next page"
 msgstr "次のページ"
 
-#: lib/admin-ajax.php:431
+#: lib/admin-ajax.php:265
 msgid "Previous page"
 msgstr "前のページ"
 
@@ -464,17 +464,29 @@ msgstr "検索キーワード"
 msgid "Export logs"
 msgstr "ログのエクスポート"
 
-#: lib/admin-ajax.php:530
+#: lib/admin-ajax.php:442
+msgid "hide"
+msgstr "隠す"
+
+#: lib/admin-ajax.php:441
+msgid "show"
+msgstr "表示"
+
+#: lib/admin-ajax.php:439
+msgid "Filters"
+msgstr "フィルター"
+
+#: lib/admin-ajax.php:365
 msgid "Query variables"
 msgstr "クエリー変数"
 
-#: lib/admin-ajax.php:441
+#: lib/admin-ajax.php:275
 msgid "Score:"
 msgstr "スコア:"
 
-#: lib/admin-ajax.php:420
+#: lib/admin-ajax.php:254
 #: lib/settings/fields/class-relevanssi-setting-field-attachment-manager.php:70
-#: lib/tabs/indexing-tab.php:512
+#: lib/tabs/indexing-tab.php:510
 msgid "Results"
 msgstr "結果"
 
@@ -565,15 +577,15 @@ msgstr "収集する個人データとその理由"
 msgid "If you don't want to index products that are out of stock, excluded from the catalog or excluded from the search, there's a product visibility filtering method that is described in the user manual (see link above)."
 msgstr "在庫切れの商品、カタログから除外された商品、または検索から除外された商品をインデックスしない場合、ユーザーマニュアルに記載された商品の表示フィルタリング方法があります (上記のリンクを参照)。"
 
-#: lib/interface.php:364
+#: lib/interface.php:362
 msgid "attachments found."
 msgstr "添付ファイルが見つかりました。"
 
-#: lib/interface.php:360
+#: lib/interface.php:358
 msgid "Counting attachments..."
 msgstr "添付ファイルをカウントしています..."
 
-#: lib/interface.php:355
+#: lib/interface.php:354
 msgid "Indexing attachments..."
 msgstr "添付ファイルをインデックスしています..."
 
@@ -586,7 +598,7 @@ msgstr "完全一致ボーナス"
 msgid "The default values are %1$s for titles and %2$s for content."
 msgstr "デフォルト値はタイトルが%1$s、コンテンツが%2$sです。"
 
-#: lib/interface.php:372
+#: lib/interface.php:370
 msgid "Relevanssi attachment data wiped clean."
 msgstr "Relevanssi の添付ファイルデータは消去されました。"
 
@@ -601,7 +613,7 @@ msgstr "完全一致ボーナスの額を調整するには、%sフィルター�
 msgid "If you need to add query variables to the search form, the shortcode takes parameters, which are then printed out as hidden input fields. To get a search form with a post type restriction, you can use %1$s. To restrict the search to categories 10, 14 and 17, you can use %2$s and so on."
 msgstr "検索フォームにクエリー変数を追加する必要がある場合、ショートコードはパラメータを受け取り、そのパラメータは隠された入力フィールドとして出力されます。投稿タイプを制限した検索フォームを取得するには、%1$sを使います。カテゴリ10、14、17に検索を制限するには、%2$s などを使用します。"
 
-#: lib/tabs/indexing-tab.php:467
+#: lib/tabs/indexing-tab.php:465
 msgid "Decimal separators"
 msgstr "小数点の区切り"
 
@@ -640,11 +652,11 @@ msgstr "ストップワードに %1$d/%2$d 項目の追加に功しました !"
 msgid "Titles"
 msgstr "タイトル"
 
-#: lib/interface.php:363
+#: lib/interface.php:361
 msgid "users found."
 msgstr "ユーザーが見つかりました。"
 
-#: lib/interface.php:359
+#: lib/interface.php:357
 msgid "Counting users..."
 msgstr "ユーザー数 ..."
 
@@ -664,15 +676,15 @@ msgstr "文書内のクエリー語句をハイライト"
 msgid "Breakdown of search hits in excerpts"
 msgstr "抜粋における検索ヒットの内訳"
 
-#: lib/interface.php:384
+#: lib/interface.php:382
 msgid "we're done!"
 msgstr "完了 !"
 
-#: lib/interface.php:382
+#: lib/interface.php:380
 msgid "minutes"
 msgstr "分"
 
-#: lib/interface.php:376
+#: lib/interface.php:374
 msgid "hour"
 msgstr "時"
 
@@ -680,7 +692,7 @@ msgstr "時"
 msgid "Done."
 msgstr "完了しました。"
 
-#: lib/contextual-help.php:192 lib/tabs/help-tab.php:383
+#: lib/contextual-help.php:192 lib/tabs/help-tab.php:381
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
@@ -692,71 +704,71 @@ msgstr "句読点"
 msgid "Highlights"
 msgstr "ハイライト"
 
-#: lib/interface.php:383
+#: lib/interface.php:381
 msgid "less than a minute"
 msgstr "1分以下"
 
-#: lib/interface.php:381
+#: lib/interface.php:379
 msgid "minute"
 msgstr "分"
 
-#: lib/interface.php:380
+#: lib/interface.php:378
 msgid "about an hour and a half"
 msgstr "約1時間30分"
 
-#: lib/interface.php:379
+#: lib/interface.php:377
 msgid "about an hour"
 msgstr "約1時間"
 
-#: lib/interface.php:378
+#: lib/interface.php:376
 msgid "about"
 msgstr "約"
 
-#: lib/interface.php:377
+#: lib/interface.php:375
 msgid "hours"
 msgstr "時間"
 
-#: lib/interface.php:371
+#: lib/interface.php:369
 msgid "Are you sure you want to delete all attachment content from the index?"
 msgstr "本当にインデックスからすべての添付ファイルコンテンツを削除したいのですか ?"
 
-#: lib/interface.php:370
+#: lib/interface.php:368
 msgid "Reload the page to refresh the state of the index."
 msgstr "インデックスの状態を更新するためにページをリロードします。"
 
-#: lib/interface.php:368
+#: lib/interface.php:366
 msgid "posts excluded."
 msgstr "の投稿は除外されています。"
 
-#: lib/interface.php:367
+#: lib/interface.php:365
 msgid "Indexing complete."
 msgstr "インデックス作成完了。"
 
-#: lib/interface.php:365
+#: lib/interface.php:363
 msgid "Taxonomy term indexing is disabled."
 msgstr "タクソノミータームのインデックスが無効化されています。"
 
-#: lib/interface.php:362
+#: lib/interface.php:360
 msgid "taxonomy terms found."
 msgstr "タクソノミータームが見つかりました。"
 
-#: lib/interface.php:361
+#: lib/interface.php:359
 msgid "posts found."
 msgstr "の投稿が見つかりました。"
 
-#: lib/interface.php:369
+#: lib/interface.php:367
 msgid "Settings have changed, please save the options before indexing."
 msgstr "設定が変更されたため、インデックスを作成する前にオプションを保存してください。"
 
-#: lib/interface.php:358
+#: lib/interface.php:356
 msgid "Counting taxonomy terms..."
 msgstr "タクソノミータームを数える..."
 
-#: lib/interface.php:357
+#: lib/interface.php:355
 msgid "Counting posts..."
 msgstr "投稿を数える ..."
 
-#: lib/interface.php:354
+#: lib/interface.php:353
 msgid "Indexing the following taxonomies:"
 msgstr "以下のタクソノミーのインデックスを作成します:"
 
@@ -780,7 +792,7 @@ msgstr "WordPress.org フォーラム"
 msgid "Plugin knowledge base"
 msgstr "プラグイン知識ベース"
 
-#: lib/interface.php:353
+#: lib/interface.php:352
 msgid "Indexing users..."
 msgstr "ユーザーのインデックスを作成中 ..."
 
@@ -956,7 +968,7 @@ msgstr "ただし、同義語が多すぎると検索が混乱する可能性が
 msgid "Add synonyms here to make the searches find better results. If you notice your users frequently misspelling a product name, or for other reasons use many names for one thing, adding synonyms will make the results better."
 msgstr "同義語を追加することで、より良い検索結果を得ることができます。ユーザーが頻繁に商品名のスペルを間違えたり、その他の理由で1つの商品に対して多くの名前を使用していることに気づいた場合、同義語を追加することで検索結果がより良くなります。"
 
-#: lib/tabs/indexing-tab.php:454
+#: lib/tabs/indexing-tab.php:452
 msgid "Ampersands"
 msgstr "Ampersands"
 
@@ -965,31 +977,31 @@ msgstr "Ampersands"
 msgid "In order to access this and many other delightful Premium features, %1$sbuy Relevanssi Premium here%2$s."
 msgstr "この機能やその他多くの楽しいプレミアム機能をご利用いただくには、%1$sここで Relevanssi プレミアムをご購入ください %2$s。"
 
-#: lib/tabs/indexing-tab.php:442
+#: lib/tabs/indexing-tab.php:440
 msgid "Apostrophes and quotes"
 msgstr "アポストロフィと引用符"
 
-#: lib/tabs/indexing-tab.php:376
+#: lib/tabs/indexing-tab.php:361
 msgid "Minimum word length"
 msgstr "最小ワード長"
 
-#: lib/tabs/indexing-tab.php:356
+#: lib/tabs/indexing-tab.php:341
 msgid "Expand shortcodes"
 msgstr "ショートコードの展開"
 
-#: lib/contextual-help.php:120 lib/tabs/indexing-tab.php:130
+#: lib/contextual-help.php:120 lib/tabs/indexing-tab.php:110
 msgid "Excerpts"
 msgstr "抜粋"
 
-#: lib/common.php:1614 lib/tabs/indexing-tab.php:188
+#: lib/common.php:1595 lib/tabs/indexing-tab.php:168
 msgid "Custom fields"
 msgstr "カスタムフィールド"
 
-#: lib/common.php:1586 lib/tabs/indexing-tab.php:108
+#: lib/common.php:1567 lib/tabs/indexing-tab.php:88
 msgid "Comments"
 msgstr "コメント"
 
-#: lib/tabs/indexing-tab.php:121
+#: lib/tabs/indexing-tab.php:101
 msgid "Author display names"
 msgstr "投稿者の表示名"
 
@@ -997,39 +1009,39 @@ msgstr "投稿者の表示名"
 msgid "Remove"
 msgstr "除外"
 
-#: lib/tabs/indexing-tab.php:429
+#: lib/tabs/indexing-tab.php:427
 msgid "Hyphens and dashes"
 msgstr "ハイフンとダッシュ"
 
-#: lib/tabs/indexing-tab.php:459 lib/tabs/indexing-tab.php:472
+#: lib/tabs/indexing-tab.php:457 lib/tabs/indexing-tab.php:470
 msgid "Replace with spaces"
 msgstr "スペースに置き換えてください"
 
-#: lib/tabs/indexing-tab.php:424
+#: lib/tabs/indexing-tab.php:422
 msgid "Punctuation control"
 msgstr "句読点のコントロール"
 
-#: lib/shortcodes.php:127 lib/tabs/indexing-tab.php:77
+#: lib/tabs/indexing-tab.php:57
 msgid "Post types"
 msgstr "投稿タイプ"
 
-#: lib/tabs/indexing-tab.php:553
+#: lib/tabs/indexing-tab.php:551
 msgid "is the lowest post ID indexed."
 msgstr "はインデックスされた一番下の投稿 ID です。"
 
 #: lib/settings/fields/class-relevanssi-setting-field-attachment-manager.php:67
-#: lib/tabs/indexing-tab.php:511
+#: lib/tabs/indexing-tab.php:509
 msgid "Time remaining"
 msgstr "残り時間"
 
 #: lib/settings/fields/class-relevanssi-setting-field-attachment-manager.php:66
-#: lib/tabs/indexing-tab.php:511
+#: lib/tabs/indexing-tab.php:509
 msgid "Time elapsed"
 msgstr "経過時間"
 
 #. Translators: %s is a bold tag string wrapper targeting the "Index unindexed
 #. posts" action label.
-#: lib/tabs/indexing-tab.php:506 lib/tabs/indexing-tab.php:568
+#: lib/tabs/indexing-tab.php:504 lib/tabs/indexing-tab.php:566
 msgid "Index unindexed posts"
 msgstr "インデックスされていない投稿"
 
@@ -1112,7 +1124,7 @@ msgstr "検索文字のハイライト表示は、検索結果テンプレート
 msgid "Use the custom fields setting for indexing for excerpt-making as well. Enabling this option will show custom field content in Relevanssi-generated excerpts."
 msgstr "抜粋の作成にもインデックス用のカスタムフィールド設定を使用します。このオプションを有効化すると、Relevanssi が生成した抜粋にカスタムフィールドのコンテンツが表示されます。"
 
-#: lib/tabs/indexing-tab.php:394 lib/tabs/searching-tab.php:243
+#: lib/tabs/indexing-tab.php:379 lib/tabs/searching-tab.php:243
 msgid "Category restriction"
 msgstr "カテゴリー制限"
 
@@ -1120,11 +1132,11 @@ msgstr "カテゴリー制限"
 msgid "Custom search result snippets"
 msgstr "カスタム検索結果スニペット"
 
-#: lib/tabs/indexing-tab.php:404 lib/tabs/searching-tab.php:254
+#: lib/tabs/indexing-tab.php:389 lib/tabs/searching-tab.php:254
 msgid "Category exclusion"
 msgstr "カテゴリー除外"
 
-#: lib/tabs/indexing-tab.php:414
+#: lib/tabs/indexing-tab.php:399
 msgid "Post exclusion"
 msgstr "投稿除外"
 
@@ -1202,7 +1214,7 @@ msgstr "有効化すると、Relevanssi はユーザーのクエリをログに�
 msgid "Overview"
 msgstr "概要"
 
-#: lib/interface.php:184 lib/interface.php:352 lib/tabs/help-tab.php:381
+#: lib/interface.php:184 lib/tabs/help-tab.php:379
 msgid "Indexing"
 msgstr "インデックス"
 
@@ -1226,7 +1238,7 @@ msgstr "プレミアム版をご利用ください !"
 msgid "Logs clear!"
 msgstr "ログはクリア !"
 
-#: lib/tabs/overview-tab.php:68
+#: lib/tabs/overview-tab.php:67
 msgid "Welcome to Relevanssi!"
 msgstr "Relevanssi にようこそ !"
 
@@ -1234,7 +1246,7 @@ msgstr "Relevanssi にようこそ !"
 msgid "Clearing the logs failed."
 msgstr "ログのクリアに失敗しました。"
 
-#: lib/interface.php:366
+#: lib/interface.php:364
 msgid "User indexing is disabled."
 msgstr "ユーザーインデックスは無効です。"
 
@@ -1354,7 +1366,7 @@ msgstr "まだ検索用データベースが作成されていません ! 検索
 msgid "Synonyms"
 msgstr "同義語"
 
-#: lib/tabs/indexing-tab.php:646 lib/tabs/stopwords-tab.php:23
+#: lib/tabs/indexing-tab.php:644 lib/tabs/stopwords-tab.php:23
 #: lib/tabs/stopwords-tab.php:149
 msgid "Stopwords"
 msgstr "停止語"
@@ -1384,7 +1396,7 @@ msgstr "Relevanssi プレミアムの検索設定"
 
 #. Translators: %s is a bold tag string container for the "Build the index"
 #. button text label.
-#: lib/tabs/indexing-tab.php:505 lib/tabs/indexing-tab.php:566
+#: lib/tabs/indexing-tab.php:503 lib/tabs/indexing-tab.php:564
 msgid "Build the index"
 msgstr "インデックスの作成"
 
@@ -1426,7 +1438,7 @@ msgstr "内訳フォーマット"
 msgid "Remove all stopwords"
 msgstr "すべてのストップワードを削除"
 
-#: lib/tabs/indexing-tab.php:204
+#: lib/tabs/indexing-tab.php:184
 msgid "Custom fields to index"
 msgstr "インデックスを作成するカスタムフィールド"
 
