@@ -1574,3 +1574,9 @@ msgstr "※この脆弱性は特別な権限不要で改ざんも可能な危険
 
 msgid "*This vulnerability may be a dangerous one that could allow data tampering."
 msgstr "※この脆弱性は改ざんも可能な危険な脆弱性である可能性があります"
+
+msgid "CVSS3 Score"
+msgstr "CVSS3 スコア(危険度　/10)"
+
+msgid "CVSS4 Score"
+msgstr "CVSS4 スコア"

@@ -825,8 +825,8 @@ function relevanssi_launch_ajax_action( string $action, array $payload_args = ar
 		);
 	}
 	$default_payload = array(
-		'action' => $action,
-		'_nonce' => wp_create_nonce( $action ),
+		'action'   => $action,
+		'_wpnonce' => wp_create_nonce( $action ),
 	);
 	$payload         = array_merge( $default_payload, $payload_args );
 	$args            = array(
@@ -1406,7 +1406,7 @@ function relevanssi_substr_replace( $str, $replacement, int $start, $length ) {
 function relevanssi_the_excerpt() {
 	global $post;
 	if ( ! post_password_required( $post ) ) {
-		echo '<p>' . $post->post_excerpt . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<p>' . wp_kses_post( $post->post_excerpt ) . '</p>';
 	} else {
 		esc_html_e( 'There is no excerpt because this is a protected post.', 'relevanssi' );
 	}

@@ -9353,7 +9353,7 @@ msgid "Drop-in <span class=\"count\">(%s)</span>"
 msgid_plural "Drop-ins <span class=\"count\">(%s)</span>"
 msgstr[0] "ドロップイン <span class=\"count\">(%s)</span>"
 
-#: wp-admin/about.php:389
+#: wp-admin/about.php:409
 msgid "Go to Dashboard"
 msgstr "ダッシュボードへ移動"
 
@@ -10089,15 +10089,15 @@ msgstr "有効なプラグインが見つかりませんでした。"
 msgid "Core Developer"
 msgstr "コア開発者"
 
-#: wp-admin/about.php:382
+#: wp-admin/about.php:402
 msgid "Go to Dashboard &rarr; Updates"
 msgstr "ダッシュボード &rarr; 更新へ移動"
 
-#: wp-admin/about.php:389
+#: wp-admin/about.php:409
 msgid "Go to Dashboard &rarr; Home"
 msgstr "ダッシュボード &rarr; ホームへ移動"
 
-#: wp-admin/about.php:176
+#: wp-admin/about.php:196
 msgid "Welcome to WordPress 7.0"
 msgstr "WordPress 7.0へようこそ"
 
@@ -10199,41 +10199,41 @@ msgstr "タグの追加"
 msgid "What&#8217;s New"
 msgstr "新着情報"
 
-#: wp-admin/about.php:402
+#: wp-admin/about.php:422
 msgid "Maintenance Release"
 msgstr "メンテナンスリリース"
 
-#: wp-admin/about.php:405
+#: wp-admin/about.php:425
 msgid "Security Release"
 msgstr "セキュリティリリース"
 
-#: wp-admin/about.php:408
+#: wp-admin/about.php:428
 msgid "Maintenance and Security Release"
 msgstr "メンテナンスとセキュリティのリリース"
 
 #. translators: %s: WordPress version.
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:70 wp-admin/about.php:90 wp-admin/about.php:110
-#: wp-admin/about.php:130 wp-admin/about.php:414
+#: wp-admin/about.php:90 wp-admin/about.php:110 wp-admin/about.php:130
+#: wp-admin/about.php:150 wp-admin/about.php:434
 msgid "<strong>Version %s</strong> addressed some security issues."
 msgstr "<strong>バージョン %s</strong> では複数のセキュリティ問題に対応しました。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs.
-#: wp-admin/about.php:150 wp-admin/about.php:417
+#: wp-admin/about.php:170 wp-admin/about.php:437
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> では%2$s個のバグを修正しました。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:423
+#: wp-admin/about.php:443
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:429
+#: wp-admin/about.php:449
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はいくつかのセキュリティ問題に対応し、%2$s個のバグを修正しました。"
@@ -10241,7 +10241,8 @@ msgstr[0] "<strong>バージョン %1$s</strong> はいくつかのセキュリ�
 #. translators: %s: HelpHub URL.
 #. translators: %s: Documentation URL.
 #: wp-admin/about.php:77 wp-admin/about.php:97 wp-admin/about.php:117
-#: wp-admin/about.php:137 wp-admin/about.php:162 wp-admin/about.php:435
+#: wp-admin/about.php:137 wp-admin/about.php:157 wp-admin/about.php:182
+#: wp-admin/about.php:455
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "詳しくは<a href=\"%s\">リリースノート</a>をご覧ください。"
 
@@ -11505,20 +11506,21 @@ msgstr "%s スタイルシートには有効なテーマヘッダーが含まれ
 msgid "The language pack is missing either the %1$s, %2$s, or %3$s files."
 msgstr "言語パックに %1$s、%2$s、%3$s のいずれかのファイルがありません。"
 
-#: wp-admin/about.php:403
+#: wp-admin/about.php:423
 msgid "Maintenance Releases"
 msgstr "メンテナンスリリース"
 
-#: wp-admin/about.php:406
+#: wp-admin/about.php:426
 msgid "Security Releases"
 msgstr "セキュリティリリース"
 
-#: wp-admin/about.php:65 wp-admin/about.php:409
+#: wp-admin/about.php:65 wp-admin/about.php:429
 msgid "Maintenance and Security Releases"
 msgstr "メンテナンスとセキュリティのリリース"
 
+#. translators: %s: WordPress version.
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:412
+#: wp-admin/about.php:70 wp-admin/about.php:432
 msgid "<strong>Version %s</strong> addressed one security issue."
 msgstr "<strong>バージョン %s</strong> ではセキュリティ問題1件に対応しました。"
 
@@ -12564,9 +12566,10 @@ msgstr "再有効化"
 #. translators: %s: WordPress version number.
 #. translators: %s: WordPress version.
 #: wp-admin/about.php:21 wp-admin/about.php:80 wp-admin/about.php:100
-#: wp-admin/about.php:120 wp-admin/about.php:140 wp-admin/about.php:165
-#: wp-admin/includes/update.php:321 wp-admin/index.php:119
-#: wp-admin/install.php:242 wp-admin/update-core.php:94 wp-admin/upgrade.php:96
+#: wp-admin/about.php:120 wp-admin/about.php:140 wp-admin/about.php:160
+#: wp-admin/about.php:185 wp-admin/includes/update.php:321
+#: wp-admin/index.php:119 wp-admin/install.php:242 wp-admin/update-core.php:94
+#: wp-admin/upgrade.php:96
 msgid "https://wordpress.org/documentation/wordpress-version/version-%s/"
 msgstr "https://wordpress.org/documentation/wordpress-version/version-%s/"
 
@@ -13589,7 +13592,7 @@ msgid "Your site has %1$d inactive theme, other than %2$s, the default WordPress
 msgid_plural "Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme."
 msgstr[0] "サイトには WordPress のデフォルトテーマ %2$s と現在有効なテーマ  %3$s を除いて、%1$d個の停止中のテーマがあります。"
 
-#: wp-admin/about.php:251 wp-admin/includes/class-wp-site-health.php:259
+#: wp-admin/about.php:271 wp-admin/includes/class-wp-site-health.php:259
 #: wp-admin/includes/class-wp-site-health.php:737
 #: wp-admin/includes/class-wp-site-health.php:908
 #: wp-admin/includes/class-wp-site-health.php:1147
@@ -14738,7 +14741,7 @@ msgstr "インポーターへ移動"
 msgid "Go to Plugin Installer"
 msgstr "プラグインインストーラへ移動"
 
-#: wp-admin/about.php:382
+#: wp-admin/about.php:402
 msgid "Go to Updates"
 msgstr "更新へ移動"
 
@@ -15088,7 +15091,7 @@ msgid "Please type your comment text."
 msgstr "コメント本文を入力してください。"
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:298
+#: wp-admin/about.php:318
 msgid "Learn more about WordPress %s"
 msgstr "WordPress %sの詳細"
 
@@ -15098,12 +15101,12 @@ msgid "https://make.wordpress.org/core/wordpress-%s-field-guide/"
 msgstr "https://make.wordpress.org/core/wordpress-%s-field-guide/"
 
 #. translators: 1: WordPress version number, 2: Link to update WordPress
-#: wp-admin/about.php:438
+#: wp-admin/about.php:458
 msgid "Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href=\"%2$s\">update to the latest version of WordPress</a>."
 msgstr "重要: お使いの WordPress バージョン (%1$s) はサポートされなくなったため、サイトでセキュリティ更新プログラムを受け取ることができません。サイトを安全に保つため、<a href=\"%2$s\">最新バージョンの WordPress に更新</a>してください。"
 
 #. translators: 1: WordPress version number, 2: Link to update WordPress
-#: wp-admin/about.php:441
+#: wp-admin/about.php:461
 msgid "Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href=\"%2$s\">update to the latest version of WordPress</a>."
 msgstr "重要: お使いの WordPress バージョン (%1$s) では、近い将来にセキュリティアップデートの受信が終了します。サイトを安全に保つため、<a href=\"%2$s\">最新バージョンの WordPress に更新</a>してください。"
 
@@ -15322,12 +15325,12 @@ msgid "The minimum recommended version of PHP is %s."
 msgstr "PHP の推奨バージョンは %s 以上です。"
 
 #. translators: %s: The major version of WordPress for this branch.
-#: wp-admin/about.php:444
+#: wp-admin/about.php:464
 msgid "This is the final release of WordPress %s"
 msgstr "これは WordPress %s の最新リリースです"
 
 #. translators: The localized WordPress download URL.
-#: wp-admin/about.php:447
+#: wp-admin/about.php:467
 msgid "https://wordpress.org/download/"
 msgstr "http://ja.wordpress.org/download/"
 
@@ -15386,7 +15389,7 @@ msgid "<a href=\"https://wordpress.org/support/forums/\">Support forums</a>"
 msgstr "<a href=\"https://ja.wordpress.org/support/forums/\">サポートフォーラム</a>"
 
 #. translators: 1: Learn WordPress link, 2: Workshops link.
-#: wp-admin/about.php:307
+#: wp-admin/about.php:327
 msgid "<a href=\"%1$s\">Learn WordPress</a> is a free resource for new and experienced WordPress users. Learn is stocked with how-to videos on using various features in WordPress, <a href=\"%2$s\">interactive workshops</a> for exploring topics in-depth, and lesson plans for diving deep into specific areas of WordPress."
 msgstr "<a href=\"%1$s\">Learn WordPress</a> は WordPress の初心者と経験者、両者のための無料リソースです。Learn には、WordPress の様々な機能を使用するためのハウツー動画、トピックを深く掘り下げる<a href=\"%2$s\">対話型ワークショップ</a>、WordPress の特定の領域を深く探るレッスンプランが用意されています。"
 
@@ -15781,12 +15784,12 @@ msgid "The PHP version on your server is %1$s, however the new plugin version re
 msgstr "サーバーの PHP バージョンは%1$sですが、新しいプラグインには%2$sが必要です。"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:366
+#: wp-admin/about.php:386
 msgid "Explore the WordPress %s Field Guide. Learn about the changes in this release with detailed developer notes to help you build with WordPress."
 msgstr "WordPress %s フィールドガイドをご覧ください。このリリースの変更について、WordPress での構築に役立つ詳細な開発者向けノートを学習できます。"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:339
+#: wp-admin/about.php:359
 msgid "Read the WordPress %s Release Notes for information on installation, enhancements, fixed issues, release contributors, learning resources, and the list of file changes."
 msgstr "WordPress %s リリースノートをお読みください。インストール、機能拡張、修正された問題、リリースの貢献者、学習リソース、変更されたファイルのリストに関する情報が記載されています。"
 
@@ -15940,12 +15943,12 @@ msgctxt "theme"
 msgid "Install Now"
 msgstr "今すぐインストール"
 
-#: wp-admin/about.php:268
+#: wp-admin/about.php:288
 msgid "And much more"
 msgstr "それだけではありません !"
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:274
+#: wp-admin/about.php:294
 msgid "For a comprehensive overview of all the new features and enhancements in WordPress %s, please visit the feature-showcase website."
 msgstr "WordPress %sのすべての新機能と拡張に関する包括的な紹介については、機能ショーケースのサイトをご覧ください。"
 
@@ -15954,7 +15957,7 @@ msgstr "WordPress %sのすべての新機能と拡張に関する包括的な紹
 msgid "https://wordpress.org/download/releases/%s/"
 msgstr "https://ja.wordpress.org/download/releases/%s/"
 
-#: wp-admin/about.php:282
+#: wp-admin/about.php:302
 msgid "See everything new"
 msgstr "すべての新情報を見る"
 
@@ -16052,12 +16055,12 @@ msgid "The directory does not exist."
 msgstr "ディレクトリは存在しません。"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:329
+#: wp-admin/about.php:349
 msgid "WordPress %s Release Notes"
 msgstr "WordPress %s リリースノート"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:356
+#: wp-admin/about.php:376
 msgid "WordPress %s Field Guide"
 msgstr "WordPress %s フィールドガイド"
 
@@ -16356,62 +16359,62 @@ msgctxt "noun"
 msgid "Preview"
 msgstr "プレビュー"
 
-#: wp-admin/about.php:177
+#: wp-admin/about.php:197
 msgid "WordPress 7.0 introduces the foundation for AI across the platform, letting you connect your preferred provider and put it to work across your site. Edit more simply by dropping in layouts and swapping content without diving into blocks. The navigation overlay now taps into the full potential of blocks, and reviewing historical changes is easier with a visual comparison."
 msgstr "WordPress 7.0 では、プラットフォーム全体にわたる AI の基盤が導入され、お好みのプロバイダーを連携させてあなたのサイト全体で活用できるようになりました。ブロックを細かく操作することなく、レイアウトを配置したりコンテンツを入れ替えたりするだけで、より簡単に編集できます。ナビゲーションオーバーレイはブロックの機能を最大限に活用するようになり、変更履歴の確認も視覚的な比較機能によってより簡単になりました。"
 
-#: wp-admin/about.php:183
+#: wp-admin/about.php:203
 msgid "Design your navigation overlay"
 msgstr "ナビゲーションオーバーレイをデザインする"
 
-#: wp-admin/about.php:185
+#: wp-admin/about.php:205
 msgid "A dedicated canvas for your menu."
 msgstr "メニュー専用のキャンバス。"
 
-#: wp-admin/about.php:186
+#: wp-admin/about.php:206
 msgid "Build the menu overlay you want visitors to see. Go beyond a simple list of links: add columns, increase the font size, and align everything to your liking. Start from a pre-built template, or design your own from scratch."
 msgstr "来訪者に表示させたい、メニューオーバーレイを作成しましょう。単なるリンクのリストにとどまらず、列を追加したり、フォントサイズを大きくしたり、お好みに合わせて配置を調整できます。既成のテンプレートをベースにするか、一から独自にデザインしましょう。"
 
-#: wp-admin/about.php:203
+#: wp-admin/about.php:223
 msgid "AI foundations"
 msgstr "AIの基礎"
 
-#: wp-admin/about.php:205
+#: wp-admin/about.php:225
 msgid "A centralized hub for your connections."
 msgstr "接続先を一元管理するハブ機能。"
 
-#: wp-admin/about.php:213
+#: wp-admin/about.php:233
 msgid "Visual revisions"
 msgstr "視覚的なリビジョン"
 
-#: wp-admin/about.php:215
+#: wp-admin/about.php:235
 msgid "Scrub through every version of your page."
 msgstr "ページのすべてのバージョンを入念に確認してください。"
 
-#: wp-admin/about.php:216
+#: wp-admin/about.php:236
 msgid "Review your post&#8217;s revision history with a timeline slider and see exactly what changed in the document with visual markers, block by block. Find the version you want and restore it in one click."
 msgstr "タイムラインスライダーを使用して投稿のリビジョン履歴を確認し、視覚的なマーカーでブロックごとに、文書がどのように変更されたかを正確に把握できます。目的のバージョンを探して、ワンクリックで復元できます。"
 
-#: wp-admin/about.php:233
+#: wp-admin/about.php:253
 msgid "A simpler way to build with patterns"
 msgstr "パターンで構築する、よりシンプルな方法"
 
-#: wp-admin/about.php:235
+#: wp-admin/about.php:255
 msgid "Patterns as single blocks."
 msgstr "単一ブロックとしてのパターン。"
 
-#: wp-admin/about.php:206
+#: wp-admin/about.php:226
 msgid "The Connectors screen introduces a single hub for managing a range of external service integrations, including AI providers. Opt in by connecting your preferred AI provider, then put it to work across your site. The optional AI plugin adds a growing set of tools directly into the editor: create titles and excerpts, generate and edit images, and suggest alt text. Any plugin that needs to connect to an outside service can tap into this standardized connection management system, making it easy for users and developers alike."
 msgstr "「コネクタ」画面では、AI プロバイダーを含むさまざまな外部サービスの連携を一元的に管理できるハブを提供します。お好みの AI プロバイダーを接続して利用を開始し、あなたのサイト全体で活用してください。オプションの AI プラグインを使用すると、エディター内に次々と追加されるツール群を直接利用できます。タイトルや抜粋の作成、画像の生成・編集、代替テキストの提案などが可能です。外部サービスへの接続が必要なプラグインはすべて、この標準化された接続管理システムを利用できるため、ユーザーにとっても開発者にとっても使いやすくなっています。"
 
-#: wp-admin/about.php:236
+#: wp-admin/about.php:256
 msgid "Drop a pattern onto your page and it behaves like one block, so you don’t have to hunt through nested blocks for the element you want to change. Swap the text and images, adjust styles from the inspector, and keep moving. For any advanced edits, a single click to \"edit pattern\" gives you access to all available tools."
 msgstr "ページにパターンを配置すると、それが1つのブロックとして機能するため、変更したい要素を探すためにネストされたブロックをいちいち探す必要がありません。テキストや画像を入れ替え、インスペクタからスタイルを調整して、作業を進めていきましょう。高度な編集が必要な場合は、「パターンを編集」をワンクリックするだけで、利用可能なすべてのツールにアクセスできます。"
 
-#: wp-admin/about.php:252
+#: wp-admin/about.php:272
 msgid "WordPress 7.0 improves the accuracy of image loading prioritization, preventing hidden images in navigation overlays or interactive blocks from degrading the loading of critical resources. On-demand block stylesheet loading in classic themes is more reliable, and the ability is added for scripts to depend on script modules to reduce render-blocking."
 msgstr "WordPress 7.0 では、画像のロード優先順位の精度が向上し、ナビゲーションオーバーレイやインタラクティブブロック内の非表示画像によって、重要なリソースのロードが遅延するのを防ぎます。クラシックテーマにおけるブロック用スタイルシートのオンデマンドロードの信頼性が向上し、スクリプトがスクリプトモジュールに依存できるようにする機能が追加され、レンダリングブロックが軽減されます。"
 
-#: wp-admin/about.php:261
+#: wp-admin/about.php:281
 msgid "WordPress continues to polish accessibility across WordPress Core and Gutenberg, advancing the goals to meet accessibility standards. WordPress 7.0 includes fixes across the platform, improving media management, usability for voice control, and improvements to color contrast with the new admin color scheme. The editor ships with new blocks and improvements to editor navigation and interaction."
 msgstr "WordPress は、WordPress コアと Gutenberg 全体でアクセシビリティの向上に取り組み続け、アクセシビリティ基準を満たすという目標の実現に向けて前進しています。WordPress 7.0では、プラットフォーム全体にわたる修正が行われ、メディア管理機能や音声操作の使い勝手が改善されたほか、新しい管理画面のカラースキームにより色のコントラストも向上しています。エディタには新しいブロックが追加され、ナビゲーションや操作性も改善されています。"

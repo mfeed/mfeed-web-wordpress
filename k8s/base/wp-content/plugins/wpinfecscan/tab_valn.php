@@ -72,7 +72,7 @@ function describeCvssRisk(string $vector): string
 
                 $options['ssl']['verify_peer']=false;
                 $options['ssl']['verify_peer_name']=false;
-                $res = @file_get_contents($httpst.'wp-doctor.work/getscandatapro/valnupdate2.php', false, stream_context_create($options));
+                $res = @file_get_contents($httpst.'wp-doctor.work/getscandatapro/valnupdate3.php', false, stream_context_create($options));
                 
                 $resar = @json_decode($res,true);
                 if($resar){
@@ -84,7 +84,8 @@ function describeCvssRisk(string $vector): string
                             <thead>
                                 <tr>
                                     <th>'.__('WordPress/Plugin name', "wpinfecscan").'</th>
-                                    <th>'.__('CVE3 Score', "wpinfecscan").'</th>
+                                    <th>'.__('CVSS3 Score', "wpinfecscan").'</th>
+                                    <th>'.__('CVSS4 Score', "wpinfecscan").'</th>
                                     <th>'.__('Add date', "wpinfecscan").'</th>
                                 </tr>
                             </thead>
@@ -95,6 +96,7 @@ function describeCvssRisk(string $vector): string
                         }
                         $title = '';
                         $cve3score = '';
+                        $cve4score = '';
                         $addate = '';
                         if(isset($items[0])){
                             $title = $items[0];
@@ -117,15 +119,35 @@ function describeCvssRisk(string $vector): string
 						if($cve3score == 'NA'){
 							$asper = "";
 						}
+                        
+                        if($items[4]==='0'){
+                            $cve4score = 'NA';
+                        }else{
+                            if(isset($items[4])){
+                                if(is_numeric($items[4])){
+                                    $cve4score = intval($items[4])*0.1;
+                                }else{
+                                    $cve4score = 'NA';
+                                }
+                            }else{
+                                $cve4score = 'NA';
+                            }
+                        }
+						$asper4 = " / 10";
+						if($cve4score == 'NA'){
+							$asper4 = "";
+						}
                        
                         if(isset($items[3])){
                             $addate = $items[3];
                         }
+                        
                         if(! empty($title)){
                         echo "
                             <tr>
                                 <td><b>".$title."</b></td>
                                 <td>".$cve3score.$asper."</td>
+                                <td>".$cve4score.$asper4."</td>
                                 <td>".$addate."</td>
                             </tr>";
                         }
@@ -207,7 +229,7 @@ function describeCvssRisk(string $vector): string
                 <tr>
                     <th><?php _e('Name', "wpinfecscan") ?></th>
                     <th><?php _e('Type', "wpinfecscan") ?></th>
-                    <th><?php _e('Version', "wpinfecscan") ?></th>
+                    <th style="white-space: nowrap;"><?php _e('Version', "wpinfecscan") ?></th>
                     <th><?php _e('Status', "wpinfecscan") ?></th>
                     <th><?php _e('Valunability', "wpinfecscan") ?></th>
                 </tr>
@@ -297,14 +319,19 @@ function describeCvssRisk(string $vector): string
                                 }
                             }else{
                                 $valnar = $valn;
-                                $cvetxt .= '<table class="valntb"><tr><th>CVE ID</th><th>Score</th><th>Vector</th></tr>';
+                                $cvetxt .= '<table class="valntb"><tr><th>CVE ID</th><th>Score</th><th style="width:220px;">Vector</th></tr>';
                                 for ($vi = 0; $vi < count($valnar); $vi++) {
                                     $row = $valnar[$vi];
+                                    $cvss = "cvss2:";
+                                    
                                     $cveid      = $row[0];
                                     $cve3score  = $row[1];
                                     $cve3vector = $row[2];
                                     $cve2score  = $row[3];
                                     $cve2vector = $row[4];
+                                    
+                                    $cve4score  = $row[5];
+                                    $cve4vector = $row[6];
 
                                     if (!empty($cveid)) {
                                         $link = "<a href='https://nvd.nist.gov/vuln/detail/" . htmlspecialchars($cveid) . "' target='_blank'>" . htmlspecialchars($cveid) . "</a>";
@@ -313,13 +340,20 @@ function describeCvssRisk(string $vector): string
                                         if (is_numeric($cve3score) && $cve3score >= 0) {
                                             $score  = htmlspecialchars($cve3score);
                                             $vector = htmlspecialchars($cve3vector);
+                                            $cvss = "cvss3:";
                                         } else {
                                             $score  = htmlspecialchars($cve2score);
                                             $vector = htmlspecialchars($cve2vector);
                                         }
+                                        
+                                        if (is_numeric($cve4score) && $cve4score > 0) {
+                                            $score  = htmlspecialchars($cve4score);
+                                            $vector = htmlspecialchars($cve4vector);
+                                            $cvss = "cvss4:";
+                                        }
                                         $score  = $score / 10;
                                         $dtx = describeCvssRisk($vector);
-                                        $cvetxt .= "<tr><td>{$link}</td><td>{$score}</td><td>{$vector} {$dtx}</td></tr>";
+                                        $cvetxt .= "<tr><td>{$link}</td><td>{$cvss}<b>{$score}</b></td><td>{$vector} {$dtx}</td></tr>";
                                     }
                                 }
                                 $cvetxt .= '</table>';
@@ -465,14 +499,20 @@ function describeCvssRisk(string $vector): string
                                             valnar = JSON.parse(valnar);
                                         }
 
-                                        cvetxt = cvetxt + '<table class="valntb"><tr><th>CVE ID</th><th>Score</th><th>Vector</th></tr>';
+                                        cvetxt = cvetxt + '<table class="valntb"><tr><th>CVE ID</th><th>Score</th><th style="width:220px;">Vector</th></tr>';
                                         for (var vi = 0, tlen = valnar.length; vi < tlen; ++vi) {
                                             var row = valnar[vi];
+                                            
                                             var cveid      = row[0];
                                             var cve3score  = row[1];
                                             var cve3vector = row[2];
                                             var cve2score  = row[3];
                                             var cve2vector = row[4];
+                                            
+                                            var cve4score  = row[5];
+                                            var cve4vector = row[6];
+                                            
+                                            var cvss = "cvss2:";
 
                                             if (cveid !== '' && cveid !== null && cveid !== undefined) {
                                                 var link = "<a href='https://nvd.nist.gov/vuln/detail/" + cveid + "' target='_blank'>" + cveid + "</a>";
@@ -482,13 +522,21 @@ function describeCvssRisk(string $vector): string
                                                 if (cve3score !== '' && cve3score !== null && !isNaN(cve3score) && Number(cve3score) >= 0) {
                                                     score  = cve3score;
                                                     vector = cve3vector;
+                                                    cvss = "cvss3:";
                                                 } else {
                                                     score  = cve2score;
                                                     vector = cve2vector;
                                                 }
+                                                
+                                                if (cve4score !== '' && cve4score !== null && !isNaN(cve4score) && Number(cve4score) > 0) {
+                                                    score  = cve4score;
+                                                    vector = cve4vector;
+                                                    cvss = "cvss4:";
+                                                }
+                                                
                                                 score  = score / 10;
                                                 var dtx = describeCvssRisk(vector);
-                                                cvetxt = cvetxt + "<tr><td>" + link + "</td><td>" + score + "</td><td>" + vector + dtx + "</td></tr>";
+                                                cvetxt = cvetxt + "<tr><td>" + link + "</td><td>" + cvss + "<b>" + score + "</b></td><td>" + vector + dtx + "</td></tr>";
                                             }
                                         }
                                         cvetxt = cvetxt + '</table>';
