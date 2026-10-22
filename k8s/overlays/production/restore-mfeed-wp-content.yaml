@@ -1,0 +1,55 @@
+# デプロイワークフローが生成する Job と同等のものを、手動実行できるように
+# 置いてある（kustomization.yaml の resources には入れていない）。
+#
+#   kubectl -n web-production delete job restore-mfeed-wp-content --ignore-not-found
+#   kubectl apply -f k8s/overlays/production/restore-mfeed-wp-content.yaml
+#   kubectl -n web-production wait --for=condition=complete job/restore-mfeed-wp-content --timeout=30m
+#   kubectl -n web-production logs job/restore-mfeed-wp-content
+#
+# themes/plugins/languages はイメージのシード（= GitHub）でミラーされ、
+# uploads は削除を伴わないマージになる。
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restore-mfeed-wp-content
+  namespace: web-production
+  labels:
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/part-of: mfeed-web
+    app.kubernetes.io/environment: production
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wordpress
+        app.kubernetes.io/part-of: mfeed-web
+        app.kubernetes.io/environment: production
+        job-name: restore-mfeed-wp-content
+    spec:
+      restartPolicy: Never
+      serviceAccountName: wordpress-sa
+      securityContext:
+        fsGroup: 33
+      nodeSelector:
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      containers:
+        - name: restore
+          image: asia-northeast1-docker.pkg.dev/mfeed-web-1/mfeed-web-production-repo/wordpress:stable
+          imagePullPolicy: Always
+          command: ["/usr/local/bin/sync-wp-content.sh"]
+          env:
+            # 手動実行なので、.seed-version に関係なく必ず同期させる。
+            - name: WP_CONTENT_SEED_FORCE
+              value: "1"
+            # Pod 側の initContainer に再同期させたくない場合は、
+            # Deployment の WP_CONTENT_SEED_VERSION と同じ値を入れる。
+            - name: WP_CONTENT_SEED_VERSION
+              value: "manual"
+          volumeMounts:
+            - name: wp-content
+              mountPath: /var/www/html/wp-content
+      volumes:
+        - name: wp-content
+          persistentVolumeClaim:
+            claimName: wp-content-pvc

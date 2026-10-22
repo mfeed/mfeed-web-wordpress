@@ -4,3 +4,17 @@ k8s/base/test-rwx.yaml
 # GHA generated creds
 gha-creds-*.json
 gha-kubeconfig-*
+
+.DS_Store
+
+# PVC 側の運用ファイル。wp-content のエクスポートで拾わないようにする。
+k8s/base/wp-content/.seed-version
+k8s/base/wp-content/.seed-lock/
+k8s/base/wp-content/.seed-stage-*
+k8s/base/wp-content/.seed-retired-*
+
+# WordPress が実行時に作る一時物
+k8s/base/wp-content/debug.log
+k8s/base/wp-content/upgrade/
+k8s/base/wp-content/upgrade-temp-backup/
+k8s/base/wp-content/cache/

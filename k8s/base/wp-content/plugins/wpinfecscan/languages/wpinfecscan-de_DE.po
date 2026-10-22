@@ -1568,3 +1568,9 @@ msgstr "add_action verwenden (Bei Verwendung eines Cache-Plugins kann es vorkomm
 
 msgid "Use htaccess"
 msgstr "htaccess verwenden"
+
+msgid "*This vulnerability may be a serious one that allows tampering without requiring special privileges."
+msgstr "*Diese Schwachstelle könnte eine gefährliche Schwachstelle sein, die eine Manipulation ohne besondere Berechtigungen ermöglicht."
+
+msgid "*This vulnerability may be a dangerous one that could allow data tampering."
+msgstr "*Diese Schwachstelle könnte eine gefährliche Schwachstelle sein, die eine Datenmanipulation ermöglicht."

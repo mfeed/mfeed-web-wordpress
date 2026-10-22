@@ -1585,7 +1585,7 @@ class XO_Security_Admin {
 		$blog_prefix = '';
 
 		$permalink_structure = get_option( 'permalink_structure' );
-		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && str_starts_with( $permalink_structure, '/blog/' ) ) {
+		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && ( 0 === strpos( $permalink_structure, '/blog/' ) ) ) {
 			$blog_prefix = '/blog';
 			if ( ! empty( $author_base ) ) {
 				$author_base = '/' . $author_base;

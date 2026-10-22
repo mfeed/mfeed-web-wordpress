@@ -1568,3 +1568,9 @@ msgstr "Użyj add_action (Korzystanie z wtyczki cache może spowodować, że nie
 
 msgid "Use htaccess"
 msgstr "Użyj htaccess"
+
+msgid "*This vulnerability may be a serious one that allows tampering without requiring special privileges."
+msgstr "*Ta luka może być groźną luką umożliwiającą manipulację bez konieczności posiadania specjalnych uprawnień."
+
+msgid "*This vulnerability may be a dangerous one that could allow data tampering."
+msgstr "*Ta luka może być groźną luką umożliwiającą manipulację danymi."

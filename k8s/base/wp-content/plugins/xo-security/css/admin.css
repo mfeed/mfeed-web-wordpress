@@ -218,6 +218,10 @@ input[type="checkbox"].checkbox-toggle:before {
 	background-color: #ffffff;
 	display: block;
 }
+input[type="checkbox"].checkbox-toggle:checked {
+	background: none;
+	border: 2px solid transparent;
+}
 input[type="checkbox"].checkbox-toggle:checked:before {
 	content: '';
 	top: .2rem;

@@ -1,0 +1,16 @@
+**/.DS_Store
+
+# PVC 側の管理用ファイル。誤ってシードに混ざらないようにする。
+**/.seed-version
+**/.seed-lock
+**/.seed-stage-*
+**/.seed-retired-*
+
+# WordPress が実行時に作る一時物
+wp-content/debug.log
+wp-content/upgrade/
+wp-content/upgrade-temp-backup/
+wp-content/cache/
+
+# ビルドに不要な k8s マニフェスト
+*.yaml

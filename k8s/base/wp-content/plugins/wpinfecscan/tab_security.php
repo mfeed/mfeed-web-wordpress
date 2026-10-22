@@ -758,6 +758,9 @@ RewriteRule . /".$subfolder."index.php [L]
                                    ////Todo
                                    //alert(msg);
                                    
+                                   firsthtaccess = rhtaccesscode;
+                                   firsthindex = rindexcode;
+                                   
                                    if(msg=="ok2"){
                                        if(isprotection !=1){
                                             alert('<?php _e("Successfully repaired .htaccess and index.php","wpinfecscan");?>');
@@ -836,6 +839,9 @@ RewriteRule . /".$subfolder."index.php [L]
                                        jQuery("#protecthtaccessindexphp_repair").parent().show();
                                    }else{
                                        //alert(msg);
+                                       
+                                       firsthtaccess = rhtaccesscode;
+                                       firsthindex = rindexcode;
                                        
                                        if(msg=="ok1"){
                                            jQuery('#indexhtaccesstxt').hide();

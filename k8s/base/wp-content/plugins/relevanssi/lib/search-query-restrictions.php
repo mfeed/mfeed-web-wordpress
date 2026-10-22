@@ -284,7 +284,7 @@ function relevanssi_process_date_query( $date_query ) {
 		 * If true, include non-posts (users, terms) in searches with a date
 		 * query filter.
 		 *
-		 * @param boolean Allow non-posts? Default false.
+		 * @param boolean $non_posts Allow non-posts? Default false.
 		 */
 		if ( apply_filters( 'relevanssi_date_query_non_posts', false ) ) {
 			$query_restrictions = " AND ( $query OR relevanssi.doc = -1 ) ";
@@ -460,8 +460,7 @@ function relevanssi_process_by_date( $by_date ) {
  *
  * @global object $wpdb The WP database interface.
  *
- * @return array Array containing the 'post_type' and 'non_post_post_type' (which
- * defaults to null).
+ * @return string The MySQL query.
  */
 function relevanssi_process_post_type( $post_type, $admin_search, $include_attachments ) {
 	global $wpdb;
@@ -633,7 +632,8 @@ function relevanssi_add_phrase_restrictions( $query_restrictions, $phrase_querie
 		$or_queries = array_filter(
 			$phrase_queries['or'],
 			function ( $terms ) use ( $term ) {
-				return relevanssi_stripos( $terms, $term ) !== false;
+				// Trim is necessary, as numeric terms will have an extra space at the beginning.
+				return relevanssi_stripos( $terms, trim( $term ) ) !== false;
 			},
 			ARRAY_FILTER_USE_KEY
 		);

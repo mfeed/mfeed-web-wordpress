@@ -1,3 +1,13 @@
+# wp-content を「完全ミラー」で PVC に反映する破壊的な Job。
+# uploads も含めてシード（= GitHub）に無いものは消える。
+#
+# 通常のデプロイでは restore-mfeed-wp-content（uploads はマージ）を使うこと。
+# こちらは PVC を GitHub の内容ちょうどに戻したいときだけ使う。
+#
+#   kubectl -n web-staging delete job sync-mfeed-wp-content --ignore-not-found
+#   kubectl apply -f k8s/overlays/staging/sync-mfeed-wp-content.yaml
+#   kubectl -n web-staging wait --for=condition=complete job/sync-mfeed-wp-content --timeout=30m
+#   kubectl -n web-staging logs job/sync-mfeed-wp-content
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -27,54 +37,18 @@ spec:
         - name: sync
           image: asia-northeast1-docker.pkg.dev/mfeed-web-staging/mfeed-web-staging-repo/wordpress:stable
           imagePullPolicy: Always
-          command: ["sh", "-lc"]
-          args:
-            - |
-              set -euo pipefail
-
-              SRC="/seed/wp-content"
-              DST="/var/www/html/wp-content"
-
-              echo "== check source =="
-              if [ ! -d "$SRC" ]; then
-                echo "source wp-content directory not found: $SRC"
-                exit 1
-              fi
-
-              echo "== prepare destination =="
-              mkdir -p "$DST"
-
-              echo "== install rsync if needed =="
-              if ! command -v rsync >/dev/null 2>&1; then
-                apt-get update
-                apt-get install -y --no-install-recommends rsync
-                rm -rf /var/lib/apt/lists/*
-              fi
-
-              echo "== before sync =="
-              echo "-- themes --"
-              ls -la "$DST/themes" || true
-              echo "-- plugins --"
-              ls -la "$DST/plugins" || true
-              echo "-- mu-plugins --"
-              ls -la "$DST/mu-plugins" || true
-
-              echo "== sync wp-content (mirror) =="
-              rsync -aH --delete --numeric-ids \
-                "$SRC"/ "$DST"/
-
-              echo "== fix ownership =="
-              chown -R www-data:www-data "$DST" || true
-
-              echo "== verify themes =="
-              ls -la "$DST/themes" || true
-              ls -la "$DST/themes/transix" || true
-              ls -la "$DST/themes/mfeed" || true
-
-              echo "== verify plugins =="
-              ls -la "$DST/plugins" || true
-
-              echo "== sync complete =="
+          command: ["/usr/local/bin/sync-wp-content.sh"]
+          env:
+            # マージ扱いのディレクトリを無くす = uploads も含めて完全ミラー
+            - name: WP_CONTENT_MERGE_DIRS
+              value: ""
+            # シードに無いトップレベル項目も消す
+            - name: WP_CONTENT_PRUNE
+              value: "1"
+            - name: WP_CONTENT_SEED_FORCE
+              value: "1"
+            - name: WP_CONTENT_SEED_VERSION
+              value: "manual"
           volumeMounts:
             - name: wp-content
               mountPath: /var/www/html/wp-content

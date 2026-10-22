@@ -2,14 +2,22 @@
 # This file is distributed under the same license as the Plugins - Disable Comments - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-08-19 09:40:25+0000\n"
+"PO-Revision-Date: 2026-07-17 00:06:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: GlotPress/4.0.3\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Disable Comments - Stable (latest release)\n"
+
+#: information.php:195
+msgid "Install Rb Forms"
+msgstr "Rb Forms をインストールする"
+
+#: information.php:176
+msgid "RB Forms - absolutely FREE contact form plugin for WordPress"
+msgstr "RB Forms - WordPress 向けの完全無料のお問い合わせフォームプラグイン"
 
 #: information.php:232
 msgid "Install Disable Right Click"
